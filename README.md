@@ -1,6 +1,6 @@
 # 2D Game Engine
 
-This is a 2D Game Engine written in Javascript. It was written by me in order to learn and gain knowledge about writing video games. 
+This is a 2D Game Engine written in Javascript. It was in order to learn and gain knowledge about writing video games. 
 
 It is not intended for serious projects as there are still a lot of features missing.
 
