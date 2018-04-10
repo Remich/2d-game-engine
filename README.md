@@ -15,7 +15,7 @@ It is not intended for serious projects as there are still a lot of features mis
 
 ## Demo
 
-You can view a [link]["https://renemichalke.de/2d-game-engine/" "Demo"] here.
+You can view a [Demo]("https://renemichalke.de/2d-game-engine/") here.
 
 ## Missing Features
 
