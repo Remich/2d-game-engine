@@ -1,3 +1,5 @@
+/* (c)opyright 2018 René Michalke */
+
 function EngineStateMachine() {
 	this.currentState = false;
 }

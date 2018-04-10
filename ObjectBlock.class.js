@@ -1,3 +1,5 @@
+/* (c)opyright 2018 René Michalke */
+
 var ObjectBlock = function() {
 
 	var that = new ObjectStatic();

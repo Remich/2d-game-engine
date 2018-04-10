@@ -1,3 +1,5 @@
+<!-- (c)opyright 2018 René Michalke -->
+
 <!DOCTYPE html>
 <html manifest="manifest.php">
 

@@ -1,3 +1,5 @@
+/* (c)opyright 2018 René Michalke */
+
 //SPG:Solid Tiles
 //SPG:Running (DONE)
 //SPG:Jumping (DONE)

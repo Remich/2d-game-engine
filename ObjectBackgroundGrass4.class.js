@@ -1,3 +1,5 @@
+/* (c)opyright 2018 René Michalke */
+
 var ObjectBackgroundGrass4 = function() {
 
 	var that = new ObjectBackground();

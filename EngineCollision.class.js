@@ -1,3 +1,5 @@
+/* (c)opyright 2018 René Michalke */
+
 var Collision = function() {};
 Collision.prototype.collidable_objects = []; //new Array(); // map; key=id
 Collision.prototype.colliding_objects  = []; // new Array(); // map; key=id

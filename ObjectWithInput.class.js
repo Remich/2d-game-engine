@@ -1,3 +1,5 @@
+/* (c)opyright 2018 René Michalke */
+
 var ObjectWithInput = function() {
 
 	var that = new Object();

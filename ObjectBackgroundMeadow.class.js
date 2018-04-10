@@ -1,3 +1,5 @@
+/* (c)opyright 2018 René Michalke */
+
 var ObjectBackgroundMeadow = function() {
 
 	var that = new ObjectBackground();

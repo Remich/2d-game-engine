@@ -1,3 +1,5 @@
+/* (c)opyright 2018 René Michalke */
+
 var Engine = function() {
 	this.gameframe = 0;
 	this.bench = false;
