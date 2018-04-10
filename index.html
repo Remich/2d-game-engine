@@ -1,0 +1,59 @@
+<!-- (c)opyright 2018 René Michalke -->
+<!DOCTYPE html><html>
+	<head>
+		<meta charset="UTF-8">
+		<style>
+			html, body {
+				width: 99%;
+				text-align: center;
+				background: #111 url(images/background3.png);
+				margin: 0;
+				padding: 0;
+				height: 100%;
+			}
+			iframe {
+				background: #fff;
+				z-index: 2;
+				border: 12px solid #222;
+				margin: 1em;
+				width: 960px;
+				height: 480px;
+			}	
+			#hint {
+				color: rgba(255,255,255,.3);
+			}
+			#hint span {
+				font-size: 175%;
+				position: relative;
+				top: 0.1em;
+			}
+		</style>
+		<script type="text/javascript" src="jquery-2.1.1.min.js" /></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				if (typeof window.innerWidth != 'undefined')  {
+					  var screen_width = window.innerWidth;
+					  var screen_height = window.innerHeight;
+				}
+				var margin_top = screen_height / 2 - 480 / 2 - 12 - 100;
+				$('#game').css('margin-top', margin_top).focus();
+				//$('#game').css('margin-left', margin_left);
+			});
+		</script>
+	</head>
+	<body>
+		<iframe id="game" src="game.php">
+		</iframe><br>
+		<p id="hint">
+			<b>Controls:</b><br>
+			<span>&larr; &rarr;</span> : Walk, Run, Brake <br>
+			<span>&uarr;</span> : Look up<br>
+			<span>&darr;</span> : Roll, Crouch <br>
+			<span> </span>	<strong>Space</strong> : Jump <br>
+			<strong>Space</strong> + <span>&uarr;</span> : Charge <br>
+			<br>
+
+			Best viewed with Chrome / Chromium
+		</p>
+	</body>
+</html>
