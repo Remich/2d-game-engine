@@ -44,7 +44,10 @@
 			<?php include('ObjectBackgroundBlankGreen.class.js'); ?>
 			<?php include('ObjectBackgroundAngelIsland.class.js'); ?>
 			<?php include('ObjectBackgroundTree.class.js'); ?>
+			<?php include('ObjectBackgroundForrest.class.js'); ?>
 			<?php include('ObjectBlock.class.js'); ?>
+			<?php include('ObjectHillDown.class.js'); ?>
+			<?php include('ObjectSlope.class.js'); ?>
 
 			<!-------------------- | start document.ready() | -------------------->
 
@@ -104,97 +107,127 @@
 				//***  Objekte ***//
 				var objects = new EngineObjectList();
 
+				var height_modifier = 1100; //4666 + 1600;
+
 				var bg = new ObjectBackgroundHorizon();
 				bg.x = 0;
-				bg.y = window.cfg.level_height - (256-12) - 64 - 12 - 238 - 228 - 256;
+				bg.y = window.cfg.level_height - (256-12) - 64 - 12 - 238 - 228 - 256 - height_modifier;
 				bg.width = window.cfg.screen_width;
 				bg.scroll = 0.95;
 				objects.add(bg);
 
 				var bg = new ObjectBackgroundAngelIsland();
 				bg.x = 520;
-				bg.y = window.cfg.level_height - (256-12) - 64 - 12 - 238 - 98 - 128;
+				bg.y = window.cfg.level_height - (256-12) - 64 - 12 - 238 - 98 - 128 - height_modifier;
 				bg.width = window.cfg.screen_width;
 				bg.scroll = 0.9;
 				objects.add(bg);
 				
 				var bg = new ObjectBackgroundSea();
 				bg.x = 0;
-				bg.y = window.cfg.level_height - (256-12) - 64 - 12 - 238;
+				bg.y = window.cfg.level_height - (256-12) - 64 - 12 - 238 - height_modifier;
 				bg.width = window.cfg.screen_width;
 				bg.scroll = 0.9;
 				objects.add(bg);
 
 				var mountains = new ObjectBackgroundMeadowMountains();
 				mountains.x = 0;
-				mountains.y = window.cfg.level_height - (256-12) - 64 - 12;
+				mountains.y = window.cfg.level_height - (256-12) - 64 - 12 - height_modifier;
 				mountains.width = window.cfg.screen_width;
 				mountains.scroll = 0.5;
 				objects.add(mountains);
 
 				var meado2 = new ObjectBackgroundMeadow2();
 				meado2.x = 0;
-				meado2.y = window.cfg.level_height - (256-12) - 30;
+				meado2.y = window.cfg.level_height - (256-12) - 30 - height_modifier;
 				meado2.width = window.cfg.screen_width;
 				meado2.scroll = 0.4;
 				objects.add(meado2);
 
 				var meadow = new ObjectBackgroundBlankGreen();
 				meadow.x = 0;
-				meadow.y = window.cfg.level_height - 96;
+				meadow.y = window.cfg.level_height - 96 + 510 - height_modifier;
 				meadow.width = window.cfg.screen_width;
 				meadow.scroll = 0.2;
 				objects.add(meadow);
 
+				var meadow = new ObjectBackgroundBlankGreen();
+				meadow.x = 0;
+				meadow.y = window.cfg.level_height - 96 + 1020 - height_modifier;
+				meadow.width = window.cfg.screen_width;
+				meadow.scroll = 0.2;
+				objects.add(meadow);
+				
+				var meadow = new ObjectBackgroundBlankGreen();
+				meadow.x = 0;
+				meadow.y = window.cfg.level_height - 96 + 1520 - height_modifier;
+				meadow.width = window.cfg.screen_width;
+				meadow.scroll = 0.2;
+				objects.add(meadow);
+
+				var forrest = new ObjectBackgroundForrest();
+				forrest.x = 0;
+				forrest.y = window.cfg.level_height - 96 - height_modifier;	
+				forrest.width = window.cfg.screen_width;
+				forrest.scroll = 0.2;
+				objects.add(forrest);
+
 				var meadow = new ObjectBackgroundMeadow();
 				meadow.x = 0;
-				meadow.y = window.cfg.level_height - (256- 12);
+				meadow.y = window.cfg.level_height - (256- 12) - height_modifier;
 				meadow.width = window.cfg.screen_width;
 				meadow.scroll = 0.3;
 				objects.add(meadow);
 
 				var meadow = new ObjectBackgroundGrass4();
 				meadow.x = 0;
-				meadow.y = window.cfg.level_height - 190 - 12 - 22;
+				meadow.y = window.cfg.level_height - 190 - 12 - 22 - height_modifier;
 				meadow.width = window.cfg.screen_width;
 				meadow.scroll = 0.2;
 				objects.add(meadow);
 
 				var tree1 = new ObjectBackgroundTree();
 				tree1.x = 10 + 3 * 624;
-				tree1.y = window.cfg.level_height - 190 - 320;
+				tree1.y = window.cfg.level_height - 190 - 320 - height_modifier;
 				tree1.y -= 256 - 12;
 				tree1.z_index = 0;
 				objects.add(tree1);
 
-				for(var x=0; x < 5; x++) {
+				for(var x=0; x < 3; x++) {
 					var block1 = new ObjectBlock();
 					block1.solid = true;
 					block1.sm.changeState( block1.Chill(), block1 );
 					block1.x = 900 + x*900;
-					block1.y = window.cfg.level_height - 190 - 256 + 12;
+					block1.y = window.cfg.level_height - 190 - 256 + 12 - height_modifier;
 					block1.initSensors();
 					objects.add(block1);
 				}
 
+			
 
 				for(var x=0; x < 5; x++) {
 					var tree1 = new ObjectBackgroundTree();
 					tree1.x = 50 + x * 624;
-					tree1.y = window.cfg.level_height - 190 - 320;
+					tree1.y = window.cfg.level_height - 190 - 320 - height_modifier;
 					if(x !== 3) {
 						objects.add(tree1);
 					}
 				}
 
 
+
+				
+
+
+
+
 				var sonic = new ObjectChar();
 				sonic.player_1 = true;
 				sonic.assigned_keys = new Array(37, 39, 40, 32, 38); // links, rechts, unten, space, oben
 				sonic.solid = true;
-				// sonic.x = round(window.cfg.level_width / 2 - 800);
+				sonic.x = round(window.cfg.level_width / 2 - 800);
 				sonic.x = 347;
-				sonic.y = window.cfg.level_height - 256;
+				sonic.y = window.cfg.level_height - 256 - height_modifier;
 
 				// set Camera to center Sonic
 				window.myEngine.Camera.xScroll = 0;
@@ -204,56 +237,91 @@
 				sonic.initSensors();
 				objects.add(sonic);
 
-				var beatnik = new ObjectBeatnik();
-				beatnik.solid = true;
-				beatnik.sm.changeState( beatnik.Beat(), beatnik);
-				beatnik.x = 600;
-				beatnik.y = window.cfg.level_height - 256;
-				beatnik.initSensors();
-				objects.add(beatnik);
+				// var beatnik = new ObjectBeatnik();
+				// beatnik.solid = true;
+				// beatnik.sm.changeState( beatnik.Beat(), beatnik);
+				// beatnik.x = 600;
+				// beatnik.y = window.cfg.level_height - 256;
+				// beatnik.initSensors();
+				// objects.add(beatnik);
 
-				var beatnik = new ObjectBeatnik();
-				beatnik.solid = true;
-				beatnik.sm.changeState( beatnik.Beat(), beatnik);
-				beatnik.x = 1200;
-				beatnik.y = window.cfg.level_height - 256;
-				beatnik.initSensors();
-				objects.add(beatnik);
+				// var beatnik = new ObjectBeatnik();
+				// beatnik.solid = true;
+				// beatnik.sm.changeState( beatnik.Beat(), beatnik);
+				// beatnik.x = 1200;
+				// beatnik.y = window.cfg.level_height - 256;
+				// beatnik.initSensors();
+				// objects.add(beatnik);
 
-				var beatnik = new ObjectBeatnik();
-				beatnik.solid = true;
-				beatnik.sm.changeState( beatnik.Beat(), beatnik);
-				beatnik.x = 1800;
-				beatnik.y = window.cfg.level_height - 256;
-				beatnik.initSensors();
-				objects.add(beatnik);
+				// var beatnik = new ObjectBeatnik();
+				// beatnik.solid = true;
+				// beatnik.sm.changeState( beatnik.Beat(), beatnik);
+				// beatnik.x = 1800;
+				// beatnik.y = window.cfg.level_height - 256;
+				// beatnik.initSensors();
+				// objects.add(beatnik);
 
-				var beatnik = new ObjectBeatnik();
-				beatnik.solid = true;
-				beatnik.sm.changeState( beatnik.Beat(), beatnik);
-				beatnik.x = 2400;
-				beatnik.y = window.cfg.level_height - 256;
-				beatnik.initSensors();
-				objects.add(beatnik);
+				// var beatnik = new ObjectBeatnik();
+				// beatnik.solid = true;
+				// beatnik.sm.changeState( beatnik.Beat(), beatnik);
+				// beatnik.x = 2400;
+				// beatnik.y = window.cfg.level_height - 256;
+				// beatnik.initSensors();
+				// objects.add(beatnik);
 
-				var beatnik = new ObjectBeatnik();
-				beatnik.solid = true;
-				beatnik.sm.changeState( beatnik.Beat(), beatnik);
-				beatnik.x = 3000;
-				beatnik.y = window.cfg.level_height - 256;
-				beatnik.initSensors();
-				objects.add(beatnik);
+				// var beatnik = new ObjectBeatnik();
+				// beatnik.solid = true;
+				// beatnik.sm.changeState( beatnik.Beat(), beatnik);
+				// beatnik.x = 3000;
+				// beatnik.y = window.cfg.level_height - 256;
+				// beatnik.initSensors();
+				// objects.add(beatnik);
 				 
-				for(var i=0; i<25; i++) {
+
+				var foo;
+				var foo2;
+				for(var i=0; i<12; i++) {
 
 					var ground = new ObjectGround();
 					ground.solid = true;
 					ground.sm.changeState( ground.Chill(), ground );
-					ground.x = 256 * i;
-					ground.y = window.cfg.level_height - 190;
+					// TODO: use ground.x_offset insteaad of const 256
+					ground.x = 256 * i;	
+					// TODO: use ground.y_offset instead of const 190
+					ground.y = window.cfg.level_height - height_modifier - 190;
 					ground.initSensors();
 					objects.add(ground);
 				}
+
+				var z=0;
+				for(z; z < 3; z++) {
+					var block1 = new ObjectHillDown();
+					block1.solid = true;
+					block1.sm.changeState( block1.Chill(), block1 );
+					block1.x = 256*i + z*512;
+					foo = block1.x;
+					// TODO 251 in ObjectHillDown.y_offset = 251;
+					block1.y = window.cfg.level_height - 190 + z*251 - height_modifier; 
+					foo2 = block1.y;
+					block1.initSensors();
+					objects.add(block1);
+
+				}
+
+
+				for(var z=0; z < 3; z++) {
+					var block1 = new ObjectSlope();
+					block1.solid = true;
+					block1.sm.changeState( block1.Chill(), block1 );
+					// block1.x = 256 * i + z*512 + 256 + z*896;
+					block1.x = foo + 512 + z*896;
+					block1.y = foo2 + 256 + z*512; 
+					// block1.x = foo + 256 + 5*512;
+					// block1.y = window.cfg.level_height - 190 + 5*244;
+					block1.initSensors();
+					objects.add(block1);
+				}
+
 
 				for(var x=0; x < 5; x++) {
 
@@ -262,7 +330,7 @@
 						ring.solid = true;
 						ring.sm.changeState( ring.Chill(), ring );
 						ring.x = 450 + x*900 + 64 + y*48;
-						ring.y = window.cfg.level_height - 256; 
+						ring.y = window.cfg.level_height - 256 - height_modifier; 
 						ring.initSensors();
 						objects.add(ring);
 					}
@@ -272,12 +340,18 @@
 						ring.solid = true;
 						ring.sm.changeState( ring.Chill(), ring );
 						ring.x = 900 + x*900 + 64 + y*48;
-						ring.y = window.cfg.level_height - 190 - 256 - 128; 
+						ring.y = window.cfg.level_height - 190 - 256 - 128 - height_modifier; 
 						ring.initSensors();
 						objects.add(ring);
 					}
 
 				}
+
+				objects.each(function(handle) {
+					handle.y -= 692;
+					if(handle.solid === true)
+						handle.initSensors();
+				});
 
 				setInterval('window.myEngine.loop()', window.myEngine.get_interval());
 				

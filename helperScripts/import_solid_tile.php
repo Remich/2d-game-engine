@@ -1,4 +1,7 @@
 <?php
+	
+
+
 	function extract_dimensions ($str) {
 	
 		$a=0;
@@ -18,9 +21,9 @@
 	}
 	
 	if( !isset($_GET['image']) || !isset($_GET['id']) ) die("bitte id und image angeben");
-	if( !file_exists('images/'.$_GET['image']) ) die("Datei existiert nicht.");
+	if( !file_exists('../images/'.$_GET['image']) ) die("Datei existiert nicht.");
 
-	$im_url = 'images/'.$_GET['image'].'';
+	$im_url = '../images/'.$_GET['image'].'';
 	$animation_id = $_GET['id'];
 
 	$im = imagecreatefrompng($im_url);

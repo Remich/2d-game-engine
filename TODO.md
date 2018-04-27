@@ -1,5 +1,12 @@
 # TODO
 
+## Code
+* add attributes to objects ( y_offset, x_offset ), for using multiple objects next to each other
+
+## Bugs
+
+* when on slope: looking up and immediately looking down leads to falling through the floor of the slope
+
 * implement horizontal flipping of sensors, when object is flipped
 * implement Angles
 * implement Walls and Ceilings and their respective Sensors

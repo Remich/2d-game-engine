@@ -1,3 +1,4 @@
+
 /* (c)opyright 2018 René Michalke */
 
 //SPG:Solid Tiles
@@ -24,6 +25,66 @@ var ObjectChar = function() {
 
 	that.name = 'char';
 	that.collide = function( b, sensor ) {
+	};
+
+	that.GroundSensorCollide = function(obj, b) {
+		b.collide(obj, b);
+
+		// var indexHeightMap = floor(obj.x-b.x);
+		// if(indexHeightMap < 0)
+		// 		indexHeightMap = 0;
+
+		// if(indexHeightMap >= b.getWidth()) {
+		// 	indexHeightMap = b.getWidth();	
+		// }
+
+		// if(obj.speed_y < 0 && obj.y > (b.y + b.heightMaps['floor'][indexHeightMap]) ) {
+		// 	console.log("falsing");
+		// 	return false;
+		// }
+
+		// if(obj.y < b.y + b.heightMaps['floor'][indexHeightMap] - obj.getHeight()) {
+		// 	console.log("falsing2");
+		// 	return false;
+		// }
+
+		// if(obj.speed_y >= 0) { 
+		// 	var angle = obj.angle % 360;
+
+		// 	/**
+		// 	 * only act out collision of this sensor when the angle 
+		// 	 * of ObjectChar matches with range of angles of the floor
+		// 	 */  
+		// 	if( (angle >= 315 && angle <= 360) 
+		// 	|| (angle >= 0 && angle < 45) ) {
+
+		// 		if(angle >= 356 || angle <= 364) {
+		// 			/**
+		// 			 * don't change angle of object if angle is less than 4 degree,
+		// 			 * this means ObjectChar is standing on mostly "even" ground
+		// 			 */
+		// 		} else {
+		// 			obj.angle = b.angleMaps['floor'][indexHeightMap];
+		// 		}
+
+		// 		/**
+		// 		 * change height of ObjectChar according to heightMap of colliding object
+		// 		 */
+		// 		if( ( obj.in_air === true && obj.y > b.y + b.heightMaps['floor'][indexHeightMap] - obj.getHeight() )
+		// 			|| 
+		// 			( obj.isOnSlope === true )
+		// 		) {
+		// 			obj.y = b.y + b.heightMaps['floor'][indexHeightMap] - obj.getHeight() ;
+		// 		}
+
+		// 		obj.mode = "floor";
+		// 		obj.in_air = false;
+		// 		obj.isOnSlope = true;
+		// 	}
+
+		// }
+
+		// obj.updateSensors();
 	};
 
 
@@ -56,69 +117,8 @@ var ObjectChar = function() {
 
 	};
 	ObjectSensor_A.prototype.collide = function(obj, b) {
-		// TODO only if b of type Slope
-
 		// the following replaces call "b.collide(obj, b);" for objects of type slope
-
-		var indexHeightMap = floor(obj.x-b.x);
-		if(indexHeightMap < 0)
-				indexHeightMap = 0;
-
-		if(indexHeightMap >= b.getWidth()) {
-			indexHeightMap = b.getWidth();	
-		}
-
-		if(obj.speed_y < 0 && obj.y > (b.y + b.heightMaps['floor'][indexHeightMap]) ) {
-			console.log("falsing");
-			return false;
-		}
-
-		if(obj.y > b.y )
-	 		return false;
-
-		// if(obj.y < b.y + b.heightMaps['floor'][indexHeightMap] - obj.getHeight()) {
-		// 	console.log("falsing2");
-		// 	return false;
-		// }
-
-		if(obj.speed_y >= 0) { 
-			var angle = obj.angle % 360;
-
-			/**
-			 * only act out collision of this sensor when the angle 
-			 * of ObjectChar matches with range of angles of the floor
-			 */  
-			if( (angle >= 315 && angle <= 360) 
-			|| (angle >= 0 && angle < 45) ) {
-
-				if(angle >= 356 || angle <= 364) {
-					/**
-					 * don't change angle of object if angle is less than 4 degree,
-					 * this means ObjectChar is standing on mostly "even" ground
-					 */
-				} else {
-					obj.angle = b.angleMaps['floor'][indexHeightMap];
-				}
-
-				/**
-				 * change height of ObjectChar according to heightMap of colliding object
-				 */
-				if( ( obj.in_air === true && obj.y > b.y + b.heightMaps['floor'][indexHeightMap] - obj.getHeight() )
-					|| 
-					( obj.isOnSlope === true )
-				) {
-					obj.y = b.y + b.heightMaps['floor'][indexHeightMap] - obj.getHeight() ;
-				}
-
-				obj.mode = "floor";
-				obj.in_air = false;
-				obj.isOnSlope = true;
-			}
-
-		}
-
-		obj.updateSensors();
-	
+		that.GroundSensorCollide(obj, b);
 	}; 
 
 	// ObjectSensor_A_Right = function() {
@@ -315,10 +315,7 @@ var ObjectChar = function() {
 		} 
 	};
 	ObjectSensor_B.prototype.collide = function(obj, b) {
-		// if (b.solid !== true) {
-		// 	return false;
-		// }
-		// b.collide(obj, b);
+		that.GroundSensorCollide(obj, b);
 	};
 
 

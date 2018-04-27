@@ -4,8 +4,8 @@ var Engine = function() {
 	this.gameframe = 0;
 	this.bench = false;
 	this.show_fps = false;
-	this.show_debug = false;
-	this.show_rings = false;
+	this.show_debug = true;
+	this.show_rings = true;
 	this.show_sensors = false;
 	this.fps60 = true; // false means 30fps
 	this.editor = false;
@@ -65,8 +65,8 @@ Engine.prototype.initScreen = function() {
 	if(!this.show_fps) 
 		$('#fps').css('display', 'none');
 
-	window.cfg.level_width = 3200;
-	window.cfg.level_height = 908;
+	window.cfg.level_width = 6400;
+	window.cfg.level_height = 2800;
 	
 	$('#' + this.buffers[0].id).attr({'width' :  window.cfg.screen_width,
 										'height' : window.cfg.screen_height});
@@ -205,7 +205,7 @@ Engine.prototype.draw = function(obj, camx, camy) {
 
 	this.drawSensors = function(obj) {
 		for (var a in obj.sensors) {
-			window.myEngine.canvas.fillStyle = obj.sensors[a].colliding ? 'rgba(255,0,0,.6)' : 'rgba(255,0,0,.2)';
+			window.myEngine.canvas.fillStyle = obj.sensors[a].colliding ? 'rgba(255,0,0,1)' : 'rgba(0,0,255,.5)';
 			window.myEngine.canvas.fillRect(
 				round(obj.sensors[a].x - camx), 
 				round(obj.sensors[a].y - camy),
@@ -488,11 +488,13 @@ Engine.prototype.loop = function() {
 	window.myEngine.canvas.mozImageSmoothingEnabled = false;
 
 	// debugging, stats
-	if(this.show_debug)
-		this.debug();
+	if(this.show_debug === true)
+		this.debug(); 
+	else if(this.show_rings === true)
+		this.rings();
+
 	if(this.show_fps)
 		this.fps();
-	this.rings();
 
 	window.cfg.last_time = frame_time;
 
@@ -517,8 +519,7 @@ Engine.prototype.debug = function() {
 	$('#debug').html('x: ' + obj.x + '<br>' + 
 	'y: ' + round(obj.y) + '<br>' + 
 	'speed_x: ' + round(obj.speed_x) + '<br>' + 
-	'speed_y: ' + round(obj.speed_y) + '<br>' + 
-	'rings: ' + obj.rings);
+	'speed_y: ' + round(obj.speed_y) + '<br>');
 };
 Engine.prototype.rings = function() {
 	var obj = objects.getByName("char");

@@ -257,12 +257,12 @@
 	}
 	
 	if( !isset($_GET['image']) || !isset($_GET['id']) ) die("bitte id und image angeben");
-	$str = 'images/'.$name.'.png';
+	$str = '../images/'.$name.'.png';
 
 	// echo $str."<br>";
 	if( !file_exists($str) ) die("Datei existiert nicht.");
 
-	$im_url = 'images/'.$_GET['image'].'.png';
+	$im_url = '../images/'.$_GET['image'].'.png';
 	$im_name = $_GET['image'].'.png';
 	// $im_path_right_wall = "generatedImages/".$_GET['image']."_right_wall.png";
 
@@ -538,8 +538,9 @@ EOT;
 		break;
 	}
 
-
-$filepointer = fopen("generatedObjects/Object".$name.".class.js", "w+");
+// echo $name."<br>";
+// echo $str;
+$filepointer = fopen("../generatedObjects/Object".$name.".class.js", "w+");
 fwrite($filepointer, $str);
 fclose($filepointer);
 echo $str;
