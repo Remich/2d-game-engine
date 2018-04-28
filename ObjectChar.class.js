@@ -1045,6 +1045,7 @@ var ObjectChar = function() {
 			obj.frame = 0;
 			obj.rolling = true;
 			obj.frc = 1/2 * obj.frc;
+			obj.frame_duration /= 1.5;
 		};
 		foobar.update = function(sm, obj) {
 
@@ -1065,6 +1066,7 @@ var ObjectChar = function() {
 		foobar.exit = function(sm, obj) {
 			obj.rolling = false;
 			obj.frc = 2 * obj.frc;
+			obj.frame_duration *= 1.5;
 		};
 
 		return foobar;
@@ -1150,6 +1152,7 @@ var ObjectChar = function() {
 
 		foobar.enter = function(sm, obj) {
 			obj.frame = 0;
+			obj.frame_duration /= 2;
 
 			// Jumping at an angle
 			if(obj.isOnSlope === true) {
@@ -1186,7 +1189,9 @@ var ObjectChar = function() {
 			// } 
 		};
 		foobar.exit = function(sm) {
+			obj.frame_duration *= 2;
 		};
+
 		foobar.onKeyUp = function(obj) {
 			if(obj.speed_y >= 0)
 				return false;

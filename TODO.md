@@ -2,6 +2,7 @@
 
 ## Code
 * add attributes to objects ( y_offset, x_offset ), for using multiple objects next to each other
+* update frame_duration according to speed of object
 
 ## Bugs
 

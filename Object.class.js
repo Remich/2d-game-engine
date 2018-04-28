@@ -13,6 +13,7 @@ var Object = function() {
 	that.enemy_direction = 0; // 0 right, 1 left
 	that.recover = false;
 	that.frame = 0;
+	that.frame_speed = 1;
 	that.frame_duration = 1 * window.cfg.speedup_constant;
 	that.frame_counter = that.frame_duration;
 	that.gravitation = 1;

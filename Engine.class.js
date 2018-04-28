@@ -16,10 +16,10 @@ var Engine = function() {
 
 	if(this.fps60 === true) {
 		this.fps_max = 60;
-		window.cfg.speedup_constant = 2.5;
+		window.cfg.speedup_constant = 2.0;
 	} else {
 		this.fps_max = 30;
-		window.cfg.speedup_constant = 4;
+		window.cfg.speedup_constant = 4.0;
 	}
 
 	this.worker = null;
