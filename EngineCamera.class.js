@@ -50,6 +50,7 @@ Camera.prototype.update = function() {
 	
 	// }
 
+
 	// The camera is moving 
 	this.position = [this.xScroll, this.yScroll];
 	if(this.position != this.curPosition){
@@ -58,7 +59,7 @@ Camera.prototype.update = function() {
 	}
 	// increase the speed of the camera if we are not at full camera speed
 	if(this.lerpAmount < 1.0){
-		this.lerpAmount += 0.23;
+		this.lerpAmount += 0.15; // old: 0.23
 	} else {
 		this.prevPosition = this.curPosition;
 	}

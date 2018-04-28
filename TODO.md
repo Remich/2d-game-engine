@@ -6,6 +6,7 @@
 ## Bugs
 
 * when on slope: looking up and immediately looking down leads to falling through the floor of the slope
+* when moving from one slope to another slope of different height: the other slope's heightMap is being used, even though were mostly standing on the old slope
 
 * implement horizontal flipping of sensors, when object is flipped
 * implement Angles

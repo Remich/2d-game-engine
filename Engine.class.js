@@ -1,5 +1,9 @@
 /* (c)opyright 2018 René Michalke */
 
+// TODO: move somewhere better
+var default_width = 960;
+var default_height = 720;
+
 var Engine = function() {
 	this.gameframe = 0;
 	this.bench = false;
@@ -26,6 +30,8 @@ var Engine = function() {
 	this.canvas.imageSmoothingEnabled = false;
 	this.canvas.webkitImageSmoothingEnabled = false;
 	this.canvas.mozImageSmoothingEnabled = false;
+	this.canvas_zoom_width = 1.0;
+	this.canvas_zoom_height = 1.0;
 	this.initScreen();
 	this.initInputHandler();
 };
@@ -51,7 +57,11 @@ Engine.prototype.updateCache = function() {
 
 Engine.prototype.initScreen = function() {
 
-	if (typeof window.innerWidth != 'undefined')  {
+	this.canvas_zoom_width = window.innerWidth / default_width;
+	this.canvas_zoom_height = window.innerHeight / default_height;
+
+
+	if (typeof window.innerWidth !== 'undefined')  {
 		window.cfg.screen_width = window.innerWidth;
 		window.cfg.screen_height = window.innerHeight;
 	}
@@ -73,7 +83,7 @@ Engine.prototype.initScreen = function() {
 	$('#' + this.buffers[1].id).attr({'width' :  window.cfg.screen_width,
 										'height' : window.cfg.screen_height});
 
-Engine.prototype.Camera = new Camera(0, 0, window.cfg.screen_width, window.cfg.screen_height, window.cfg.level_width, window.cfg.level_height);
+Engine.prototype.Camera = new Camera(0, 0, window.cfg.screen_width*(1/this.canvas_zoom_width), window.cfg.screen_height*(1/this.canvas_zoom_height), window.cfg.level_width, window.cfg.level_height);
 };
 
 
@@ -181,8 +191,8 @@ Engine.prototype.draw = function(obj, camx, camy) {
 
 	this.withinScreen = function(obj, camx, camy) {
 		var c_frame 		= floor(obj.frame);
-		var c_screen_width 	= window.cfg.screen_width;
-		var c_screen_height = window.cfg.screen_height;
+		var c_screen_width 	= window.cfg.screen_width * (1/window.myEngine.canvas_zoom_width);
+		var c_screen_height = window.cfg.screen_height * (1/window.myEngine.canvas_zoom_height);
 		obj_a = {
 			'x' 	 : obj.x,
 			'y' 	 : obj.y,
@@ -258,9 +268,8 @@ Engine.prototype.draw = function(obj, camx, camy) {
 	this.drawImageRot = function(img, sx, sy, x, y, width, height, deg, obj){
 
 		var ctx = window.myEngine.canvas;
-
-
 	    ctx.save();
+
 
 		// window.myEngine.canvas.drawImage(obj.sm.currentState.image, sx, sy, dw, dh, -dx, dy, dw, dh);
 
@@ -278,6 +287,7 @@ Engine.prototype.draw = function(obj, camx, camy) {
 	    var rad = deg * Math.PI / 180;
 	    //Rotate the canvas around the origin
 	    ctx.rotate(rad);
+
 
 	    //draw the image    
 	    ctx.drawImage(
@@ -373,7 +383,9 @@ Engine.prototype.draw = function(obj, camx, camy) {
 	if (window.myEngine.show_sensors && obj.sensors !== undefined) {
 		this.drawSensors(obj);	
 	}
+
 };
+var scaled = false;
 
 Engine.prototype.loop = function() {
 	// Get the time when the frame started.
@@ -457,7 +469,14 @@ Engine.prototype.loop = function() {
 	objects.each(function(handle) {
 		window.myEngine.draw(handle, window.myEngine.Camera.xScroll, window.myEngine.Camera.yScroll);
 	});
-	
+
+	// scale canvas
+	if(scaled == false) {
+		window.myEngine.buffers[0].getContext("2d").scale(window.myEngine.canvas_zoom_width, window.myEngine.canvas_zoom_height);
+		window.myEngine.buffers[1].getContext("2d").scale(window.myEngine.canvas_zoom_width, window.myEngine.canvas_zoom_height);
+		scaled = true;
+	}
+
 	// Sachen f?r n?chsten Durchlauf merken 
 	objects.each(function(handle) {
 		if( handle.saveHistory !== undefined )
