@@ -83,6 +83,13 @@ Engine.prototype.initScreen = function() {
 	$('#' + this.buffers[1].id).attr({'width' :  window.cfg.screen_width,
 										'height' : window.cfg.screen_height});
 
+	// scale canvas
+	// if(scaled == false) {
+		this.buffers[0].getContext("2d").scale(this.canvas_zoom_width, this.canvas_zoom_height);
+		this.buffers[1].getContext("2d").scale(this.canvas_zoom_width, this.canvas_zoom_height);
+		scaled = true;
+	// }
+
 Engine.prototype.Camera = new Camera(0, 0, window.cfg.screen_width*(1/this.canvas_zoom_width), window.cfg.screen_height*(1/this.canvas_zoom_height), window.cfg.level_width, window.cfg.level_height);
 };
 
@@ -385,7 +392,6 @@ Engine.prototype.draw = function(obj, camx, camy) {
 	}
 
 };
-var scaled = false;
 
 Engine.prototype.loop = function() {
 	// Get the time when the frame started.
@@ -470,12 +476,7 @@ Engine.prototype.loop = function() {
 		window.myEngine.draw(handle, window.myEngine.Camera.xScroll, window.myEngine.Camera.yScroll);
 	});
 
-	// scale canvas
-	if(scaled == false) {
-		window.myEngine.buffers[0].getContext("2d").scale(window.myEngine.canvas_zoom_width, window.myEngine.canvas_zoom_height);
-		window.myEngine.buffers[1].getContext("2d").scale(window.myEngine.canvas_zoom_width, window.myEngine.canvas_zoom_height);
-		scaled = true;
-	}
+
 
 	// Sachen f?r n?chsten Durchlauf merken 
 	objects.each(function(handle) {

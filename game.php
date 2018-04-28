@@ -53,10 +53,14 @@
 
 			$(document).ready(function() {
 
-				// window.onresize = change_viewport;	
 
 				<?php include('Engine.class.js'); ?>
+
 				window.myEngine = new Engine();
+				window.onresize = function() {
+					console.log("resize");
+					window.myEngine = new Engine();	
+				};
 
 				// implements scrolling by right-mouse button ( button 2)
 				// implements debug of position of left-mouse click ( button 0 )
@@ -157,7 +161,7 @@
 				meadow.width = window.cfg.screen_width;
 				meadow.scroll = 0.2;
 				objects.add(meadow);
-				
+
 				var meadow = new ObjectBackgroundBlankGreen();
 				meadow.x = 0;
 				meadow.y = window.cfg.level_height - 96 + 1520 - height_modifier;
