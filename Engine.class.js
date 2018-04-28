@@ -535,8 +535,8 @@ Engine.prototype.fps = function() {
 };
 
 Engine.prototype.debug = function() {
-	var obj = objects.get(1);
-	$('#debug').html('x: ' + obj.x + '<br>' + 
+	var obj = objects.getByName('char');
+	$('#debug').html('x: ' + round(obj.x) + '<br>' + 
 	'y: ' + round(obj.y) + '<br>' + 
 	'speed_x: ' + round(obj.speed_x) + '<br>' + 
 	'speed_y: ' + round(obj.speed_y) + '<br>');
