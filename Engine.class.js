@@ -55,7 +55,7 @@ Engine.prototype.updateCache = function() {
 	}, false);
 };
 
-Engine.prototype.initScreen = function() {
+Engine.prototype.initScreen = function(camx, camy) {
 
 	this.canvas_zoom_width = window.innerWidth / default_width;
 	this.canvas_zoom_height = window.innerHeight / default_height;
@@ -88,9 +88,20 @@ Engine.prototype.initScreen = function() {
 		this.buffers[0].getContext("2d").scale(this.canvas_zoom_width, this.canvas_zoom_height);
 		this.buffers[1].getContext("2d").scale(this.canvas_zoom_width, this.canvas_zoom_height);
 		scaled = true;
+
 	// }
 
-Engine.prototype.Camera = new Camera(0, 0, window.cfg.screen_width*(1/this.canvas_zoom_width), window.cfg.screen_height*(1/this.canvas_zoom_height), window.cfg.level_width, window.cfg.level_height);
+
+	// console.log(window.myEngine);
+	// if(window.myEngine !== undefined)
+	// if(window.myEngine.objects.getByName('char') !== undefined) {
+	// 	var handle = window.myEngine.objects.getByName('char');
+
+	// 	Engine.prototype.Camera = new Camera(handle.x, handle.y, window.cfg.screen_width*(1/this.canvas_zoom_width), window.cfg.screen_height*(1/this.canvas_zoom_height), window.cfg.level_width, window.cfg.level_height);
+	// 	return;
+	// }
+
+	// this.Camera = new Camera(0, window.cfg.screen_height*(1/this.canvas_zoom_height)/2 + 98, window.cfg.screen_width*(1/this.canvas_zoom_width), window.cfg.screen_height*(1/this.canvas_zoom_height), window.cfg.level_width, window.cfg.level_height);
 };
 
 

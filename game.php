@@ -58,10 +58,21 @@
 				<?php include('Engine.class.js'); ?>
 
 				window.myEngine = new Engine();
+
 				window.onresize = function() {
 					console.log("resize");
-					window.myEngine = new Engine();	
-				};
+					// window.myEngine = new Engine();	
+					window.myEngine.initScreen();
+
+					if(window.myEngine.objects !== undefined)
+					if(window.myEngine.objects.getByName('char') !== undefined) {
+						var handle = window.myEngine.objects.getByName('char');
+						debugger;
+						window.myEngine.Camera = new Camera(handle.x-window.cfg.screen_width/2(1/window.myEngine.canvas_zoom_width), handle.y, window.cfg.screen_width*(1/window.myEngine.canvas_zoom_width), window.cfg.screen_height*(1/window.myEngine.canvas_zoom_height), window.cfg.level_width, window.cfg.level_height);
+					}
+							
+
+				}
 
 				// implements scrolling by right-mouse button ( button 2)
 				// implements debug of position of left-mouse click ( button 0 )
@@ -225,17 +236,20 @@
 				sonic.player_1 = true;
 				sonic.assigned_keys = new Array(37, 39, 40, 32, 38); // links, rechts, unten, space, oben
 				sonic.solid = true;
-				sonic.x = round(window.cfg.level_width / 2 - 800);
-				sonic.x = 347;
-				sonic.y = window.cfg.level_height - 256 - height_modifier;
+				// sonic.x = round(window.cfg.level_width / 2 - 800);
+				sonic.x = 347 + 60;
+				sonic.y = window.cfg.level_height - 256 - height_modifier + 45;
 
 				// set Camera to center Sonic
-				window.myEngine.Camera.xScroll = 0;
-				window.myEngine.Camera.yScroll = sonic.y;
+				// window.myEngine.Camera.xScroll = 0;
+				// window.myEngine.Camera.yScroll = sonic.y;
 
 				sonic.sm.changeState( new sonic.Stand(), sonic);
 				sonic.initSensors();
 				objects.add(sonic);
+
+				window.myEngine.Camera = new Camera(0, sonic.y + 140 - (window.cfg.screen_width*(1/window.myEngine.canvas_zoom_width))/2, window.cfg.screen_width*(1/window.myEngine.canvas_zoom_width), window.cfg.screen_height*(1/window.myEngine.canvas_zoom_height), window.cfg.level_width, window.cfg.level_height);
+
 
 				// var t = 0;
 				// var angle = 101.25; //; assuming 0=right, 90=up, 180=left, 270=down
@@ -283,7 +297,7 @@
 				beatnik.solid = true;
 				beatnik.sm.changeState( beatnik.Beat(), beatnik);
 				beatnik.x = 600;
-				beatnik.y = window.cfg.level_height - 256 - height_modifier;
+				beatnik.y = window.cfg.level_height - 256 - height_modifier + 55;
 				beatnik.initSensors();
 				objects.add(beatnik);
 
@@ -388,6 +402,8 @@
 					}
 
 				}
+
+				window.myEngine.objects = objects;
 
 				setInterval('window.myEngine.loop()', window.myEngine.get_interval());
 				

@@ -6,6 +6,8 @@ var Object = function() {
 	
 	that.x = 0;
 	that.y = 0;
+	that.camera_offset_x = 0;
+	that.camera_offset_y = 0;
 	that.gsp = 0; // ground speed
 	that.speed_x = 0;
 	that.speed_y = 0;

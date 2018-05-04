@@ -45,8 +45,8 @@ Camera.prototype.update = function() {
 		if (this.following === null) {
 			return false;
 		}
-		this.dx = (this.following.x + 32 - this.x);
-		this.dy = (this.following.y + 32 - this.y);
+		this.dx = (this.following.x + 32 - this.x + this.following.camera_offset_x);
+		this.dy = (this.following.y + 32 - this.y + this.following.camera_offset_y);
 	
 	// }
 

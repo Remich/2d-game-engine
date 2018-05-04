@@ -724,17 +724,19 @@ var ObjectChar = function() {
 		foobar.frames = new Array();
 		foobar.frames[0] = new Array();
 		foobar.frames[0].width = 54;
-		foobar.frames[0].height = 76 + 128;
+		foobar.frames[0].height = 76;
 		foobar.frames[0].margin = 0; 
 
 		foobar.enter = function(sm, obj) {
 			obj.frame = 0;
+			obj.camera_offset_y = -128;
 		};
 		foobar.update = function(sm, obj) {
 			obj.speed_x = 0;
 		};
 		foobar.exit = function(sm, obj) {
 			obj.y += 128;
+			obj.camera_offset_y = 0;
 		};
 
 		return foobar;

@@ -10,6 +10,7 @@
 * add attributes to objects ( y_offset, x_offset ), for using multiple objects next to each other
 * update frame_duration according to speed of object
 * ~~NOT NECESSARY ANYMORE: add collided_with - Array to each collidable object, and unique hash to each object, then check if we already collided with that object~~
+* implement flip of sensors in ObjectChar.class.js and possibly in most other classes as well, see flip() in ObjectSlope.class.js
 
 ## Bugs
 
