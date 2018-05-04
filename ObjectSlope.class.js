@@ -1,52 +1,15 @@
 var ObjectSlope = function() {
 
-	var that = new ObjectStatic();
+	var that = new ObjectStaticWithAngle();
 
 	that.name = 'slope';
 	that.collide = function( obj, b ) { 
-
-		// if(obj === undefined || b === undefined)
-		// 	return false;
-		var indexHeightMap = floor(obj.x-b.x);
-			if(indexHeightMap < 0)
-				indexHeightMap = 0;
-
-		if(indexHeightMap >= b.getWidth()) {
-			indexHeightMap = b.getWidth();	
-		}
-
-		if(obj.speed_y < 0 && obj.y > (b.y + b.heightMaps['floor'][indexHeightMap]) ) {
-			console.log("falsing");
-			return false;
-		}
-
-
-		// This is the only difference between this calling function and that.parentCollide(obj, b);
-		if(obj.y > b.y + b.heightMaps['floor'][indexHeightMap]) {
-			console.log("falsing2");
-	 		return false;
-		}
-
-
-
-		if(obj.speed_y >= 0) { 
-			obj.in_air = false;
-			obj.isOnSlope = true;
-
-			obj.angle = b.angleMaps['floor'][floor(indexHeightMap/32)];
-
-			obj.y = b.y + b.heightMaps['floor'][indexHeightMap] - obj.sm.currentState.frames[floor(obj.frame)].height;
-
-			var val = (obj.getHeight() / 2) * Math.sin(obj.angle / 180) * Math.PI;
-			obj.y += val;
-	 	}
+		return that.parentCollide(obj, b);
 	};
-
 	that.in_air = false;
 	that.rolling = false;
 
 	that.get_state = function() {
-		// that.sm.changeState( new that.Chill(), that );
 	};
 
 	that.Chill = function() {
@@ -79,234 +42,7 @@ var ObjectSlope = function() {
 
 	};
 
-	ObjectSensor_Ground_0 = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null;
-		this.height = null;
-		this.sensor_type = ["char", "beatnik", "ringbounce"]; 
-
-		this.update = function(x, y, width, height) {
-			this.x = x;
-			this.y = y;
-			this.width = 154; 
-			this.height = 128;
-		};
-
-		this.collide = function(obj, b) {
-		};
-
-	};
-	ObjectSensor_Ground_1 = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null;
-		this.height = null;
-
-		this.update = function(x, y, width, height) {
-			this.x = x + 154;
-			this.y = y + 6;
-			this.width = 64; 
-			this.height = 128;
-		};
-
-		this.collide = function(obj, b) {
-		};
-
-	};
-	ObjectSensor_Ground_2 = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null;
-		this.height = null;
-
-		this.update = function(x, y, width, height) {
-			this.x = x + 218;
-			this.y = y + 21;
-			this.width = 64; 
-			this.height = 128;
-		};
-
-		this.collide = function(obj, b) {
-		};
-
-	};
-	ObjectSensor_Ground_3 = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null;
-		this.height = null;
-
-		this.update = function(x, y, width, height) {
-			this.x = x + 282;
-			this.y = y + 41;
-			this.width = 64; 
-			this.height = 128;
-		};
-
-		this.collide = function(obj, b) {
-		};
-
-	};
-	ObjectSensor_Ground_4 = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null;
-		this.height = null;
-
-		this.update = function(x, y, width, height) {
-			this.x = x + 346;
-			this.y = y + 90;
-			this.width = 64; 
-			this.height = 128;
-		};
-
-		this.collide = function(obj, b) {
-		};
-
-	};
-	ObjectSensor_Ground_5 = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null;
-		this.height = null;
-
-		this.update = function(x, y, width, height) {
-			this.x = x + 410;
-			this.y = y + 154;
-			this.width = 64; 
-			this.height = 128;
-		};
-
-		this.collide = function(obj, b) {
-		};
-
-	};
-	ObjectSensor_Ground_6 = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null;
-		this.height = null;
-
-		this.update = function(x, y, width, height) {
-			this.x = x + 474;
-			this.y = y + 218;
-			this.width = 64; 
-			this.height = 128;
-		};
-
-		this.collide = function(obj, b) {
-		};
-
-	};
-	ObjectSensor_Ground_7 = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null;
-		this.height = null;
-
-		this.update = function(x, y, width, height) {
-			this.x = x + 538;
-			this.y = y + 282;
-			this.width = 64; 
-			this.height = 128;
-		};
-
-		this.collide = function(obj, b) {
-		};
-
-	};
-	ObjectSensor_Ground_8 = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null;
-		this.height = null;
-
-		this.update = function(x, y, width, height) {
-			this.x = x + 602;
-			this.y = y + 346;
-			this.width = 64; 
-			this.height = 128;
-		};
-
-		this.collide = function(obj, b) {
-		};
-
-	};
-	ObjectSensor_Ground_9 = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null;
-		this.height = null;
-
-		this.update = function(x, y, width, height) {
-			this.x = x + 666;
-			this.y = y + 410;
-			this.width = 64; 
-			this.height = 128;
-		};
-
-		this.collide = function(obj, b) {
-		};
-
-	};
-	ObjectSensor_Ground_10 = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null;
-		this.height = null;
-
-		this.update = function(x, y, width, height) {
-			this.x = x + 730;
-			this.y = y + 464;
-			this.width = 64; 
-			this.height = 128;
-		};
-
-		this.collide = function(obj, b) {
-		};
-
-	};
-
-	ObjectSensor_Ground_11 = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null;
-		this.height = null;
-
-		this.update = function(x, y, width, height) {
-			this.x = x + 794;
-			this.y = y + 496;
-			this.width = 64; 
-			this.height = 128;
-		};
-
-		this.collide = function(obj, b) {
-		};
-
-	};
-	ObjectSensor_Ground_12 = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null;
-		this.height = null;
-
-		this.update = function(x, y, width, height) {
-			this.x = x + 858;
-			this.y = y + 508;
-			this.width = 38; 
-			this.height = 128;
-		};
-
-		this.collide = function(obj, b) {
-		};
-
-	};
-
-
 	that.initSensors = function() {
-
-		console.log("init Slope");
 
 		that.sensors = [];
 
@@ -334,65 +70,6 @@ var ObjectSlope = function() {
 			that.sensors.push(sensor);
 		}
 
-		// var sensor = new ObjectSensor_Ground_0();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-	 // 	that.sensors.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_1();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// that.sensors.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_2();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// that.sensors.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_3();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// that.sensors.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_4();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// that.sensors.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_5();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// that.sensors.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_6();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// that.sensors.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_7();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// that.sensors.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_8();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// that.sensors.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_9();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// that.sensors.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_10();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// that.sensors.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_11();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// that.sensors.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_12();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// that.sensors.push(sensor);
-
-	 // 	// for(var a = 0; a < that.getWidth(); a++)
-	 // 		// that.heightMaps['floor'][a] += 0;
-
-	 // 	for(var a in that.sensors) 
-	 // 		that.sensors[a].y += 64;
-
-
 		return true;
 	};
 
@@ -402,12 +79,16 @@ var ObjectSlope = function() {
 
 		for(var i=0; i<that.heightMaps['floor'].length; i++) {
 
-			var sensor = new ObjectSensor_Ground_0();
+
+			var sensor = {};
 			sensor.x = null;
 			sensor.y = null;
 			sensor.width = 1;
 			sensor.height = 128;
-
+			sensor.sensor_type = ["char", "beatnik", "ringbounce"];
+			sensor.collide = function(obj, b) {
+				that.collide(b, obj);
+			};
 
 			sensor.update = function(x, y, width, height) {
 				this.x = x + i;
@@ -419,61 +100,6 @@ var ObjectSlope = function() {
 			sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
 			copy.push(sensor);
 		}
-
-		// var sensor = new ObjectSensor_Ground_0();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-	 // 	copy.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_1();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// copy.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_2();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// copy.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_3();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// copy.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_4();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// copy.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_5();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// copy.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_6();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// copy.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_7();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// copy.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_8();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// copy.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_9();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// copy.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_10();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// copy.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_11();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// copy.push(sensor);
-
-	 // 	sensor = new ObjectSensor_Ground_12();
-		// sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
-		// copy.push(sensor);
-
-	 	// for(var a = 0; a < that.getWidth(); a++)
-	 	// 	that.heightMaps['floor'][a] += 0;
 
 	 	return copy;
 	};

@@ -27,6 +27,7 @@
 			<?php include('EngineCamera.class.js'); ?>
 			<?php include('Object.class.js'); ?>
 			<?php include('ObjectStatic.class.js'); ?>
+			<?php include('ObjectStaticWithAngle.class.js'); ?>
 			<?php include('ObjectWithInput.class.js'); ?>
 			<?php include('ObjectChar.class.js'); ?>
 			<?php include('ObjectExplosion.class.js'); ?>
@@ -192,8 +193,8 @@
 
 				var tree1 = new ObjectBackgroundTree();
 				tree1.x = 10 + 3 * 624;
-				tree1.y = window.cfg.level_height - 190 - 320 - height_modifier;
-				tree1.y -= 256 - 12;
+				tree1.y = window.cfg.level_height - 190 - 320 - height_modifier + 45;
+				// tree1.y -= 256 - 12;
 				tree1.z_index = 0;
 				objects.add(tree1);
 
@@ -202,7 +203,7 @@
 					block1.solid = true;
 					block1.sm.changeState( block1.Chill(), block1 );
 					block1.x = 900 + x*900;
-					block1.y = window.cfg.level_height - 190 - 256 + 12 - height_modifier;
+					block1.y = window.cfg.level_height - 190 - 256 + 12 - height_modifier  + 45;
 					block1.initSensors();
 					objects.add(block1);
 				}
@@ -212,16 +213,11 @@
 				for(var x=0; x < 5; x++) {
 					var tree1 = new ObjectBackgroundTree();
 					tree1.x = 50 + x * 624;
-					tree1.y = window.cfg.level_height - 190 - 320 - height_modifier;
+					tree1.y = window.cfg.level_height - 190 - 320 - height_modifier + 45;
 					if(x !== 3) {
 						objects.add(tree1);
 					}
 				}
-
-
-
-				
-
 
 
 
@@ -334,7 +330,7 @@
 					// TODO: use ground.x_offset insteaad of const 256
 					ground.x = 256 * i;	
 					// TODO: use ground.y_offset instead of const 190
-					ground.y = window.cfg.level_height - height_modifier - 190;
+					ground.y = window.cfg.level_height - height_modifier - 145;
 					ground.initSensors();
 					objects.add(ground);
 				}
@@ -347,7 +343,7 @@
 					block1.x = 256*i + z*512;
 					foo = block1.x;
 					// TODO 251 in ObjectHillDown.y_offset = 251;
-					block1.y = window.cfg.level_height - 190 + z*251 - height_modifier; 
+					block1.y = window.cfg.level_height - 190 + z*251 - height_modifier + 45; 
 					foo2 = block1.y;
 					block1.initSensors();
 					objects.add(block1);
@@ -361,7 +357,7 @@
 					block2.sm.changeState( block2.Chill(), block2 );
 					// block2.x = 256 * i + z*512 + 256 + z*896;
 					block2.x = foo + 512 + z*896;
-					block2.y = foo2 + 256 + z*512; 
+					block2.y = foo2 + 256 + z*512 + 45; 
 					// block2.x = foo + 256 + 5*512;
 					// block2.y = window.cfg.level_height - 190 + 5*244;
 					block2.initSensors();
@@ -376,7 +372,7 @@
 						ring.solid = true;
 						ring.sm.changeState( ring.Chill(), ring );
 						ring.x = 450 + x*900 + 64 + y*48;
-						ring.y = window.cfg.level_height - 256 - height_modifier; 
+						ring.y = window.cfg.level_height - 256 - height_modifier + 45; 
 						ring.initSensors();
 						objects.add(ring);
 					}
@@ -386,7 +382,7 @@
 						ring.solid = true;
 						ring.sm.changeState( ring.Chill(), ring );
 						ring.x = 900 + x*900 + 64 + y*48;
-						ring.y = window.cfg.level_height - 190 - 256 - 128 - height_modifier; 
+						ring.y = window.cfg.level_height - 190 - 256 - 128 - height_modifier + 45; 
 						ring.initSensors();
 						objects.add(ring);
 					}

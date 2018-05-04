@@ -46,9 +46,7 @@ var ObjectGround = function() {
 	that.initSensors = function() {
 
 		that.sensors = [];
-
-		console.log("init Ground");
-
+		
 		for(var i=0; i<that.heightMaps['floor'].length; i++) {
 
 			var sensor = {};
