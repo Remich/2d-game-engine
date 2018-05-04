@@ -39,17 +39,21 @@ Collision.prototype.check = function(id) {
 					// console.log("compare sensor_type " + sensors_a[z].sensor_type + " with sensor_type " + sensors_b[y].sensor_type);
 					// debugger;
 
+					// TODO: fix error
+
 					if(in_array(this.collidable_objects[id].name, sensors_b[y].sensor_type)){
-						sensors_a[z].collide( this.collidable_objects[id], this.collidable_objects[a] );
-
-					}
-
-					if(in_array(this.collidable_objects[a].name, sensors_a[z].sensor_type)) {
+						// sensors_a[z].collide( this.collidable_objects[id], this.collidable_objects[a] );
+						// if(this.collidable_objects[id].name === 'char' && this.collidable_objects[a].name === 'ground')
+						// 	debugger;
 						sensors_b[y].collide( this.collidable_objects[a], this.collidable_objects[id] );
-
+						sensors_a[z].colliding = true;
+						sensors_b[y].colliding = true;
 					}
-					sensors_a[z].colliding = true;
-					sensors_b[y].colliding = true;
+
+					// if(in_array(this.collidable_objects[a].name, sensors_a[z].sensor_type)) {
+					// 	sensors_b[y].collide( this.collidable_objects[a], this.collidable_objects[id] );
+					// }
+
 
 
 					// if(sensors_a[z].sensor_type !== sensors_b[y].sensor_type)
@@ -71,6 +75,7 @@ Collision.prototype.check = function(id) {
 	}
 };
 Collision.prototype.collision_check_single_strict_with_sensor = function(a, b) {
+
 	if (a.x > (b.x + b.width))
 		return false;
 	if (( a.x + a.width) < b.x)

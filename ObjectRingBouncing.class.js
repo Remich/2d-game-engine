@@ -129,7 +129,7 @@
 		this.y = null;
 		this.width = null;
 		this.height = null;
-		this.sensor_type = ["ground", "char"];
+		this.sensor_type = ["char"];
 	};
 	ObjectSensor_Ring.prototype.update = function(x, y, width, height) {
 		this.x = x + 5;
@@ -138,8 +138,9 @@
 		this.height = height - 10;
 	};
 	ObjectSensor_Ring.prototype.collide = function(obj, b) {
-		if (b.name !== "slope") {
-			return false;
+		if(b.recover === false) {
+			obj.sm.changeState( new obj.Collect(obj), obj );
+			b.rings++;
 		}
 		if(obj.speed_y < 0)
 			return false;

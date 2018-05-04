@@ -46,9 +46,9 @@ var ObjectBeatnik = function() {
 
 	};
 	ObjectSensor_A.prototype.collide = function(obj, b) {
-				if (b.name !== "slope") {
-			return false;
-		}
+		// 		if (b.name !== "slope") {
+		// 	return false;
+		// }
 		if(obj.speed_y < 0)
 			return false;
 		if(obj.y > b.y )
@@ -105,6 +105,7 @@ var ObjectBeatnik = function() {
 		this.height = height - 2 * shrink_y;
 	};
 	ObjectSensor_C.prototype.collide = function(obj, b) {
+		console.log("jo");
 	};
 
 	ObjectSensor_D = function() {

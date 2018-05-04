@@ -94,14 +94,14 @@ var ObjectChar = function() {
 	 *
 	 * @class      ObjectSensor_A
 	 */
-	ObjectSensor_A = function() {
+	ObjectSensor_AB = function() {
 		this.x = null;
 		this.y = null;
 		this.width = null; 
 		this.height = null;
-		this.sensor_type = ["ground"];
+		this.sensor_type = [];
 	};
-	ObjectSensor_A.prototype.update = function(x, y, center, height) {
+	ObjectSensor_AB.prototype.update = function(x, y, center, height) {
 
 		this.x = x + 32 + 8;
 		this.y = y + height;
@@ -116,7 +116,7 @@ var ObjectChar = function() {
 		} 
 
 	};
-	ObjectSensor_A.prototype.collide = function(obj, b) {
+	ObjectSensor_AB.prototype.collide = function(obj, b) {
 		// the following replaces call "b.collide(obj, b);" for objects of type slope
 		that.GroundSensorCollide(obj, b);
 	}; 
@@ -294,14 +294,14 @@ var ObjectChar = function() {
 
 	// };
 
-	ObjectSensor_B = function() {
+	ObjectSensor_BB = function() {
 		this.x = null;
 		this.y = null;
 		this.width = null; 
 		this.height = null;
-		this.sensor_type = ["ground"];
+		this.sensor_type = [];
 	};
-	ObjectSensor_B.prototype.update = function(x, y, center, height) {
+	ObjectSensor_BB.prototype.update = function(x, y, center, height) {
 		this.x = x + 32 - 8 - 16;
 		this.y = y + height;
 
@@ -314,21 +314,21 @@ var ObjectChar = function() {
 			this.height = 128;
 		} 
 	};
-	ObjectSensor_B.prototype.collide = function(obj, b) {
+	ObjectSensor_BB.prototype.collide = function(obj, b) {
 		that.GroundSensorCollide(obj, b);
 	};
 
 
 
 
-	ObjectSensor_C = function() {
+	ObjectSensor_CB = function() {
 		this.x = null;
 		this.y = null;
 		this.width = null; 
 		this.height = null;
-		this.sensor_type = ["ring", "beatnik", "ringbounce"];
+		this.sensor_type = [ "beatnik", "ringbounce"];
 	};
-	ObjectSensor_C.prototype.update = function(x, y, width, height) {
+	ObjectSensor_CB.prototype.update = function(x, y, width, height) {
 		var shrink_x = 0.15 * width;
 		var shrink_y = 0.15 * height;
 		this.x = x + shrink_x;
@@ -336,7 +336,8 @@ var ObjectChar = function() {
 		this.width = width - 2 * shrink_x;
 		this.height = height - 2 * shrink_y;
 	};
-	ObjectSensor_C.prototype.collide = function(obj, b) {
+	ObjectSensor_CB.prototype.collide = function(obj, b) {
+
 
 		if(obj.recover === true) {
 			return; 
@@ -367,13 +368,6 @@ var ObjectChar = function() {
 			// console.log(obj.enemy_direction);
 			// obj.enemy_direction = !tmp / Math.abs(tmp);
 
-		}
-
-		if(b.name === 'ring'
-			|| (b.name === 'ringbounce' && obj.recover === false)
-			) {
-			b.sm.changeState( new b.Collect(b), b );
-			obj.rings++;
 		}
 
 	};
@@ -434,14 +428,14 @@ var ObjectChar = function() {
 
 	that.initSensors = function() {
 		that.sensors = [];
-	 	that.sensors.push(new ObjectSensor_A());
+	 	that.sensors.push(new ObjectSensor_AB());
 	 	// that.sensors.push(new ObjectSensor_A_Right());
 
 	 	// that.sensors.push(new ObjectSensor_A_Up());
 	 	// that.sensors.push(new ObjectSensor_Dummy());	
 
-	 	that.sensors.push(new ObjectSensor_B());
-	 	that.sensors.push(new ObjectSensor_C());
+	 	that.sensors.push(new ObjectSensor_BB());
+	 	that.sensors.push(new ObjectSensor_CB());
 	 	// that.sensors.push(new ObjectSensor_D());
 	 	// that.sensors.push(new ObjectSensor_E());
 
@@ -1466,6 +1460,7 @@ var ObjectChar = function() {
 
 			obj.speed_x = 6 * 1 * ( sgn );
 			obj.speed_y = 6 * -2;
+
 		};
 		foobar.update = function(sm, obj) {
 		};
@@ -1479,7 +1474,7 @@ var ObjectChar = function() {
 				obj.recover = false;
 				obj.blinking = false;
 				obj.render = true;
-			}, (1/window.myEngine.fps_max) * 120 * 500);
+			}, (1/window.myEngine.fps_max) * 120 * 500); // TODO change to gameframes
 	
 		};
 
@@ -1507,6 +1502,9 @@ var ObjectChar = function() {
 
 			ring.speed_y = 1.5 * -1 * Math.sin(angle)* speed;
 			ring.speed_x = 1.5 * Math.cos(angle) * speed;
+			if(t % 3 === 0) {
+				ring.speed_z = 1.5 * Math.sin(angle-180) * speed;
+			}
 
 			if(n === true) {
 				ring.speed_x *= -1;

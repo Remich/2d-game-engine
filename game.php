@@ -111,7 +111,7 @@
 				//***  Objekte ***//
 				var objects = new EngineObjectList();
 
-				var height_modifier = 1100; //4666 + 1600;
+				var height_modifier = 1792; //4666 + 1600;
 
 				var bg = new ObjectBackgroundHorizon();
 				bg.x = 0;
@@ -241,13 +241,55 @@
 				sonic.initSensors();
 				objects.add(sonic);
 
-				// var beatnik = new ObjectBeatnik();
-				// beatnik.solid = true;
-				// beatnik.sm.changeState( beatnik.Beat(), beatnik);
-				// beatnik.x = 600;
-				// beatnik.y = window.cfg.level_height - 256;
-				// beatnik.initSensors();
-				// objects.add(beatnik);
+				// var t = 0;
+				// var angle = 101.25; //; assuming 0=right, 90=up, 180=left, 270=down
+				// var n = false;
+				// var speed = 4;
+
+				// var ring = new ObjectRingBouncing();
+				// ring.solid = true;
+				// ring.sm.changeState( new ring.Bounce(), ring );
+				// ring.x = sonic.x; 
+				// ring.y = sonic.y;
+				// ring.initSensors();
+
+			// 	while(t < 32 && t < 32) {
+			// 		console.log("hi");
+
+			// 	ring.speed_y = 1.5 * -1 * Math.sin(angle)* speed;
+			// 	ring.speed_x = 1.5 * Math.cos(angle) * speed;
+			// 	if(t % 3 === 0) {
+			// 		ring.speed_z = 1.5 * Math.sin(angle-180) * speed;
+			// 	}
+
+			// 	if(n === true) {
+			// 		ring.speed_x *= -1;
+			// 		angle += 22.5;
+			// 	}
+
+			// 	if(n === false) {
+			// 		n = true;
+			// 	} else {
+			// 		n = false;
+			// 	}
+			// 	t++;
+			// 	if( t === 16 ) {
+			// 		speed = 2; // we're on the second circle now, so decrease the speed
+			// 		angle = 101.25; // reset angle
+			// 	}
+
+			// 	objects.add(ring);
+			// }
+
+
+
+				var beatnik = new ObjectBeatnik();
+				beatnik.solid = true;
+				beatnik.sm.changeState( beatnik.Beat(), beatnik);
+				beatnik.x = 600;
+				beatnik.y = window.cfg.level_height - 256 - height_modifier;
+				beatnik.initSensors();
+				objects.add(beatnik);
 
 				// var beatnik = new ObjectBeatnik();
 				// beatnik.solid = true;
@@ -314,16 +356,16 @@
 
 
 				for(var z=0; z < 3; z++) {
-					var block1 = new ObjectSlope();
-					block1.solid = true;
-					block1.sm.changeState( block1.Chill(), block1 );
-					// block1.x = 256 * i + z*512 + 256 + z*896;
-					block1.x = foo + 512 + z*896;
-					block1.y = foo2 + 256 + z*512; 
-					// block1.x = foo + 256 + 5*512;
-					// block1.y = window.cfg.level_height - 190 + 5*244;
-					block1.initSensors();
-					objects.add(block1);
+					var block2 = new ObjectSlope();
+					block2.solid = true;
+					block2.sm.changeState( block2.Chill(), block2 );
+					// block2.x = 256 * i + z*512 + 256 + z*896;
+					block2.x = foo + 512 + z*896;
+					block2.y = foo2 + 256 + z*512; 
+					// block2.x = foo + 256 + 5*512;
+					// block2.y = window.cfg.level_height - 190 + 5*244;
+					block2.initSensors();
+					objects.add(block2);
 				}
 
 
@@ -350,12 +392,6 @@
 					}
 
 				}
-
-				objects.each(function(handle) {
-					handle.y -= 692;
-					if(handle.solid === true)
-						handle.initSensors();
-				});
 
 				setInterval('window.myEngine.loop()', window.myEngine.get_interval());
 				

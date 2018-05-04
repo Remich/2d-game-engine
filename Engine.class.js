@@ -8,8 +8,8 @@ var Engine = function() {
 	this.gameframe = 0;
 	this.bench = false;
 	this.show_fps = false;
-	this.show_debug = true;
-	this.show_rings = true;
+	this.show_debug = false;
+	this.show_rings = false;
 	this.show_sensors = false;
 	this.fps60 = true; // false means 30fps
 	this.editor = false;
@@ -301,8 +301,8 @@ Engine.prototype.draw = function(obj, camx, camy) {
 	    	img,
 	    	sx,
 	    	sy,
-	    	width,
-	    	height,
+	    	width * obj.speed_z,
+	    	height * obj.speed_z,
 	    	width / 2 * (-1),
 	    	height / 2 * (-1),
 	    	width,
@@ -453,7 +453,8 @@ Engine.prototype.loop = function() {
 	objects.each(function(handle) {
 		if (handle.name === 'char' ||
 			handle.name === 'beatnik' ||
-			handle.name === 'ringbounce') {
+			handle.name === 'ringbounce'
+			) {
 			handle.in_air = true;
 			window.myEngine.Collision.check( handle.id );	
 		}

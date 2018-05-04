@@ -45,20 +45,6 @@ var ObjectBlock = function() {
 
 	};
 
-	ObjectSensor_Ground_0 = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null;
-		this.height = null;
-		this.sensor_type = ["char", "beatnik", "ringbounce"];
-
-		this.update = function(x, y, width, height) {
-		};
-
-		this.collide = function(obj, b) {
-		};
-
-	};
 
 	that.initSensors = function() {
 
@@ -66,11 +52,16 @@ var ObjectBlock = function() {
 
 		for(var i=0; i<that.heightMaps['floor'].length; i++) {
 
-			var sensor = new ObjectSensor_Ground_0();
+			var sensor = {};
 			sensor.x = null;
 			sensor.y = null;
 			sensor.width = 1;
 			sensor.height = 128;
+
+			sensor.sensor_type = ["char", "beatnik", "ringbounce"];
+			sensor.collide = function(obj, b) {
+				that.collide(b, obj);
+			};
 
 			sensor.update = function(x, y, width, height) {
 				sensor.x = x + i;

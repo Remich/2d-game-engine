@@ -9,6 +9,7 @@ var Object = function() {
 	that.gsp = 0; // ground speed
 	that.speed_x = 0;
 	that.speed_y = 0;
+	that.speed_z = 1;
 	that.flipped = false;
 	that.enemy_direction = 0; // 0 right, 1 left
 	that.recover = false;

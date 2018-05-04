@@ -1,11 +1,19 @@
 # TODO
 
+## Currently
+
+* change sensor names to something unique or make them instantiate as different objects
+* merge and modify ObjectSlope.collide(obj, b) into ObjectStatic.collide(obj, b);
+* ~~collision with sensor_type not quite working~~
+
 ## Code
 * add attributes to objects ( y_offset, x_offset ), for using multiple objects next to each other
 * update frame_duration according to speed of object
+* ~~NOT NECESSARY ANYMORE: add collided_with - Array to each collidable object, and unique hash to each object, then check if we already collided with that object~~
 
 ## Bugs
 
+* when adding object Beatnik, Collision doesn't work anymore
 * when on slope: looking up and immediately looking down leads to falling through the floor of the slope
 * when moving from one slope to another slope of different height: the other slope's heightMap is being used, even though were mostly standing on the old slope
 
@@ -14,7 +22,7 @@
 * implement Walls and Ceilings and their respective Sensors
 * implement Loopings
 * implement Sound
-* implement Sprite Rotation
+* ~~implement Sprite Rotation~~
 * implement Image Loading
 * implement updating of local cache
 * implement Scene State Machine

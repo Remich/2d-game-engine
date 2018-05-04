@@ -31,8 +31,9 @@ function width(array, prev_frames) {
 in_array = function(needle, haystack)  {
 
 	for(var a = 0; a < haystack.length; a++) 
-		if(haystack[a] == needle) 
-			return 1;
+		if(haystack[a] === needle) 
+			return true;
+	return false
 			
 };
 

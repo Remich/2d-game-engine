@@ -52,8 +52,8 @@ var ObjectStatic = function() {
 
 			obj.y = b.y + b.heightMaps['floor'][indexHeightMap] - obj.sm.currentState.frames[floor(obj.frame)].height;
 
-			// var val = (obj.getHeight() / 2) * Math.sin(obj.angle / 180) * Math.PI;
-			// obj.y += val;
+			var val = (obj.getHeight() / 2) * Math.sin(obj.angle / 180) * Math.PI;
+			obj.y += val;
 
 
 			/**

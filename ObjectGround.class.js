@@ -2,7 +2,7 @@ var ObjectGround = function() {
 
 	var that = new ObjectStatic();
 
-	that.name = 'slope'; // or 'ground'
+	that.name = 'ground'; // or 'ground'
 
 	that.collide = function( obj, b ) { 
 		return that.parentCollide( obj, b );
@@ -43,33 +43,23 @@ var ObjectGround = function() {
 
 	};
 
-	ObjectSensor_Ground_0 = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null;
-		this.height = null;
-		this.sensor_type = ["char", "beatnik", "ringbounce"];
-
-		this.update = function(x, y, width, height) {
-		};
-
-		this.collide = function(obj, b) {
-		};
-
-	};
-
 	that.initSensors = function() {
 
 		that.sensors = [];
 
+		console.log("init Ground");
+
 		for(var i=0; i<that.heightMaps['floor'].length; i++) {
 
-			var sensor = new ObjectSensor_Ground_0();
+			var sensor = {};
 			sensor.x = null;
 			sensor.y = null;
 			sensor.width = 1;
 			sensor.height = 256;
 			sensor.sensor_type = ["char", "beatnik", "ringbounce"];
+			sensor.collide = function(obj, b) {
+				that.collide(b, obj);
+			};
 
 			sensor.update = function(x, y, width, height) {
 				sensor.x = x + i;
