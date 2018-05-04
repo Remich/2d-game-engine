@@ -10,7 +10,7 @@ var Engine = function() {
 	this.show_fps = false;
 	this.show_debug = false;
 	this.show_rings = false;
-	this.show_sensors = false;
+	this.show_sensors = true;
 	this.fps60 = true; // false means 30fps
 	this.editor = false;
 

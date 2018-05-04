@@ -100,7 +100,9 @@ var ObjectChar = function() {
 		this.width = null; 
 		this.height = null;
 		this.sensor_type = [];
+		this.type = 'ground'
 	};
+
 	ObjectSensor_AB.prototype.update = function(x, y, center, height) {
 
 		this.x = x + 32 + 8;
@@ -300,6 +302,7 @@ var ObjectChar = function() {
 		this.width = null; 
 		this.height = null;
 		this.sensor_type = [];
+		this.type = 'ground'
 	};
 	ObjectSensor_BB.prototype.update = function(x, y, center, height) {
 		this.x = x + 32 - 8 - 16;
@@ -327,6 +330,7 @@ var ObjectChar = function() {
 		this.width = null; 
 		this.height = null;
 		this.sensor_type = [ "beatnik", "ringbounce"];
+		this.type = 'objects'
 	};
 	ObjectSensor_CB.prototype.update = function(x, y, width, height) {
 		var shrink_x = 0.15 * width;
@@ -1359,6 +1363,7 @@ var ObjectChar = function() {
 
 		foobar.enter = function(sm, obj) {
 			obj.frame = 0;
+			obj.speed_x = 0;
 		};
 		foobar.update = function(sm, obj) {
 			if (obj.sensors === undefined) {

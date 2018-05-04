@@ -59,6 +59,7 @@ var ObjectBlock = function() {
 			sensor.height = 128;
 
 			sensor.sensor_type = ["char", "beatnik", "ringbounce"];
+			sensor.type = 'ground';
 			sensor.collide = function(obj, b) {
 				that.collide(b, obj);
 			};

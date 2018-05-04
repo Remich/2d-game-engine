@@ -3,13 +3,14 @@
 ## Currently
 
 * change sensor names to something unique or make them instantiate as different objects
-* merge and modify ObjectSlope.collide(obj, b) into ObjectStatic.collide(obj, b);
-* ~~collision with sensor_type not quite working~~
+* add sensor.type to all sensors, see ObjectBlock.class.js and ObjectChar.class.js for example
+* __DONE:__ merge ObjectSlope.collide(obj, b) into ObjectHillDown.collide(obj, b);
+* __DONE:__ collision with sensor_type not quite working
 
 ## Code
 * add attributes to objects ( y_offset, x_offset ), for using multiple objects next to each other
 * update frame_duration according to speed of object
-* ~~NOT NECESSARY ANYMORE: add collided_with - Array to each collidable object, and unique hash to each object, then check if we already collided with that object~~
+* __NOT NECESSARY ANYMORE:__ add collided_with - Array to each collidable object, and unique hash to each object, then check if we already collided with that object~~
 * implement flip of sensors in ObjectChar.class.js and possibly in most other classes as well, see flip() in ObjectSlope.class.js
 
 ## Bugs

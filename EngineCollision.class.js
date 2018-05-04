@@ -33,13 +33,14 @@ Collision.prototype.check = function(id) {
 
 		for (z in sensors_a) {
 			for (y in sensors_b) {
+
+				// don't collide sensors of different type
+				if(sensors_a[z].type !== undefined && sensors_b[y].type !== undefined) {
+					if(sensors_a[z].type !== sensors_b[y].type)
+						continue;
+				}
+
 				if (this.collision_check_single_strict_with_sensor(sensors_a[z], sensors_b[y])) {
-
-					// only collide if sensors are of same-type
-					// console.log("compare sensor_type " + sensors_a[z].sensor_type + " with sensor_type " + sensors_b[y].sensor_type);
-					// debugger;
-
-					// TODO: fix error
 
 					if(in_array(this.collidable_objects[id].name, sensors_b[y].sensor_type)){
 						// sensors_a[z].collide( this.collidable_objects[id], this.collidable_objects[a] );
@@ -49,25 +50,6 @@ Collision.prototype.check = function(id) {
 						sensors_a[z].colliding = true;
 						sensors_b[y].colliding = true;
 					}
-
-					// if(in_array(this.collidable_objects[a].name, sensors_a[z].sensor_type)) {
-					// 	sensors_b[y].collide( this.collidable_objects[a], this.collidable_objects[id] );
-					// }
-
-
-
-					// if(sensors_a[z].sensor_type !== sensors_b[y].sensor_type)
-					// 	return false;
-
-					// sensors_a[z].collide( this.collidable_objects[id], this.collidable_objects[a] );
-					// sensors_b[y].collide( this.collidable_objects[a], this.collidable_objects[id] );
-
-					// TODO: delete
-					// this.collidable_objects[a].collide( this.collidable_objects[id] );
-					// this.collidable_objects[id].collide( this.collidable_objects[a] );
-
-					// sensors_a[z].colliding = true;
-					// sensors_b[y].colliding = true;
 				}
 
 			}
