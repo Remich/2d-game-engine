@@ -24,7 +24,80 @@ var ObjectChar = function() {
 	that.rings = 0;
 
 	that.name = 'char';
-	that.collide = function( b, sensor ) {
+
+	that.getHeightMapX = function() {
+
+		let unique = [...new Set(that.colliding_sensors)]; 
+
+		if(in_array('AB', unique) === true
+			&& in_array('BB', unique) === true) {
+
+			// Both Ground Sensors are colliding
+			
+			console.log("both ground sensosrs");
+			// return center of both sensors
+			return floor((that.sensors[0].x-that.x + that.sensors[1].x-that.x) / 2 + that.x);
+			// return floor(that.sensors[0].x);
+		} else if(in_array('AB', unique)) {
+
+			// Only Left Ground Sensor is colliding
+			
+			console.log("only right ground sensor");
+			return floor(that.sensors[0].x);
+		} else if(in_array('BB', unique)) {
+
+			// Only Right Ground Sensor is colliding
+			
+			console.log("only left ground sensor");
+			return floor(that.sensors[1].x);
+		} else {
+			return;
+		}
+	
+	};
+
+	that.collide = function( b ) {
+
+		if(b.name === "ring") {
+			return;
+		}
+
+		if(b.name === "beatnik") {
+			return;
+		}
+
+		if(b.name === "ringbounce") {
+			return;
+		}
+
+		// that.HeightMapSensorCollide(obj, b);
+	};
+
+	that.HeightMapSensorCollide = function(obj, b) {
+		console.log(b.name);
+
+		// TODO fix calculation of indexHeightMap
+		var indexHeightMap = obj.indexHeightMap;
+		// var indexHeightMap = floor(obj.x+obj.getWidth()/2-b.x);
+		if(indexHeightMap < 0)
+				indexHeightMap = 0;
+
+		if(indexHeightMap >= b.getWidth()) {
+			indexHeightMap = b.getWidth();	
+		}
+
+		if(obj.speed_y < 0 && obj.y > (b.y + b.heightMaps['floor'][indexHeightMap]) ) {
+			console.log("falsing");
+			return false;
+		}
+
+		if(obj.y < b.y + b.heightMaps['floor'][indexHeightMap] - obj.getHeight()) {
+			console.log("falsing2");
+			return false;
+		}
+
+		obj.y = b.y + b.heightMaps['floor'][indexHeightMap] - obj.sm.currentState.frames[floor(obj.frame)].height;
+
 	};
 
 	that.GroundSensorCollide = function(obj, b) {
@@ -95,6 +168,7 @@ var ObjectChar = function() {
 	 * @class      ObjectSensor_A
 	 */
 	ObjectSensor_AB = function() {
+		this.name = 'AB';
 		this.x = null;
 		this.y = null;
 		this.width = null; 
@@ -119,8 +193,6 @@ var ObjectChar = function() {
 
 	};
 	ObjectSensor_AB.prototype.collide = function(obj, b) {
-		// the following replaces call "b.collide(obj, b);" for objects of type slope
-		that.GroundSensorCollide(obj, b);
 	}; 
 
 	// ObjectSensor_A_Right = function() {
@@ -297,6 +369,7 @@ var ObjectChar = function() {
 	// };
 
 	ObjectSensor_BB = function() {
+		this.name = 'BB';
 		this.x = null;
 		this.y = null;
 		this.width = null; 
@@ -318,19 +391,18 @@ var ObjectChar = function() {
 		} 
 	};
 	ObjectSensor_BB.prototype.collide = function(obj, b) {
-		that.GroundSensorCollide(obj, b);
 	};
 
 
-
-
 	ObjectSensor_CB = function() {
+		this.name = 'CB';
 		this.x = null;
 		this.y = null;
 		this.width = null; 
 		this.height = null;
 		this.sensor_type = [ "beatnik", "ringbounce"];
 		this.type = 'objects'
+		this.type_other = ["objects"];
 	};
 	ObjectSensor_CB.prototype.update = function(x, y, width, height) {
 		var shrink_x = 0.15 * width;
@@ -341,39 +413,6 @@ var ObjectChar = function() {
 		this.height = height - 2 * shrink_y;
 	};
 	ObjectSensor_CB.prototype.collide = function(obj, b) {
-
-
-		if(obj.recover === true) {
-			return; 
-		}
-
-		if (b.name === "beatnik") {
-			b.collide(obj,b);
-			
-			if(obj.sm.currentState.name === "Roll"
-				|| obj.sm.currentState.name === "Jump") {
-				return false;
-			}
-			// obj.callback = function(objects) {
-			// 	console.log("callback foobar");
-			// };
-			// b.collide(obj,b);
-
-			obj.recover = true;
-			obj.callback = obj.RingLossReal;
-			obj.sm.changeState( new obj.RingLoss(), obj);
-
-			// obj.sm.changeState( new obj.RingLoss(), obj );
-
-			// compute enemy direction
-			var x = obj.x - b.x;
-			// TODO: fix this
-			obj.enemy_direction = x > 0 ? 1 : x < 0 ? -1 : 0;
-			// console.log(obj.enemy_direction);
-			// obj.enemy_direction = !tmp / Math.abs(tmp);
-
-		}
-
 	};
 
 	// ObjectSensor_D = function() {
@@ -440,6 +479,7 @@ var ObjectChar = function() {
 
 	 	that.sensors.push(new ObjectSensor_BB());
 	 	that.sensors.push(new ObjectSensor_CB());
+	 	// that.sensors.push(new ObjectSensorChar_HeightMap());
 	 	// that.sensors.push(new ObjectSensor_D());
 	 	// that.sensors.push(new ObjectSensor_E());
 
@@ -451,9 +491,22 @@ var ObjectChar = function() {
 		var height = that.sm.currentState.frames[floor(that.frame)].height;
 
 
+	/**
+	 * NOTE: if changing indices, side-effects will appear!! (e.g.: isOnEdge())
+	 * TODO: address sensors by name, instead of index
+	 */  
+
+
+	/**
+		  * somehow this will not work: 
+		  */   
+
+		// for(var i=0; i<that.sensors.length; i++) {
+		// 	that.sensors[i].update(that.x, that.y, center, height);
+		// }
+
 		/**
-		 * NOTE: if changing indices, side-effects will appear!! (e.g.: isOnEdge())
-		 * TODO: address sensors by name, instead of index
+		 * so we do it manually: 
 		 */  
 
 		// Sensor A Down
@@ -469,6 +522,7 @@ var ObjectChar = function() {
 		// Sensor C
 		that.sensors[2].update(that.x, that.y, that.getWidth(), height);
 
+		// that.sensors[3].update(that.x, that.y, that.getWidth(), height);
 		// that.sensors[2].update(that.x, that.y, width, height);
 		// that.sensors[3].update(that.x, that.y, width, height);
 		// that.sensors[4].update(that.x, that.y, width, height);

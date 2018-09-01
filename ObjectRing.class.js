@@ -5,7 +5,11 @@
 	var that = new ObjectStatic();
 
 	that.name = 'ring';
-	that.collide = function( b ) {
+	that.collide = function( obj ) {
+		if(obj.recover === false) {
+			that.sm.changeState( new that.Collect(that), that );
+			obj.rings++;
+		}
 	};
 
 	that.in_air = false;
@@ -129,10 +133,6 @@
 		this.height = height - 10;
 	};
 	ObjectSensor_Ring.prototype.collide = function(obj, b) {
-		if(b.recover === false) {
-			obj.sm.changeState( new obj.Collect(obj), obj );
-			b.rings++;
-		}
 	};
 
 

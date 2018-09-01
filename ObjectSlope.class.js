@@ -1,11 +1,13 @@
 var ObjectSlope = function() {
 
-	var that = new ObjectStaticWithAngle();
+	// var that = new ObjectStaticWithAngle();
+	// BOOKMARK#2 hier weiter machen
+	var that = new AbstractGround();
 
 	that.name = 'slope';
-	that.collide = function( obj, b ) { 
-		return that.parentCollide(obj, b);
-	};
+	// that.collide = function( obj ) { 
+		// return that.parentCollide(obj);
+	// };
 	that.in_air = false;
 	that.rolling = false;
 

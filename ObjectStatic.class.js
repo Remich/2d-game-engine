@@ -4,27 +4,34 @@ var ObjectStatic = function() {
 
 	var that = new Object();
 
-	that.parentCollide = function( obj, b ) { 
-		// console.log("obj.name: " + obj.name);
-		// console.log("b.name: " + b.name);
+	that.parentCollide = function( obj ) { 
+
+		b = that;
 
 		// if(obj === undefined || b === undefined)
 		// 	return false;
-		var indexHeightMap = floor(obj.x-b.x);
+
+		// var indexHeightMap = floor(obj.x+obj.getWidth()/2-b.x);
+
+		if(that.name === 'char') {
+			var indexHeightMap = that.indexHeightMap;
+			console.log(indexHeightMap);
+		}
+
 		if(indexHeightMap < 0)
 				indexHeightMap = 0;
+
 
 		if(indexHeightMap >= b.getWidth()) {
 			indexHeightMap = b.getWidth();	
 		}
 
 		if(obj.speed_y < 0 && obj.y > (b.y + b.heightMaps['floor'][indexHeightMap]) ) {
-			console.log("falsing");
+			console.log("falsing in " + b.name);
 			return false;
 		}
-
 		if(obj.y < b.y + b.heightMaps['floor'][indexHeightMap] - obj.getHeight()) {
-			console.log("falsing2");
+			console.log("falsing-2 in " + b.name);
 			return false;
 		}
 
@@ -50,7 +57,7 @@ var ObjectStatic = function() {
 
 			// obj.angle = b.angleMaps['floor'][floor(indexHeightMap/32)];
 
-			obj.y = b.y + b.heightMaps['floor'][indexHeightMap] - obj.sm.currentState.frames[floor(obj.frame)].height;
+			// obj.y = b.y + b.heightMaps['floor'][indexHeightMap] - obj.sm.currentState.frames[floor(obj.frame)].height;
 
 			var val = (obj.getHeight() / 2) * Math.sin(obj.angle / 180) * Math.PI;
 			obj.y += val;

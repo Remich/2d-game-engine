@@ -6,7 +6,24 @@
 
 	that.name = 'ringbounce';
 	that.solid = true;
-	that.collide = function( b ) {
+	that.collide = function( obj ) {
+
+		if(obj.name === 'char') {
+			if(obj.recover === false) {
+				that.sm.changeState( new that.Collect(that), that );
+				obj.rings++;
+			}
+		}
+
+		if(obj.name === 'ground') {
+			if(obj.speed_y < 0)
+				return false;
+			if(obj.y > that.y )
+		 		return false;
+		 	if(obj.speed_y > 0) {
+				obj.speed_y *= -0.75;
+		 	}
+		}
 	};
 
 	that.in_air = true;
@@ -138,17 +155,6 @@
 		this.height = height - 10;
 	};
 	ObjectSensor_Ring.prototype.collide = function(obj, b) {
-		if(b.recover === false) {
-			obj.sm.changeState( new obj.Collect(obj), obj );
-			b.rings++;
-		}
-		if(obj.speed_y < 0)
-			return false;
-		if(obj.y > b.y )
-	 		return false;
-	 	if(obj.speed_y > 0) {
-			obj.speed_y *= -0.75;
-	 	}
 	};
 
 

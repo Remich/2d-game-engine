@@ -4,7 +4,9 @@ var ObjectStaticWithAngle = function() {
 
 	var that = new ObjectStatic();
 
-	that.parentCollide = function( obj, b ) { 
+	that.parentCollide = function( obj ) { 
+
+		b = that;
 
 		// if(obj === undefined || b === undefined)
 		// 	return false;

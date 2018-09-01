@@ -2,13 +2,14 @@
 
 var ObjectBlock = function() {
 
-	var that = new ObjectStatic();
+	// var that = new ObjectStatic();
+	var that = new AbstractGround();
 
 	that.name = 'ground'; // or 'ground'
 
-	that.collide = function( obj, b ) { 
-		return that.parentCollide( obj, b );
-	};
+	// that.collide = function( obj ) {
+		// return that.parentCollide( obj );
+	// };
 	that.in_air = false;
 	that.rolling = false;
 
@@ -58,10 +59,16 @@ var ObjectBlock = function() {
 			sensor.width = 1;
 			sensor.height = 128;
 
+			// TODO: better names for .sensor_type, .type, .type_other
+			// declare which objects can collide with this sensor
 			sensor.sensor_type = ["char", "beatnik", "ringbounce"];
+			// declare of which type this sensor is
 			sensor.type = 'ground';
+			// declare of which type the other sensor has to be
+			sensor.type_other = ["ground"];
+
 			sensor.collide = function(obj, b) {
-				that.collide(b, obj);
+				// that.collide(b, obj);
 			};
 
 			sensor.update = function(x, y, width, height) {

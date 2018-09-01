@@ -5,7 +5,8 @@ var ObjectBeatnik = function() {
 	var that = new Object();
 
 	that.name = 'beatnik';
-	that.collide = function( obj, b) {
+	that.collide = function( obj ) {
+
 		if ((obj.sm.currentState.name === 'Jump' &&
 			obj.speed_y > 0) ||
 			obj.sm.currentState.name === 'Roll') {
@@ -17,8 +18,24 @@ var ObjectBeatnik = function() {
 			that.replace.sm.changeState( that.replace.Explode(), that.replace );
 			that.destroy = true;
 			obj.speed_y = -1 * obj.speed_y;
+			return;
 		}
-		return true;
+
+		if(obj.recover === true) {
+			return; 
+		}
+
+		if (obj.name === "char") {
+			obj.recover = true;
+			obj.callback = obj.RingLossReal;
+			obj.sm.changeState( new obj.RingLoss(), obj);
+
+			// compute enemy direction
+			var x = obj.x - b.x;
+			// TODO: fix this
+			obj.enemy_direction = x > 0 ? 1 : x < 0 ? -1 : 0;
+			return;
+		}
 	};
 
 	// ground-sensors, 2 lines each 16px down, 16px apart from the sprite center
@@ -46,9 +63,6 @@ var ObjectBeatnik = function() {
 
 	};
 	ObjectSensor_A.prototype.collide = function(obj, b) {
-		// 		if (b.name !== "slope") {
-		// 	return false;
-		// }
 		if(obj.speed_y < 0)
 			return false;
 		if(obj.y > b.y )
@@ -95,6 +109,8 @@ var ObjectBeatnik = function() {
 		this.width = null; 
 		this.height = null;
 		this.sensor_type = ["char"];
+		this.type = "objects";
+		this.type_other = ["objects"];
 	};
 	ObjectSensor_C.prototype.update = function(x, y, width, height) {
 		var shrink_x = 0.15 * width;

@@ -26,12 +26,15 @@ var Object = function() {
 	that.in_air = true;
 	that.isOnSlope = false;
 	that.blocked = [];
+	that.indexHeightMap = 0;
+
 
 	that.blinking = false;
 	that.blinking_duration = 4;
 	that.blinking_frame_count = 0;
 	that.render = true;
 
+	that.colliding_sensors = [];
 
 	that.acc = window.cfg.speedup_constant * 0.046875;/*6 * 0.046875 /*+ 0.046875 + 0.046875 + 0.046875 + 0.046875 + 0.046875*/;
 	that.frc = window.cfg.speedup_constant * 0.046875;

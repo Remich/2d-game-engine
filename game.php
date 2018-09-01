@@ -26,6 +26,7 @@
 			<?php include('EngineCollision.class.js'); ?>
 			<?php include('EngineCamera.class.js'); ?>
 			<?php include('Object.class.js'); ?>
+			<?php include('AbstractGround.class.js'); ?>
 			<?php include('ObjectStatic.class.js'); ?>
 			<?php include('ObjectStaticWithAngle.class.js'); ?>
 			<?php include('ObjectWithInput.class.js'); ?>
@@ -299,7 +300,7 @@
 				beatnik.x = 600;
 				beatnik.y = window.cfg.level_height - 256 - height_modifier + 55;
 				beatnik.initSensors();
-				objects.add(beatnik);
+				// objects.add(beatnik);
 
 				// var beatnik = new ObjectBeatnik();
 				// beatnik.solid = true;
@@ -371,7 +372,7 @@
 					block2.sm.changeState( block2.Chill(), block2 );
 					// block2.x = 256 * i + z*512 + 256 + z*896;
 					block2.x = foo + 512 + z*896;
-					block2.y = foo2 + 256 + z*512 + 45; 
+					block2.y = foo2 + 256 + z*512; 
 					// block2.x = foo + 256 + 5*512;
 					// block2.y = window.cfg.level_height - 190 + 5*244;
 					block2.initSensors();

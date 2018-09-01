@@ -2,29 +2,39 @@
 
 ## Currently
 
+* (DOING) [ ] make ObjectHillDown inherit from AbstractGrund.class.js 
+* calculate angle from HeightMap of both GroundSensors
+	-> no need for AngleMaps anymore :)
+* [ ] rename AbstractGround --> ? 
+* [ ] angle of "flat" ground-objects should always be 0
+
+
+* delete all collide() functions of all sensors
 * change sensor names to something unique or make them instantiate as different objects
 * add sensor.type to all sensors, see ObjectBlock.class.js and ObjectChar.class.js for example
+
 * __DONE:__ merge ObjectSlope.collide(obj, b) into ObjectHillDown.collide(obj, b);
 * __DONE:__ collision with sensor_type not quite working
 
 ## Code
+
 * add attributes to objects ( y_offset, x_offset ), for using multiple objects next to each other
 * update frame_duration according to speed of object
-* __NOT NECESSARY ANYMORE:__ add collided_with - Array to each collidable object, and unique hash to each object, then check if we already collided with that object~~
+* __NOT NECESSARY ANYMORE:__ add collided_with - Array to each collidable object, and unique hash to each object, then check if we already collided with that object
 * implement flip of sensors in ObjectChar.class.js and possibly in most other classes as well, see flip() in ObjectSlope.class.js
 
 ## Bugs
 
-* when adding object Beatnik, Collision doesn't work anymore
+* __FIXED__:when adding object Beatnik, Collision doesn't work anymore
 * when on slope: looking up and immediately looking down leads to falling through the floor of the slope
 * when moving from one slope to another slope of different height: the other slope's heightMap is being used, even though were mostly standing on the old slope
 
 * implement horizontal flipping of sensors, when object is flipped
-* implement Angles
+* __DONE__implement Angles
 * implement Walls and Ceilings and their respective Sensors
 * implement Loopings
 * implement Sound
-* ~~implement Sprite Rotation~~
+* __DONE__implement Sprite Rotation
 * implement Image Loading
 * implement updating of local cache
 * implement Scene State Machine

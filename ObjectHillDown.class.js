@@ -1,11 +1,12 @@
 var ObjectHillDown = function() {
 
 	var that = new ObjectStaticWithAngle();
+	// var that = new AbstractGround();
 
 	that.name = 'slope'; // or 'ground'
 
-	that.collide = function( obj, b ) { 
-		return that.parentCollide(obj, b);
+	that.collide = function( obj ) { 
+		return that.parentCollide(obj);
 	};
 	that.in_air = false;
 	that.rolling = false;
