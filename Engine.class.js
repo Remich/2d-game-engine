@@ -453,23 +453,31 @@ Engine.prototype.loop = function() {
 	});
 
 
-	// Check if object is solid, then add it to the collision plane
+	/*
+	 * Collisions
+	 */
+
+	// Check if Object is solid, then add it to collidable Objects
 	objects.each(function(handle) {
 		if (handle.solid === true)
 			window.myEngine.Collision.add(handle);	
-		if (handle.solid === false)
+		else
 			window.myEngine.Collision.rm(handle);
 	});
 
-	objects.each(function(handle) {
-		if (handle.name === 'char' ||
-			handle.name === 'beatnik' ||
-			handle.name === 'ringbounce'
-			) {
-			handle.in_air = true;
-			window.myEngine.Collision.check( handle.id );	
-		}
-	});
+	// Check for Collisions 
+	window.myEngine.Collision.check();
+
+	// Act out Collisions
+	window.myEngine.Collision.act();
+
+	// Correct Angles of collided Objects
+	window.myEngine.Collision.correctAngles();
+
+
+	/*
+	 * Camera
+	 */
 
 	// Follow ObjectChar with Camera
 	objects.each(function(handle) {
@@ -482,6 +490,10 @@ Engine.prototype.loop = function() {
 
 	// update Camera
 	window.myEngine.Camera.update();
+
+	/*
+	 * Drawing
+	 */
 
 	//  Objekt zeichnen - CSS Stuff
 	objects.each(function(handle) {

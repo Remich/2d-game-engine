@@ -25,6 +25,7 @@ var ObjectChar = function() {
 
 	that.name = 'char';
 
+	// TODO rename function
 	that.getHeightMapX = function() {
 
 		let unique = [...new Set(that.colliding_sensors)]; 
@@ -55,6 +56,7 @@ var ObjectChar = function() {
 		}
 	
 	};
+
 
 	that.collide = function( b ) {
 

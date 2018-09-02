@@ -1,8 +1,10 @@
 /* (c)opyright 2018 René Michalke */
 
 var EngineObjectList = function() {};
-EngineObjectList.prototype.myList = []; //new Array();
+
+EngineObjectList.prototype.myList     = [];
 EngineObjectList.prototype.actualSize = 0;
+
 EngineObjectList.prototype.add = function( obj ) {
 	if(obj === undefined)
 		return false;

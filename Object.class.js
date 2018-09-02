@@ -129,6 +129,8 @@ var Object = function() {
 
 	that.physics = function() {
 
+		// TODO: add angle calculation
+
 		if (that.y > window.cfg.level_height) {
 			that.y = 0; //return false;
 		}

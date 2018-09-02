@@ -1,96 +1,159 @@
 /* (c)opyright 2018 René Michalke */
 
 var Collision = function() {};
-Collision.prototype.collidable_objects = []; //new Array(); // map; key=id
+
+/*
+ * Collision List
+ * List of Objects which will be checked against each other for Collisions
+ */
+Collision.prototype.Objects = [];
 Collision.prototype.collisions  = []; // new Array(); // map; key=id
-Collision.prototype.queue_objects      = []; // new Array(); // queue; key=id
 	
+/*
+ * Method to add Objects to the Collision List
+ */
 Collision.prototype.add = function(obj) {
-	this.collidable_objects[obj.id] = obj;
+	this.Objects[obj.id] = obj;
 };
-Collision.prototype.rm = function(handle) {
-	delete this.collidable_objects[handle.id];
+
+/*
+ * Method to remove Objects from the Collision List
+ */
+Collision.prototype.rm = function(obj) {
+	delete this.Objects[obj.id];
 };
-Collision.prototype.check = function(id) {
 
-	/**
-	 * Check which Collisions take place
-	 */  
-	var z, y;
-	for (var a in this.collidable_objects) {
-		if (this.collidable_objects[a] === undefined ||
-			this.collidable_objects[id] === undefined) {
-			continue;	
-		}
-		if (id === this.collidable_objects[a].id) // kein object mit sich selbst vergleichen
+/*
+ * Method to check for Collisions
+ */
+Collision.prototype.check = function() {
+
+	var a, b, c, d;
+	var handle, match;
+	var handle_s, match_s;
+
+	for(a in this.Objects) {
+
+		handle = this.Objects[a];
+
+		// TODO too slow if this is removed
+		if(handle.name !== 'char'
+				&& handle.name !== 'beatnik'
+				&& handle.name !== 'ringbounce') {
 			continue;
-		
-		if (this.collidable_objects[id].sensors === undefined &&
-			this.collidable_objects[a].sensors === undefined) {
+		}
+		// handle.in_air = true;
+
+
+		// don't check undefined handle
+		if(handle === undefined) {
 			continue;
 		}
 
-		var sensors_a = this.collidable_objects[id].sensors;
-		var sensors_b = this.collidable_objects[a].sensors;
+		// don't check if handle has no sensors
+		// this might happen in the first cycles of the game looop
+		if(handle.sensors === undefined) {
+			continue;
+		}
 
-		for (z in sensors_a) {
-			for (y in sensors_b) {
+		for(b in this.Objects) {
 
-				// don't collide objects with sensors which are not supposed to collide
-				if (in_array(this.collidable_objects[id].name, sensors_b[y].sensor_type) === false) {
-					continue;
-				}
+			match = this.Objects[b];
 
-				// don't collide sensors of different type
-				if (sensors_a[z].type !== undefined && sensors_b[y].type_other !== undefined) {
-					if(in_array(sensors_a[z].type ,sensors_b[y].type_other) === false)
-						continue;
-				}
-
-				// check for collision
-				if (this.collision_check_single_strict_with_sensor(sensors_a[z], sensors_b[y]) === true) {
-					// TODO: don't collide here, remember collisions (which objects, which sensors) and apply them after both of these loops in each of THE object.collide() functions, decide there which sensor to actually collide
-
-					this.collidable_objects[a].colliding_sensors.push(sensors_b[y].name);
-					this.collidable_objects[id].colliding_sensors.push(sensors_a[z].name);
-					this.collisions.push( [ this.collidable_objects[id], this.collidable_objects[a] ] );
-
-					// sensors_b[y].collide( this.collidable_objects[a], this.collidable_objects[id] );
-					// sensors_a[z].collide( this.collidable_objects[id], this.collidable_objects[a] );
-					sensors_a[z].colliding = true;
-					sensors_b[y].colliding = true;
-				}
-
+			// don't check undefined match
+			if(match === undefined) {
+				continue;
 			}
+
+			// don't check if object is colliding with itself
+			if(handle === match) {
+				continue;
+			}
+
+			// TODO
+			// don't check two objects twice
+			// if(in_array(match.checkedCollisionWith, handle.id)) {
+				// continue;
+			// }
+
+			// don't check if handle has no sensors
+			// this might happen in the first cycles of the game looop
+			if(match.sensors === undefined) {
+				continue;	
+			}
+
+			for(c in handle.sensors) {
+
+				handle_s = handle.sensors[c];
+			
+				for(d in match.sensors) {
+
+					match_s = match.sensors[d];
+
+					// don't collide objects with sensors which are not supposed to collide
+					if(in_array(handle.name, match_s.sensor_type) === false) {
+						continue;
+					}
+
+					// don't collide sensors of different type
+					if(handle_s.type !== undefined
+							&& match_s.type_other !== undefined) {
+					
+						if(in_array(handle_s.type, match_s.type_other) === false) {
+							continue;
+						}
+					}
+				
+					// check for intersection of sensors
+					if(this.collision_check_single_strict_with_sensor(handle_s, match_s) === true) {
+						handle.colliding_sensors.push(handle_s.name);
+						match.colliding_sensors.push(match_s.name);
+
+						this.collisions.push( [handle, match] );
+
+						handle_s.colliding = true;
+						match_s.colliding  = true;
+					
+					}
+				
+				}
+			
+			}
+		
+		
 		}
+		
 	}
 
+};
 
-	/**
-	  * Act out Collisions
-	  */ 
+/*
+ * Method to act out Collisions
+ */
+Collision.prototype.act = function() {
 	for (var i in this.collisions) {
 		this.collisions[i][0].collide(this.collisions[i][1]);
 		this.collisions[i][1].collide(this.collisions[i][0]);
 	}
 
-
-	/**
-	 * Clear Collisions
-	 */  
+	// clear collisions
 	for (var i in this.collisions) {
 		this.collisions[i][0].colliding_sensors = [];
 		this.collisions[i][1].colliding_sensors = [];
 	}
 
 	this.collisions = [];
-
 };
 
-Collision.prototype.act = function(id) {
-
+/*
+ * Method to correct Angles of collided Objects
+ */
+Collision.prototype.correctAngles = function() {
 };
 
+/*
+ * Method to check if any two sensors are overlapping/colliding
+ */
 Collision.prototype.collision_check_single_strict_with_sensor = function(a, b) {
 
 	if (a.x > (b.x + b.width))
@@ -103,4 +166,5 @@ Collision.prototype.collision_check_single_strict_with_sensor = function(a, b) {
 		return false;
 	
 	return true;
+
 }; 
