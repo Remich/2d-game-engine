@@ -34,7 +34,7 @@ var Object = function() {
 	that.blinking_frame_count = 0;
 	that.render = true;
 
-	that.colliding_sensors = [];
+	that.colliding_sensors = new Set();
 
 	that.acc = window.cfg.speedup_constant * 0.046875;/*6 * 0.046875 /*+ 0.046875 + 0.046875 + 0.046875 + 0.046875 + 0.046875*/;
 	that.frc = window.cfg.speedup_constant * 0.046875;
@@ -239,6 +239,8 @@ var Object = function() {
 			that.updateSensors();
 		}
 	};
+
+	that.collide = function( b ) { };
 
 	return that;
 };

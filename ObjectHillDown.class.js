@@ -1,13 +1,8 @@
 var ObjectHillDown = function() {
 
-	var that = new ObjectStaticWithAngle();
-	// var that = new AbstractGround();
+	var that = new ObjectStatic();
 
-	that.name = 'slope'; // or 'ground'
-
-	that.collide = function( obj ) { 
-		return that.parentCollide(obj);
-	};
+	that.name = 'slope';
 	that.in_air = false;
 	that.rolling = false;
 
@@ -51,14 +46,15 @@ var ObjectHillDown = function() {
 
 		for(var i=0; i<that.heightMaps['floor'].length; i++) {
 
-			var sensor = {};
-			sensor.x = null;
-			sensor.y = null;
-			sensor.width = 1;
-			sensor.height = 256;
-			sensor.sensor_type = ["char", "beatnik", "ringbounce"];
-			sensor.collide = function(obj, b) {
-				that.collide(b, obj);
+			var sensor            = {};
+			sensor.x              = null;
+			sensor.y              = null;
+			sensor.width          = 1;
+			sensor.height         = 256;
+			sensor.sensor_type    = ["char", "beatnik", "ringbounce"];
+			sensor.colliding_with = new Set();
+			sensor.collide        = function(obj, b) {
+				// that.collide(b, obj);
 			};
 
 			sensor.update = function(x, y, width, height) {
@@ -83,9 +79,10 @@ var ObjectHillDown = function() {
 
 	that.resetSensors = function() {
 		for (var a in that.sensors) {
+			that.sensors[a].colliding_with.clear();
 			that.sensors[a].colliding = false;
 		}
-		return true; 
+		that.colliding_sensors.clear();
 	};
 
 	that.heightMaps = Array();

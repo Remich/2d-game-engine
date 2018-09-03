@@ -2,14 +2,9 @@
 
 var ObjectBlock = function() {
 
-	// var that = new ObjectStatic();
-	var that = new AbstractGround();
+	var that = new ObjectStatic();
 
-	that.name = 'ground'; // or 'ground'
-
-	// that.collide = function( obj ) {
-		// return that.parentCollide( obj );
-	// };
+	that.name = 'ground';
 	that.in_air = false;
 	that.rolling = false;
 
@@ -53,21 +48,21 @@ var ObjectBlock = function() {
 
 		for(var i=0; i<that.heightMaps['floor'].length; i++) {
 
-			var sensor = {};
-			sensor.x = null;
-			sensor.y = null;
-			sensor.width = 1;
-			sensor.height = 128;
+			var sensor            = {};
+			sensor.x              = null;
+			sensor.y              = null;
+			sensor.width          = 1;
+			sensor.height         = 128;
 
 			// TODO: better names for .sensor_type, .type, .type_other
 			// declare which objects can collide with this sensor
-			sensor.sensor_type = ["char", "beatnik", "ringbounce"];
+			sensor.sensor_type    = ["char", "beatnik", "ringbounce"];
 			// declare of which type this sensor is
-			sensor.type = 'ground';
+			sensor.type           = 'ground';
 			// declare of which type the other sensor has to be
-			sensor.type_other = ["ground"];
-
-			sensor.collide = function(obj, b) {
+			sensor.type_other     = ["ground"];
+			sensor.colliding_with = new Set();
+			sensor.collide        = function(obj, b) {
 				// that.collide(b, obj);
 			};
 
@@ -93,9 +88,10 @@ var ObjectBlock = function() {
 
 	that.resetSensors = function() {
 		for (var a in that.sensors) {
+			that.sensors[a].colliding_with.clear();
 			that.sensors[a].colliding = false;
 		}
-		return true; 
+		that.colliding_sensors.clear();
 	};
 
 	that.heightMaps = Array();

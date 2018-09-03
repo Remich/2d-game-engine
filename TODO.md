@@ -1,17 +1,16 @@
 # TODO
 
-## Currently
+## Currently – Branch: change-angle-calculation
 
-* (DOING) [ ] make ObjectHillDown inherit from AbstractGrund.class.js 
-* calculate angle from HeightMap of both GroundSensors
+* [ ] - FIX: ObjectChar.collide() is being called 6 times per gameframe!!!!
+* [ ] - calculate angle from HeightMap of both GroundSensors
 	-> no need for AngleMaps anymore :)
-* [ ] rename AbstractGround --> ? 
-* [ ] angle of "flat" ground-objects should always be 0
-
-
-* delete all collide() functions of all sensors
-* change sensor names to something unique or make them instantiate as different objects
-* add sensor.type to all sensors, see ObjectBlock.class.js and ObjectChar.class.js for example
+* [ ] - angle of "flat" ground-objects should always be 0
+* [ ] - fix ObjectSlope.class.js
+* [ ] - delete all collide() functions of all sensors
+* [ ] - change sensor names to something unique or make them instantiate as different objects
+		-> use ENUM
+* [ ] - add sensor.type to all sensors, see ObjectBlock.class.js and ObjectChar.class.js for example
 
 * __DONE:__ merge ObjectSlope.collide(obj, b) into ObjectHillDown.collide(obj, b);
 * __DONE:__ collision with sensor_type not quite working

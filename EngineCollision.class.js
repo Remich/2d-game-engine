@@ -42,7 +42,8 @@ Collision.prototype.check = function() {
 				&& handle.name !== 'ringbounce') {
 			continue;
 		}
-		// handle.in_air = true;
+		// TODO: find better way
+		handle.in_air = true;
 
 
 		// don't check undefined handle
@@ -106,24 +107,30 @@ Collision.prototype.check = function() {
 				
 					// check for intersection of sensors
 					if(this.collision_check_single_strict_with_sensor(handle_s, match_s) === true) {
-						handle.colliding_sensors.push(handle_s.name);
-						match.colliding_sensors.push(match_s.name);
 
-						this.collisions.push( [handle, match] );
+						// each sensor has to know with which object it is colliding
+						handle_s.colliding_with.add( match );
+						match_s.colliding_with.add( handle );
 
+						// add flag for faster decisions
 						handle_s.colliding = true;
 						match_s.colliding  = true;
+						
+						// each object has to know which of its sensors are colliding
+						handle.colliding_sensors.add(handle_s.name);
+						match.colliding_sensors.add(match_s.name);
+
+						this.collisions.push( [handle, match] );
 					
 					}
 				
-				}
+				} // end "for(d in match.sensors)"
+				
+			} // end "for(c in handle.sensors)"
 			
-			}
-		
-		
-		}
-		
-	}
+		}	// end "for(b in this.Objects)"
+
+	} // end "for(a in this.Objects)"
 
 };
 
@@ -134,12 +141,6 @@ Collision.prototype.act = function() {
 	for (var i in this.collisions) {
 		this.collisions[i][0].collide(this.collisions[i][1]);
 		this.collisions[i][1].collide(this.collisions[i][0]);
-	}
-
-	// clear collisions
-	for (var i in this.collisions) {
-		this.collisions[i][0].colliding_sensors = [];
-		this.collisions[i][1].colliding_sensors = [];
 	}
 
 	this.collisions = [];
@@ -156,6 +157,7 @@ Collision.prototype.correctAngles = function() {
  */
 Collision.prototype.collision_check_single_strict_with_sensor = function(a, b) {
 
+	// TODO make sure those are always integers, sometimes they are floats
 	if (a.x > (b.x + b.width))
 		return false;
 	if (( a.x + a.width) < b.x)

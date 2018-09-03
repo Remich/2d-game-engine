@@ -60,19 +60,126 @@ var ObjectChar = function() {
 
 	that.collide = function( b ) {
 
-		if(b.name === "ring") {
-			return;
+		// here we store the index of the heightMap, to decide the new y-position
+		var heightMapIndex;
+		// here we store the Object, of which the heightMap will be used
+		var match;
+		// here we store the new y-position for our object
+		var heightMapValue; 
+
+		/*
+		 * check which Ground Sensors are colliding
+		 * and calculate the heightMapValue accordingly
+		 */
+		if(that.colliding_sensors.has('AB') === true
+				&& that.colliding_sensors.has('BB') === true) {
+
+			// both Ground Sensors are colliding
+			console.log("both ground sensors");
+
+			// calculate the center of both Ground Sensors
+			var sensorCenter = floor((that.sensors[0].x-that.x + that.sensors[1].x-that.x) / 2 + that.x);
+
+			/*
+			 * are both Sensors colliding with the same Object?
+			 * TODO: the following will cause issues, 
+			 *				if one or both sensors is/are colliding with multiple Objects
+			 */
+			var ar_r = Array.from(that.sensors[0].colliding_with);
+			var ar_l = Array.from(that.sensors[1].colliding_with);
+			if(ar_r[0] === ar_l[0]) {
+
+				// both Sensors are colliding with the same Object
+
+				match = ar_r[0];
+				heightMapIndex = sensorCenter % match.getWidth();
+			} else {
+
+				// each Sensor is colliding with a different Object
+				
+				// decide which Object's heightMap to use
+				if(sensorCenter < ar_r[0].x
+					&& sensorCenter > ar_l[0].x + ar_l[0].getWidth()) {
+					// sensorCenter is in a gap between the Objects
+					
+					// check to which Object sensorCenter is closer
+					var closeness_l = sensorCenter - (ar_l[0].x + ar_l[0].getWidth());
+					var closeness_r = ar_r[0].x - sensorCenter;
+
+					if(closeness_l < closeness_r) {
+						match = ar_l[0];
+						heightMapIndex = ar_l[0].getWidth() - 1;
+					} else {
+						match = ar_r[0];
+						heightMapIndex = 0;
+					}
+				
+				} else if(sensorCenter < ar_l[0].x + ar_l[0].getWidth()) {
+					// left side
+					match = ar_l[0];
+					heightMapIndex = sensorCenter % match.getWidth();	
+				} else { 
+					// right side	
+					match = ar_r[0];
+					heightMapIndex = sensorCenter % match.getWidth();	
+				}
+
+			}
+
+			
+		} else if(that.colliding_sensors.has("AB")) {
+
+			// only Left Ground Sensor is colliding
+			console.log("only right ground sensor");
+
+			var ar_r = Array.from(that.sensors[0].colliding_with);
+			match = ar_r[0];
+			heightMapIndex = that.sensors[0].x % match.getWidth();	
+			
+		} else if(that.colliding_sensors.has("BB")) {
+
+			// only Right Ground Sensor is colliding
+			console.log("only left ground sensor");
+
+			var ar_l = Array.from(that.sensors[1].colliding_with);
+			match = ar_l[0];
+			heightMapIndex = that.sensors[1].x % match.getWidth();	
+			
 		}
 
-		if(b.name === "beatnik") {
-			return;
-		}
+		heightMapValue = match.heightMaps['floor'][heightMapIndex];
 
-		if(b.name === "ringbounce") {
-			return;
+		/*
+		 * update Object Properties
+		 */
+		if(that.speed_y < 0 && that.y > (match.y + heightMapValue) ) {
+			console.log("falsing in " + match.name);
+			return false;
 		}
+		if(that.y < match.y + heightMapValue - that.getHeight()) {
+			console.log("falsing-2 in " + match.name);
+			return false;
+		}
+		
+		var angle = that.angle % 360;
+		that.in_air = false;
+		that.isOnSlope = true;
+		
+		console.log(that.name);
 
-		// that.HeightMapSensorCollide(obj, b);
+		// set y-position according to heightMap 
+		that.y = match.y + heightMapValue - that.sm.currentState.frames[floor(that.frame)].height;
+
+		// set angle according to angleMap
+		// TODO remove
+		// that.angle = match.angleMaps['floor'][floor(heightMapIndex/32)];
+
+		// change y-offset according to current angle
+		that.y += (that.getHeight() / 2) * Math.sin(that.angle / 180) * Math.PI;
+
+		// update sensor positions
+		that.updateSensors();
+		
 	};
 
 	that.HeightMapSensorCollide = function(obj, b) {
@@ -170,13 +277,14 @@ var ObjectChar = function() {
 	 * @class      ObjectSensor_A
 	 */
 	ObjectSensor_AB = function() {
-		this.name = 'AB';
-		this.x = null;
-		this.y = null;
-		this.width = null; 
-		this.height = null;
-		this.sensor_type = [];
-		this.type = 'ground'
+		this.name           = 'AB';
+		this.x              = null;
+		this.y              = null;
+		this.width          = null;
+		this.height         = null;
+		this.sensor_type    = [];
+		this.type           = 'ground'
+		this.colliding_with = new Set();
 	};
 
 	ObjectSensor_AB.prototype.update = function(x, y, center, height) {
@@ -371,13 +479,14 @@ var ObjectChar = function() {
 	// };
 
 	ObjectSensor_BB = function() {
-		this.name = 'BB';
-		this.x = null;
-		this.y = null;
-		this.width = null; 
-		this.height = null;
-		this.sensor_type = [];
-		this.type = 'ground'
+		this.name           = 'BB';
+		this.x              = null;
+		this.y              = null;
+		this.width          = null;
+		this.height         = null;
+		this.sensor_type    = [];
+		this.type           = 'ground'
+		this.colliding_with = new Set();
 	};
 	ObjectSensor_BB.prototype.update = function(x, y, center, height) {
 		this.x = x + 32 - 8 - 16;
@@ -397,14 +506,15 @@ var ObjectChar = function() {
 
 
 	ObjectSensor_CB = function() {
-		this.name = 'CB';
-		this.x = null;
-		this.y = null;
-		this.width = null; 
-		this.height = null;
-		this.sensor_type = [ "beatnik", "ringbounce"];
-		this.type = 'objects'
-		this.type_other = ["objects"];
+		this.name           = 'CB';
+		this.x              = null;
+		this.y              = null;
+		this.width          = null;
+		this.height         = null;
+		this.sensor_type    = [ "beatnik", "ringbounce"];
+		this.type           = 'objects'
+		this.type_other     = ["objects"];
+		this.colliding_with = new Set();
 	};
 	ObjectSensor_CB.prototype.update = function(x, y, width, height) {
 		var shrink_x = 0.15 * width;
@@ -512,17 +622,17 @@ var ObjectChar = function() {
 		 */  
 
 		// Sensor A Down
-		that.sensors[0].update(that.x, that.y, center, height);
+		that.sensors[0].update(round(that.x), that.y, center, height);
 		// Sensor A Right
 		// that.sensors[1].update(that.x, that.y, center, height);
 		// Sensor A Up
 		// that.sensors[1].update(that.x, that.y, center, height);
 
 		// Sensor B
-		that.sensors[1].update(that.x, that.y, center, height);
+		that.sensors[1].update(round(that.x), that.y, center, height);
 
 		// Sensor C
-		that.sensors[2].update(that.x, that.y, that.getWidth(), height);
+		that.sensors[2].update(round(that.x), that.y, that.getWidth(), height);
 
 		// that.sensors[3].update(that.x, that.y, that.getWidth(), height);
 		// that.sensors[2].update(that.x, that.y, width, height);
@@ -533,7 +643,9 @@ var ObjectChar = function() {
 	that.resetSensors = function() {
 		for (var a in that.sensors) {
 			that.sensors[a].colliding = false;
+			that.sensors[a].colliding_with.clear();
 		}
+		that.colliding_sensors.clear();
 		return true; 
 	};
 

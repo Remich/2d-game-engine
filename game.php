@@ -26,9 +26,7 @@
 			<?php include('EngineCollision.class.js'); ?>
 			<?php include('EngineCamera.class.js'); ?>
 			<?php include('Object.class.js'); ?>
-			<?php include('AbstractGround.class.js'); ?>
 			<?php include('ObjectStatic.class.js'); ?>
-			<?php include('ObjectStaticWithAngle.class.js'); ?>
 			<?php include('ObjectWithInput.class.js'); ?>
 			<?php include('ObjectChar.class.js'); ?>
 			<?php include('ObjectExplosion.class.js'); ?>
@@ -344,6 +342,7 @@
 					ground.sm.changeState( ground.Chill(), ground );
 					// TODO: use ground.x_offset insteaad of const 256
 					ground.x = 256 * i;	
+					// ground.x = (256 + 24) * i;	
 					// TODO: use ground.y_offset instead of const 190
 					ground.y = window.cfg.level_height - height_modifier - 145;
 					ground.initSensors();

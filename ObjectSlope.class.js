@@ -1,13 +1,8 @@
 var ObjectSlope = function() {
 
-	// var that = new ObjectStaticWithAngle();
-	// BOOKMARK#2 hier weiter machen
-	var that = new AbstractGround();
+	var that = new ObjectStatic();
 
 	that.name = 'slope';
-	// that.collide = function( obj ) { 
-		// return that.parentCollide(obj);
-	// };
 	that.in_air = false;
 	that.rolling = false;
 
@@ -50,14 +45,15 @@ var ObjectSlope = function() {
 
 		for(var i=0; i<that.heightMaps['floor'].length; i++) {
 
-			var sensor = {};
-			sensor.x = null;
-			sensor.y = null;
-			sensor.width = 1;
-			sensor.height = 128;
-			sensor.sensor_type = ["char", "beatnik", "ringbounce"];
-			sensor.collide = function(obj, b) {
-				that.collide(b, obj);
+			var sensor            = {};
+			sensor.x              = null;
+			sensor.y              = null;
+			sensor.width          = 1;
+			sensor.height         = 128;
+			sensor.sensor_type    = ["char", "beatnik", "ringbounce"];
+			sensor.colliding_with = new Set();
+			sensor.collide        = function(obj, b) {
+				// that.collide(b, obj);
 			};
 
 
@@ -82,14 +78,15 @@ var ObjectSlope = function() {
 		for(var i=0; i<that.heightMaps['floor'].length; i++) {
 
 
-			var sensor = {};
-			sensor.x = null;
-			sensor.y = null;
-			sensor.width = 1;
-			sensor.height = 128;
-			sensor.sensor_type = ["char", "beatnik", "ringbounce"];
-			sensor.collide = function(obj, b) {
-				that.collide(b, obj);
+			var sensor            = {};
+			sensor.x              = null;
+			sensor.y              = null;
+			sensor.width          = 1;
+			sensor.height         = 128;
+			sensor.sensor_type    = ["char", "beatnik", "ringbounce"];
+			sensor.colliding_with = new Set();
+			sensor.collide        = function(obj, b) {
+				// that.collide(b, obj);
 			};
 
 			sensor.update = function(x, y, width, height) {
@@ -107,7 +104,6 @@ var ObjectSlope = function() {
 	};
 
 	that.updateSensors = function() {
-		console.log("updating");
 		var width = that.sm.currentState.frames[floor(that.frame)].width;
 		var height = that.sm.currentState.frames[floor(that.frame)].height;
 		for (var a in that.sensors) {
@@ -117,9 +113,10 @@ var ObjectSlope = function() {
 
 	that.resetSensors = function() {
 		for (var a in that.sensors) {
+			that.sensors[a].colliding_with.clear();
 			that.sensors[a].colliding = false;
 		}
-		return true; 
+		that.colliding_sensors.clear();
 	};
 
 	that.flip = function() {

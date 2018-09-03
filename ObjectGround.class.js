@@ -1,14 +1,8 @@
 ObjectGround = function() {
 
-	var that = new AbstractGround();
+	var that = new ObjectStatic();
 
-	that.name = 'ground'; // or 'ground'
-
-		// BOOKMARK#1
-		// * parent ObjectStatic should not implement collision stuff
-		// * ObjectStatic shouldn't even be the parent of ObjectGround
-		//		-> ObjectGround, ObjectSlope, ObjectBlock need new parent which acts out collisions of type Ground
-	//
+	that.name = 'ground';
 	that.in_air = false;
 	that.rolling = false;
 
@@ -51,15 +45,16 @@ ObjectGround = function() {
 		
 		for(var i=0; i<that.heightMaps['floor'].length; i++) {
 
-			var sensor = {};
-			sensor.x = null;
-			sensor.y = null;
-			sensor.width = 1;
-			sensor.height = 256;
-			sensor.sensor_type = ["char", "beatnik", "ringbounce"];
-			sensor.type = "ground";
-			sensor.type_other = ["ground", "heightMap"];
-			sensor.collide = function(obj, b) {
+			var sensor            = {};
+			sensor.x              = null;
+			sensor.y              = null;
+			sensor.width          = 1;
+			sensor.height         = 256;
+			sensor.sensor_type    = ["char", "beatnik", "ringbounce"];
+			sensor.type           = "ground";
+			sensor.type_other     = ["ground", "heightMap"];
+			sensor.colliding_with = new Set();
+			sensor.collide        = function(obj, b) {
 				// that.collide(b, obj);
 			};
 
@@ -85,9 +80,10 @@ ObjectGround = function() {
 
 	that.resetSensors = function() {
 		for (var a in that.sensors) {
+			that.sensors[a].colliding_with.clear();
 			that.sensors[a].colliding = false;
 		}
-		return true; 
+		that.colliding_sensors.clear();
 	};
 
 	that.heightMaps = Array();
