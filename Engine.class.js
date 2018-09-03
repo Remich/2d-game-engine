@@ -438,7 +438,6 @@ Engine.prototype.loop = function() {
 			handle.direction();
 	});
 
-
 	objects.each(function(handle) {
 		if (handle.name === 'char' ||
 			handle.name === 'beatnik' ||
@@ -564,7 +563,8 @@ Engine.prototype.debug = function() {
 		'x: ' + round(obj.x) + '<br>' + 
 		'y: ' + round(obj.y) + '<br>' + 
 		'speed_x: ' + round(obj.speed_x) + '<br>' + 
-		'speed_y: ' + round(obj.speed_y) + '<br>'
+		'speed_y: ' + round(obj.speed_y) + '<br>' +
+		'gameframe: ' + this.gameframe + '<br>'
 	);
 };
 Engine.prototype.rings = function() {
