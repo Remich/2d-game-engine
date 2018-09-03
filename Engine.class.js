@@ -560,10 +560,10 @@ Engine.prototype.fps = function() {
 Engine.prototype.debug = function() {
 	var obj = objects.getByName('char');
 	$('#debug').html(
-		'x: ' + round(obj.x) + '<br>' + 
-		'y: ' + round(obj.y) + '<br>' + 
-		'speed_x: ' + round(obj.speed_x) + '<br>' + 
-		'speed_y: ' + round(obj.speed_y) + '<br>' +
+		'x: '         + obj.x          + '<br>' +
+		'y: '         + obj.y          + '<br>' +
+		'speed_x: '   + obj.speed_x    + '<br>' +
+		'speed_y: '   + obj.speed_y    + '<br>' +
 		'gameframe: ' + this.gameframe + '<br>'
 	);
 };
