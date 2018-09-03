@@ -2,23 +2,27 @@
 
 ## Currently – Branch: change-angle-calculation
 
-* [ ] - remove paramater "b" from all collide() functions
-* [x] - FIX: ObjectChar.collide() is being called 6 times per gameframe!!!!
+* [ ] - reimplement beatnik
+* [ ] - reimplement ring loss
 * [ ] - calculate angle from HeightMap of both GroundSensors
 	-> no need for AngleMaps anymore :)
 * [ ] - angle of "flat" ground-objects should always be 0
-* [ ] - fix ObjectSlope.class.js
-* [ ] - delete all collide() functions of all sensors
+* [x] - FIX: ObjectChar.collide() is being called 6 times per gameframe!!!!
+
+## Branch: Refactoring
+
+* [ ] - remove paramater "b" from all collide() functions
 * [ ] - change sensor names to something unique or make them instantiate as different objects
 		-> use ENUM
 * [ ] - add sensor.type to all sensors, see ObjectBlock.class.js and ObjectChar.class.js for example
 
-* __DONE:__ merge ObjectSlope.collide(obj, b) into ObjectHillDown.collide(obj, b);
-* __DONE:__ collision with sensor_type not quite working
+## Branch: Fix ObjectSlope.class.js
+
+* [ ] - fix ObjectSlope.class.js
 
 ## Code
 
-* add attributes to objects ( y_offset, x_offset ), for using multiple objects next to each other
+* add attributes to objects ( y_offset, x_offset ), for using multiple objects next to each other : BETTER : create families of Objects
 * update frame_duration according to speed of object
 * __NOT NECESSARY ANYMORE:__ add collided_with - Array to each collidable object, and unique hash to each object, then check if we already collided with that object
 * implement flip of sensors in ObjectChar.class.js and possibly in most other classes as well, see flip() in ObjectSlope.class.js

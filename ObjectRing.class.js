@@ -5,13 +5,6 @@
 	var that = new ObjectStatic();
 
 	that.name = 'ring';
-	that.collide = function( obj ) {
-		if(obj.recover === false) {
-			that.sm.changeState( new that.Collect(that), that );
-			obj.rings++;
-		}
-	};
-
 	that.in_air = false;
 	that.rolling = false;
 
@@ -120,11 +113,14 @@
 
 
 	ObjectSensor_Ring = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null;
-		this.height = null;
-		this.match_objects = [ 'char' ];
+		this.type           = "objects"
+		this.match_objects  = ["char"];
+		this.match_sensors  = ["objects"];
+		this.x              = null;
+		this.y              = null;
+		this.width          = null;
+		this.height         = null;
+		this.colliding_with = new Set();
 	};
 	ObjectSensor_Ring.prototype.update = function(x, y, width, height) {
 		this.x = x + 5;
@@ -138,15 +134,22 @@
 
 	that.initSensors = function() {
 		that.sensors = [];
-		var sensor = new ObjectSensor_Ring();
-		sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
+		var sensor   = new ObjectSensor_Ring();
+
+		sensor.update(
+			that.x,
+			that.y,
+			that.sm.currentState.frames[floor(that.frames)].width,
+			that.sm.currentState.frames[floor(that.frame)].height
+		);
+
 	 	that.sensors.push(sensor);
-		return true;
 	};
 
 	that.updateSensors = function() {
-		var width = that.sm.currentState.frames[floor(that.frame)].width;
+		var width  = that.sm.currentState.frames[floor(that.frame)].width;
 		var height = that.sm.currentState.frames[floor(that.frame)].height;
+
 		for (var a in that.sensors) {
 			that.sensors[a].update(that.x, that.y, width, height);
 		}
@@ -155,8 +158,9 @@
 	that.resetSensors = function() {
 		for (var a in that.sensors) {
 			that.sensors[a].colliding = false;
+			that.sensors[a].colliding_with.clear();
 		}
-		return true; 
+		that.colliding_sensors.clear();
 	};
 
 	return that;
