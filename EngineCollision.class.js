@@ -6,8 +6,8 @@ var Collision = function() {};
  * Collision List
  * List of Objects which will be checked against each other for Collisions
  */
-Collision.prototype.Objects = [];
-Collision.prototype.collisions  = []; // new Array(); // map; key=id
+Collision.prototype.Objects    = [];
+Collision.prototype.collisions = new Set();
 	
 /*
  * Method to add Objects to the Collision List
@@ -120,7 +120,9 @@ Collision.prototype.check = function() {
 						handle.colliding_sensors.add(handle_s.name);
 						match.colliding_sensors.add(match_s.name);
 
-						this.collisions.push( [handle, match] );
+						// this.collisions.push( [handle, match] );
+						this.collisions.add( handle );
+						this.collisions.add( match );
 					
 					}
 				
@@ -138,12 +140,11 @@ Collision.prototype.check = function() {
  * Method to act out Collisions
  */
 Collision.prototype.act = function() {
-	for (var i in this.collisions) {
-		this.collisions[i][0].collide(this.collisions[i][1]);
-		this.collisions[i][1].collide(this.collisions[i][0]);
-	}
+	this.collisions.forEach(function(item) {
+		item.collide();	
+	});
 
-	this.collisions = [];
+	this.collisions.clear();
 };
 
 /*

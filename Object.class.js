@@ -240,7 +240,7 @@ var Object = function() {
 		}
 	};
 
-	that.collide = function( b ) { };
+	that.collide = function() {};
 
 	return that;
 };

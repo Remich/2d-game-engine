@@ -2,7 +2,8 @@
 
 ## Currently – Branch: change-angle-calculation
 
-* [ ] - FIX: ObjectChar.collide() is being called 6 times per gameframe!!!!
+* [ ] - remove paramater "b" from all collide() functions
+* [x] - FIX: ObjectChar.collide() is being called 6 times per gameframe!!!!
 * [ ] - calculate angle from HeightMap of both GroundSensors
 	-> no need for AngleMaps anymore :)
 * [ ] - angle of "flat" ground-objects should always be 0

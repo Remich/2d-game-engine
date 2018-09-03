@@ -24,7 +24,7 @@ var ObjectChar = function() {
 	that.rings = 0;
 	that.name = 'char';
 
-	that.collide = function( b ) {
+	that.collide = function() {
 
 		// here we store the index of the heightMap, to decide the new y-position
 		var heightMapIndex;
