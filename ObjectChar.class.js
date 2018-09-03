@@ -22,41 +22,7 @@ var ObjectChar = function() {
 
 	that.rolling = false;
 	that.rings = 0;
-
 	that.name = 'char';
-
-	// TODO rename function
-	that.getHeightMapX = function() {
-
-		let unique = [...new Set(that.colliding_sensors)]; 
-
-		if(in_array('AB', unique) === true
-			&& in_array('BB', unique) === true) {
-
-			// Both Ground Sensors are colliding
-			
-			console.log("both ground sensosrs");
-			// return center of both sensors
-			return floor((that.sensors[0].x-that.x + that.sensors[1].x-that.x) / 2 + that.x);
-			// return floor(that.sensors[0].x);
-		} else if(in_array('AB', unique)) {
-
-			// Only Left Ground Sensor is colliding
-			
-			console.log("only right ground sensor");
-			return floor(that.sensors[0].x);
-		} else if(in_array('BB', unique)) {
-
-			// Only Right Ground Sensor is colliding
-			
-			console.log("only left ground sensor");
-			return floor(that.sensors[1].x);
-		} else {
-			return;
-		}
-	
-	};
-
 
 	that.collide = function( b ) {
 
@@ -180,33 +146,6 @@ var ObjectChar = function() {
 		// update sensor positions
 		that.updateSensors();
 		
-	};
-
-	that.HeightMapSensorCollide = function(obj, b) {
-		console.log(b.name);
-
-		// TODO fix calculation of indexHeightMap
-		var indexHeightMap = obj.indexHeightMap;
-		// var indexHeightMap = floor(obj.x+obj.getWidth()/2-b.x);
-		if(indexHeightMap < 0)
-				indexHeightMap = 0;
-
-		if(indexHeightMap >= b.getWidth()) {
-			indexHeightMap = b.getWidth();	
-		}
-
-		if(obj.speed_y < 0 && obj.y > (b.y + b.heightMaps['floor'][indexHeightMap]) ) {
-			console.log("falsing");
-			return false;
-		}
-
-		if(obj.y < b.y + b.heightMaps['floor'][indexHeightMap] - obj.getHeight()) {
-			console.log("falsing2");
-			return false;
-		}
-
-		obj.y = b.y + b.heightMaps['floor'][indexHeightMap] - obj.sm.currentState.frames[floor(obj.frame)].height;
-
 	};
 
 	that.GroundSensorCollide = function(obj, b) {
