@@ -45,7 +45,7 @@ var ObjectBeatnik = function() {
 		this.y = null;
 		this.width = null; 
 		this.height = null;
-		this.sensor_type = ["ground"];
+		this.match_objects = ["ground"];
 	};
 	ObjectSensor_A.prototype.update = function(x, y, center, height) {
 		this.x = x + 32 + 16;
@@ -78,7 +78,7 @@ var ObjectBeatnik = function() {
 		this.y = null;
 		this.width = null; 
 		this.height = null;
-		this.sensor_type = ["ground"];
+		this.match_objects = ["ground"];
 	};
 	ObjectSensor_B.prototype.update = function(x, y, center, height) {
 		this.x = x + 32 - 16;
@@ -108,9 +108,9 @@ var ObjectBeatnik = function() {
 		this.y = null;
 		this.width = null; 
 		this.height = null;
-		this.sensor_type = ["char"];
+		this.match_objects = ["char"];
 		this.type = "objects";
-		this.type_other = ["objects"];
+		this.match_sensors = ["objects"];
 	};
 	ObjectSensor_C.prototype.update = function(x, y, width, height) {
 		var shrink_x = 0.15 * width;

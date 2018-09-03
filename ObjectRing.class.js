@@ -124,7 +124,7 @@
 		this.y = null;
 		this.width = null;
 		this.height = null;
-		this.sensor_type = [ 'char' ];
+		this.match_objects = [ 'char' ];
 	};
 	ObjectSensor_Ring.prototype.update = function(x, y, width, height) {
 		this.x = x + 5;

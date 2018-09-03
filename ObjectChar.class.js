@@ -217,12 +217,16 @@ var ObjectChar = function() {
 	 */
 	ObjectSensor_AB = function() {
 		this.name           = 'AB';
+		// declare of which type this sensor is
+		this.type           = 'ground'
+		// declare which objects can collide with this sensor
+		this.match_objects  = ["ground", "slope"];
+		// declare of which type the other sensor has to be
+		this.match_sensors  = ["ground"];
 		this.x              = null;
 		this.y              = null;
 		this.width          = null;
 		this.height         = null;
-		this.sensor_type    = [];
-		this.type           = 'ground'
 		this.colliding_with = new Set();
 	};
 
@@ -249,7 +253,7 @@ var ObjectChar = function() {
 	// 	this.y = null;
 	// 	this.width = null; 
 	// 	this.height = null;
-	// 	this.sensor_type = "ground";
+	// 	this.match_objects = "ground";
 	// };
 	// ObjectSensor_A_Right.prototype.update = function(x, y, center, height) {
 
@@ -329,7 +333,7 @@ var ObjectChar = function() {
 	// 	this.y = null;
 	// 	this.width = null; 
 	// 	this.height = null;
-	// 	this.sensor_type = "ground";
+	// 	this.match_objects = "ground";
 	// };
 	// ObjectSensor_A_Up.prototype.update = function(x, y, center, height) {
 
@@ -419,12 +423,13 @@ var ObjectChar = function() {
 
 	ObjectSensor_BB = function() {
 		this.name           = 'BB';
+		this.type           = 'ground'
+		this.match_objects  = ["ground", "slope"];
+		this.match_sensors  = ["ground"];
 		this.x              = null;
 		this.y              = null;
 		this.width          = null;
 		this.height         = null;
-		this.sensor_type    = [];
-		this.type           = 'ground'
 		this.colliding_with = new Set();
 	};
 	ObjectSensor_BB.prototype.update = function(x, y, center, height) {
@@ -446,13 +451,13 @@ var ObjectChar = function() {
 
 	ObjectSensor_CB = function() {
 		this.name           = 'CB';
+		this.type           = 'objects'
+		this.match_objects  = ["beatnik", "ringbounce"];
+		this.match_sensors  = ["objects"];
 		this.x              = null;
 		this.y              = null;
 		this.width          = null;
 		this.height         = null;
-		this.sensor_type    = [ "beatnik", "ringbounce"];
-		this.type           = 'objects'
-		this.type_other     = ["objects"];
 		this.colliding_with = new Set();
 	};
 	ObjectSensor_CB.prototype.update = function(x, y, width, height) {

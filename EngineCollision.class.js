@@ -92,15 +92,15 @@ Collision.prototype.check = function() {
 					match_s = match.sensors[d];
 
 					// don't collide objects with sensors which are not supposed to collide
-					if(in_array(handle.name, match_s.sensor_type) === false) {
+					if(in_array(handle.name, match_s.match_objects) === false) {
 						continue;
 					}
 
 					// don't collide sensors of different type
 					if(handle_s.type !== undefined
-							&& match_s.type_other !== undefined) {
+							&& match_s.match_sensors !== undefined) {
 					
-						if(in_array(handle_s.type, match_s.type_other) === false) {
+						if(in_array(handle_s.type, match_s.match_sensors) === false) {
 							continue;
 						}
 					}

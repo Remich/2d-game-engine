@@ -49,38 +49,38 @@ var ObjectBlock = function() {
 		for(var i=0; i<that.heightMaps['floor'].length; i++) {
 
 			var sensor            = {};
+			sensor.type           = 'ground';
+			sensor.match_objects  = ["char", "beatnik", "ringbounce"];
+			sensor.match_sensors  = ["ground"];
 			sensor.x              = null;
 			sensor.y              = null;
 			sensor.width          = 1;
 			sensor.height         = 128;
-
-			// TODO: better names for .sensor_type, .type, .type_other
-			// declare which objects can collide with this sensor
-			sensor.sensor_type    = ["char", "beatnik", "ringbounce"];
-			// declare of which type this sensor is
-			sensor.type           = 'ground';
-			// declare of which type the other sensor has to be
-			sensor.type_other     = ["ground"];
 			sensor.colliding_with = new Set();
-			sensor.collide        = function(obj, b) {
-				// that.collide(b, obj);
-			};
+			sensor.collide        = function() {};
 
 			sensor.update = function(x, y, width, height) {
-				sensor.x = x + i;
-				sensor.y = y + that.heightMaps['floor'][i];// + 12; // + 12 if in grass or something
-				sensor.width = 1; 
+				sensor.x      = x + i;
+				sensor.y      = y + that.heightMaps['floor'][i];
+				sensor.width  = 1;
 				sensor.height = 128;
 			};
 
-			sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
+			sensor.update(
+										that.x, 
+										that.y, 
+										that.sm.currentState.frames[floor(that.frames)].width, 
+										that.sm.currentState.frames[floor(that.frame)].height 
+			);
+
 			that.sensors.push(sensor);
 		}
 	};
 
 	that.updateSensors = function() {
-		var width = that.sm.currentState.frames[floor(that.frame)].width;
+		var width  = that.sm.currentState.frames[floor(that.frame)].width;
 		var height = that.sm.currentState.frames[floor(that.frame)].height;
+
 		for (var a in that.sensors) {
 			that.sensors[a].update(that.x, that.y, width, height);
 		}

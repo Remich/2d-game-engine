@@ -50,7 +50,7 @@ var ObjectSlope = function() {
 			sensor.y              = null;
 			sensor.width          = 1;
 			sensor.height         = 128;
-			sensor.sensor_type    = ["char", "beatnik", "ringbounce"];
+			sensor.match_objects    = ["char", "beatnik", "ringbounce"];
 			sensor.colliding_with = new Set();
 			sensor.collide        = function(obj, b) {
 				// that.collide(b, obj);
