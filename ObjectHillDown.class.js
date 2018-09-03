@@ -52,6 +52,8 @@ var ObjectHillDown = function() {
 			sensor.width          = 1;
 			sensor.height         = 256;
 			sensor.sensor_type    = ["char", "beatnik", "ringbounce"];
+			sensor.type           = 'ground';
+			sensor.type_other     = ["ground"];
 			sensor.colliding_with = new Set();
 			sensor.collide        = function(obj, b) {
 				// that.collide(b, obj);
