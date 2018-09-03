@@ -1,1 +1,1 @@
-args **/*.js **/*.php **/*.html **/*.css **/*.md **/*README
+args ./*.js ./*.php ./*.html ./*.css ./*.md
