@@ -157,14 +157,13 @@ Collision.prototype.correctAngles = function() {
  */
 Collision.prototype.collision_check_single_strict_with_sensor = function(a, b) {
 
-	// TODO make sure those are always integers, sometimes they are floats
-	if (a.x > (b.x + b.width))
+	if (a.x >= (b.x + b.width))
 		return false;
-	if (( a.x + a.width) < b.x)
+	if (( a.x + a.width) <= b.x)
 		return false;
-	if (a.y >  (b.y + b.height))
+	if (a.y >= (b.y + b.height))
 		return false;
-	if ((a.y + a.height) <  b.y)
+	if ((a.y + a.height) <= b.y)
 		return false;
 	
 	return true;
