@@ -109,8 +109,8 @@ var ObjectBeatnik = function() {
 		this.width = null; 
 		this.height = null;
 		this.match_objects = ["char"];
-		this.type = "objects";
-		this.match_sensors = ["objects"];
+		this.type = "object";
+		this.match_sensors = ["object"];
 	};
 	ObjectSensor_C.prototype.update = function(x, y, width, height) {
 		var shrink_x = 0.15 * width;

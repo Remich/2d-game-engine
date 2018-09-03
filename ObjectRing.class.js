@@ -113,9 +113,9 @@
 
 
 	ObjectSensor_Ring = function() {
-		this.type           = "objects"
+		this.type           = "object"
 		this.match_objects  = ["char"];
-		this.match_sensors  = ["objects"];
+		this.match_sensors  = ["object"];
 		this.x              = null;
 		this.y              = null;
 		this.width          = null;
