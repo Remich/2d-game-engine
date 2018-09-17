@@ -83,10 +83,27 @@ var ObjectChar = function() {
 			// calculate the center of both Ground Sensors
 			var sensorCenter = floor((that.sensors[0].x-that.x + that.sensors[1].x-that.x) / 2 + that.x);
 
+			// set angle according to the heightMap value of the ground-sensors
+			let angleNew = that.calculateAngle(
+											that.sensors[0].getNewPositionAfterCollision(), 
+											that.sensors[1].getNewPositionAfterCollision()
+										);
+		
+			// if((angleNew >= 0 && angleNew <= 5)
+				// || (angleNew < 0 && angleNew >= -5)) {
+				// // ... 
+			// } else
+				that.angle = angleNew;
+
+
 			/*
 			 * are both Sensors colliding with the same Object?
 			 * TODO: the following will cause issues, 
 			 *				if one or both sensors is/are colliding with multiple Objects
+			 *				unless we implement something like a collision priority, which states
+			 *				the precedence of collision.
+			 *				If the implementation makes sure that the prioritized Objects is always at Index 0
+			 *				we should be good to go.
 			 */
 			var ar_r = Array.from(that.sensors[0].colliding_with);
 			var ar_l = Array.from(that.sensors[1].colliding_with);
@@ -94,8 +111,9 @@ var ObjectChar = function() {
 
 				// both Sensors are colliding with the same Object
 
+				// it doesn't matter if we  use ar_r or ar_l
 				match = ar_r[0];
-				heightMapIndex = sensorCenter % match.getWidth();
+				heightMapIndex = sensorCenter - match.x;
 			} else {
 
 				// each Sensor is colliding with a different Object
@@ -120,11 +138,11 @@ var ObjectChar = function() {
 				} else if(sensorCenter < ar_l[0].x + ar_l[0].getWidth()) {
 					// left side
 					match = ar_l[0];
-					heightMapIndex = sensorCenter % match.getWidth();	
+					heightMapIndex = sensorCenter - match.x;
 				} else { 
 					// right side	
 					match = ar_r[0];
-					heightMapIndex = sensorCenter % match.getWidth();	
+					heightMapIndex = sensorCenter - match.x;
 				}
 
 			}
@@ -137,7 +155,7 @@ var ObjectChar = function() {
 
 			var ar_r = Array.from(that.sensors[0].colliding_with);
 			match = ar_r[0];
-			heightMapIndex = that.sensors[0].x % match.getWidth();	
+			heightMapIndex = that.sensors[0].x - match.x;
 			
 		} else if(that.colliding_sensors.has("BB")) {
 
@@ -146,7 +164,7 @@ var ObjectChar = function() {
 
 			var ar_l = Array.from(that.sensors[1].colliding_with);
 			match = ar_l[0];
-			heightMapIndex = that.sensors[1].x % match.getWidth();	
+			heightMapIndex = that.sensors[1].x - match.x;
 			
 		}
 
@@ -155,6 +173,8 @@ var ObjectChar = function() {
 		/*
 		 * update Object Properties
 		 */
+		// TODO this should be implemented via a property in the Objects of type "ground"
+		// something like a collision-direction
 		if(that.speed_y < 0 && that.y > (match.y + heightMapValue) ) {
 			console.log("falsing in " + match.name);
 			return false;
@@ -164,24 +184,23 @@ var ObjectChar = function() {
 			return false;
 		}
 		
-		var angle = that.angle % 360;
 		that.in_air = false;
 		that.isOnSlope = true;
-		
+	
 		console.log(that.name);
 
 		// set y-position according to heightMap 
 		that.y = match.y + heightMapValue - that.sm.currentState.frames[floor(that.frame)].height;
-
-		// set angle according to angleMap
-		// TODO remove
-		// that.angle = match.angleMaps['floor'][floor(heightMapIndex/32)];
 
 		// change y-offset according to current angle
 		that.y += (that.getHeight() / 2) * Math.sin(that.angle / 180) * Math.PI;
 
 		// update sensor positions
 		that.updateSensors();
+	};
+
+	that.calculateAngle = function(pt1, pt2) {
+		return round( Math.atan2( pt1.y - pt2.y, pt1.x - pt2.x) * (180/Math.PI));
 	};
 
 
@@ -204,6 +223,31 @@ var ObjectChar = function() {
 		this.width          = null;
 		this.height         = null;
 		this.colliding_with = new Set();
+		/*
+		 * TODO move to new Object: ObjectSensorGround;
+		 */
+		this.getNewPositionAfterCollision = function() {
+
+			/*
+			 * This Sensor has no Collisions
+			 */
+			if(this.colliding_with.size === 0) {
+
+				// return current values
+				return new Point(this.x, this.y);
+			}
+
+
+			/*
+			 * Calculate the new Y-Position
+			 */
+			let ar = Array.from(this.colliding_with);
+			let heightMapIndex = this.x - ar[0].x;
+			let newYPosition = ar[0].y + ar[0].heightMaps['floor'][heightMapIndex];
+
+			return new Point( this.x, newYPosition );
+
+		};
 	};
 
 	ObjectSensor_AB.prototype.update = function(x, y, center, height) {
@@ -407,6 +451,28 @@ var ObjectChar = function() {
 		this.width          = null;
 		this.height         = null;
 		this.colliding_with = new Set();
+		this.getNewPositionAfterCollision = function() {
+
+			/*
+			 * This Sensor has no Collisions
+			 */
+			if(this.colliding_with.size === 0) {
+
+				// return current values
+				return new Point(this.x, this.y);
+			}
+
+
+			/*
+			 * Calculate the new Y-Position
+			 */
+			let ar = Array.from(this.colliding_with);
+			let heightMapIndex = this.x - ar[0].x;
+			let newYPosition = ar[0].y + ar[0].heightMaps['floor'][heightMapIndex];
+
+			return new Point( this.x, newYPosition );
+
+		};
 	};
 	ObjectSensor_BB.prototype.update = function(x, y, center, height) {
 		this.x = x + 32 - 8 - 16;

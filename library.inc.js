@@ -9,7 +9,7 @@ is_touch_device = function() {
 			return false;  
 	  } 
 	  
-};	<!-- end is_touch_device() -->
+};
 
 
 function width(array, prev_frames) {

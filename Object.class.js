@@ -48,7 +48,7 @@ var Object = function() {
 
 	that.jmp = window.cfg.speedup_constant * -7.5;	
 
-	that.slp = window.cfg.speedup_constant * 0.125;
+	that.slp = window.cfg.speedup_constant * 0.025;
 	that.slp_rolling_uphill = window.cfg.speedup_constant * 0.078125;
 	that.slp_rolling_downhill = window.cfg.speedup_constant * 0.3125;
 
@@ -175,6 +175,12 @@ var Object = function() {
 			// Slope Factor
 			var slope_factor = that.slp;
 
+			if(that.angle >= 0 && that.angle <= 5)
+				slope_factor = 1.0;
+			if(that.angle < 0 && that.angle >= -5)
+				slope_factor = 1.0;
+
+
 			// Decide Slope Factor while Rolling
 			if(that.rolling === true) {
 
@@ -198,7 +204,7 @@ var Object = function() {
 
 			}
 
-			that.speed_x += that.slp * Math.sin((that.angle/180) * Math.PI);
+			that.speed_x += slope_factor * Math.sin((that.angle/180) * Math.PI);
 
 			// Let Sonic fall is abs(Gsp) < 2.5
 			// if(that.mode === 'right-wall'

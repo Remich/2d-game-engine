@@ -10,7 +10,7 @@ var Engine = function() {
 	this.show_fps = false;
 	this.show_debug = false;
 	this.show_rings = false;
-	this.show_sensors = true;
+	this.show_sensors = false;
 	this.fps60 = true; // false means 30fps
 	this.editor = false;
 
@@ -297,14 +297,14 @@ Engine.prototype.draw = function(obj, camx, camy) {
 	    ctx.translate(delx, dely);
 
 	    if(obj.flipped === true) {
-			window.myEngine.canvas.scale(-1, 1);
-			deg = deg + 2*(360 - deg);		    
-		}
+				window.myEngine.canvas.scale(-1, 1);
+				deg = deg + 2*(360 - deg);
+			}
 
 	    //Convert degrees to radian 
 	    var rad = deg * Math.PI / 180;
 	    //Rotate the canvas around the origin
-	    ctx.rotate(rad);
+			ctx.rotate(rad);
 
 
 	    //draw the image    
@@ -317,12 +317,11 @@ Engine.prototype.draw = function(obj, camx, camy) {
 	    	width / 2 * (-1),
 	    	height / 2 * (-1),
 	    	width,
-	    	height);
+	    	height
+			);
 
 	    //reset the canvas  
 	    ctx.restore();
-	    // ctx.rotate(rad * ( -1 ) );
-	    // ctx.translate((x + width / 2) * (-1), (y + height) * (-1));
 	}
 
 	var obj_frame = floor(obj.frame);
@@ -564,7 +563,8 @@ Engine.prototype.debug = function() {
 		'y: '         + obj.y          + '<br>' +
 		'speed_x: '   + obj.speed_x    + '<br>' +
 		'speed_y: '   + obj.speed_y    + '<br>' +
-		'gameframe: ' + this.gameframe + '<br>'
+		'gameframe: ' + this.gameframe + '<br>' +
+		'angle: '			+ obj.angle			 + '<br>'
 	);
 };
 Engine.prototype.rings = function() {

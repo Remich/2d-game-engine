@@ -2,12 +2,22 @@
 
 ## Currently – Branch: change-angle-calculation
 
+### implement angle calculation
+
+* [ ] - make ObjectHillDown.class.js flippable and add to current scene
+* [ ] - calculate angle from HeightMap of both GroundSensors 
+	-> no need for AngleMaps anymore :)
+	+ [ ] - fix angle below 5 degree 
+	+ [ ] - fix angle push of objects, currently only working on left side down
+	+ [ ] - remove all AngleMaps
+	+ [ ] - remove AngleMaps from generate-object.php
+
+* [x] - FIX: ObjectChar.collide() is being called 6 times per gameframe!!!!
+
+## reimplement old features
+
 * [ ] - reimplement beatnik
 * [ ] - reimplement ring loss
-* [ ] - calculate angle from HeightMap of both GroundSensors
-	-> no need for AngleMaps anymore :)
-* [ ] - angle of "flat" ground-objects should always be 0
-* [x] - FIX: ObjectChar.collide() is being called 6 times per gameframe!!!!
 
 ## Branch: Refactoring
 
@@ -20,7 +30,16 @@
 
 * [ ] - fix ObjectSlope.class.js
 
-## Code
+
+
+## Improve Implementation
+
+* [ ] - create Abstract Sensor, with comments for all properties
+* [ ] - add and implement property for "ground"-objects, which specify the collision-direction: e.g. not colliding when object is colliding from below
+					--> maybe via z-index 
+
+
+## Features
 
 * add attributes to objects ( y_offset, x_offset ), for using multiple objects next to each other : BETTER : create families of Objects
 * update frame_duration according to speed of object

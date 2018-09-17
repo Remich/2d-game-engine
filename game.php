@@ -21,6 +21,7 @@
 			window.cfg.elapsed_time;
 
 			<?php include('library.inc.js'); ?>
+			<?php include('Point.class.js'); ?>
 			<?php include('EngineStateMachine.class.js'); ?>
 			<?php include('EngineObjectList.class.js'); ?>
 			<?php include('EngineCollision.class.js'); ?>
