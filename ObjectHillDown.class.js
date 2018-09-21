@@ -1,6 +1,8 @@
 var ObjectHillDown = function() {
 
-	var that = new ObjectStatic();
+	var that = new ObjectGround();
+
+	that.default_sensor_height = 128;
 
 	that.name = 'slope';
 	that.in_air = false;
@@ -39,62 +41,6 @@ var ObjectHillDown = function() {
 
 	};
 
-
-	that.initSensors = function() {
-
-		that.sensors = [];
-
-		for(var i=0; i<that.heightMaps['floor'].length; i++) {
-
-			var sensor            = {};
-			sensor.type           = 'ground';
-			sensor.match_objects  = ["char", "beatnik", "ringbounce"];
-			sensor.match_sensors  = ["ground"];
-			sensor.x              = null;
-			sensor.y              = null;
-			sensor.width          = 1;
-			sensor.height         = 256;
-			sensor.colliding_with = new Set();
-			sensor.collide        = function() {};
-
-			sensor.update = function(x, y, width, height) {
-				sensor.x      = x + i;
-				sensor.y      = y + that.heightMaps['floor'][i];
-				sensor.width  = 1;
-				sensor.height = 256;
-			};
-
-			sensor.update(
-										that.x, 
-										that.y, 
-										that.sm.currentState.frames[floor(that.frames)].width, 
-										that.sm.currentState.frames[floor(that.frame)].height 
-			);
-
-			that.sensors.push(sensor);
-		}
-	};
-
-	that.updateSensors = function() {
-		var width  = that.sm.currentState.frames[floor(that.frame)].width;
-		var height = that.sm.currentState.frames[floor(that.frame)].height;
-
-		for (var a in that.sensors) {
-			that.sensors[a].update(that.x, that.y, width, height);
-		}
-	};
-
-	that.resetSensors = function() {
-		for (var a in that.sensors) {
-			that.sensors[a].colliding_with.clear();
-			that.sensors[a].colliding = false;
-		}
-		that.colliding_sensors.clear();
-	};
-
-	that.heightMaps = Array();
-	that.angleMaps = Array();
-	
 	that.heightMaps['floor'] = [ 
 		11, 11, 12, 12, 12, 13, 13, 14, 14, 15, 
 		15, 16, 17, 17, 18, 18, 18, 18, 19, 19, 
@@ -150,63 +96,10 @@ var ObjectHillDown = function() {
 		259, 260, ];
 
 
-	var i = 0;
-	for(i=0; i <  that.heightMaps['floor'].length; i++) {
-		that.heightMaps['floor'][i] -= 8;
-	};
-
-		// 4, 4, 6, 6, 2, 2, 0, 0, 6, 6, 
-		// 8, 8, 2, 2, 6, 6, 12, 12, 14, 14, 
-		// 10, 10, 8, 8, 14, 14, 16, 16, 10, 10, 
-		// 12, 12, 20, 20, 22, 22, 18, 18, 16, 16, 
-		// 22, 22, 24, 24, 18, 18, 16, 16, 26, 26, 
-		// 30, 30, 24, 24, 26, 26, 30, 30, 32, 32, 
-		// 26, 26, 30, 30, 36, 36, 38, 38, 34, 34, 
-		// 32, 32, 38, 38, 40, 40, 34, 34, 32, 32, 
-		// 40, 40, 42, 42, 38, 38, 36, 36, 42, 42, 
-		// 44, 44, 38, 38, 36, 36, 44, 44, 46, 46, 
-		// 42, 42, 40, 40, 46, 46, 48, 48, 42, 42, 
-		// 44, 44, 52, 52, 54, 54, 50, 50, 48, 48, 
-		// 54, 54, 56, 56, 50, 50, 48, 48, 58, 58, 
-		// 62, 62, 56, 56, 58, 58, 62, 62, 64, 64, 
-		// 58, 58, 62, 62, 68, 68, 70, 70, 66, 66, 
-		// 64, 64, 70, 70, 72, 72, 66, 66, 70, 70, 
-		// 76, 76, 78, 78, 74, 74, 72, 72, 78, 78, 
-		// 80, 80, 74, 74, 76, 76, 84, 84, 86, 86, 
-		// 82, 82, 80, 80, 86, 86, 88, 88, 82, 82, 
-		// 80, 80, 90, 90, 94, 94, 88, 88, 90, 90, 
-		// 94, 94, 96, 96, 90, 90, 94, 94, 100, 100, 
-		// 102, 102, 98, 98, 96, 96, 102, 102, 104, 104, 
-		// 98, 98, 102, 102, 108, 108, 110, 110, 106, 106, 
-		// 104, 104, 110, 110, 112, 112, 106, 106, 108, 108, 
-		// 116, 116, 118, 118, 114, 114, 112, 112, 118, 118, 
-		// 120, 120, 114, 114, 112, 112, 126, 126, 128, 128, 
-		// 124, 124, 122, 122, 128, 128, 130, 130, 124, 124, 
-		// 128, 128, 134, 134, 136, 136, 132, 132, 130, 130, 
-		// 136, 136, 138, 138, 132, 132, 134, 134, 142, 142, 
-		// 144, 144, 140, 140, 138, 138, 144, 144, 146, 146, 
-		// 140, 140, 138, 138, 148, 148, 152, 152, 146, 146, 
-		// 148, 148, 152, 152, 154, 154, 148, 148, 152, 152, 
-		// 158, 158, 160, 160, 156, 156, 154, 154, 160, 160, 
-		// 162, 162, 156, 156, 154, 154, 162, 162, 164, 164, 
-		// 160, 160, 158, 158, 164, 164, 166, 166, 160, 160, 
-		// 158, 158, 166, 166, 168, 168, 164, 164, 162, 162, 
-		// 168, 168, 170, 170, 164, 164, 166, 166, 174, 174, 
-		// 176, 176, 172, 172, 170, 170, 176, 176, 178, 178, 
-		// 172, 172, 170, 170, 180, 180, 184, 184, 178, 178, 
-		// 180, 180, 184, 184, 186, 186, 180, 180, 184, 184, 
-		// 190, 190, 192, 192, 188, 188, 186, 186, 192, 192, 
-		// 194, 194, 188, 188, 192, 192, 198, 198, 200, 200, 
-		// 196, 196, 194, 194, 200, 200, 202, 202, 196, 196, 
-		// 198, 198, 206, 206, 208, 208, 204, 204, 202, 202, 
-		// 208, 208, 210, 210, 204, 204, 202, 202, 212, 212, 
-		// 216, 216, 210, 210, 212, 212, 216, 216, 218, 218, 
-		// 212, 212, 216, 216, 222, 222, 224, 224, 220, 220, 
-		// 218, 218, 224, 224, 226, 226, 220, 220, 224, 224, 
-		// 230, 230, 232, 232, 228, 228, 226, 226, 232, 232, 
-		// 234, 234, 228, 228, 230, 230, 238, 238, 240, 240, 
-		// 236, 236, 234, 234, 240, 240, 242, 242, 236, 236, 
-		// 234, 234, ];
+		var i = 0;
+		for(i=0; i <  that.heightMaps['floor'].length; i++) {
+			that.heightMaps['floor'][i] -= 8;
+		};
 
 	return that;
 

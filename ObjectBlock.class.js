@@ -2,7 +2,9 @@
 
 var ObjectBlock = function() {
 
-	var that = new ObjectStatic();
+	var that = new ObjectGround();
+
+	that.default_sensor_height = 42;
 
 	that.name = 'ground';
 	that.in_air = false;
@@ -41,62 +43,6 @@ var ObjectBlock = function() {
 
 	};
 
-
-	that.initSensors = function() {
-
-		that.sensors = [];
-
-		for(var i=0; i<that.heightMaps['floor'].length; i++) {
-
-			var sensor            = {};
-			sensor.type           = 'ground';
-			sensor.match_objects  = ["char", "beatnik", "ringbounce"];
-			sensor.match_sensors  = ["ground"];
-			sensor.x              = null;
-			sensor.y              = null;
-			sensor.width          = 1;
-			sensor.height         = 128;
-			sensor.colliding_with = new Set();
-			sensor.collide        = function() {};
-
-			sensor.update = function(x, y, width, height) {
-				sensor.x      = x + i;
-				sensor.y      = y + that.heightMaps['floor'][i];
-				sensor.width  = 1;
-				sensor.height = 128;
-			};
-
-			sensor.update(
-										that.x, 
-										that.y, 
-										that.sm.currentState.frames[floor(that.frames)].width, 
-										that.sm.currentState.frames[floor(that.frame)].height 
-			);
-
-			that.sensors.push(sensor);
-		}
-	};
-
-	that.updateSensors = function() {
-		var width  = that.sm.currentState.frames[floor(that.frame)].width;
-		var height = that.sm.currentState.frames[floor(that.frame)].height;
-
-		for (var a in that.sensors) {
-			that.sensors[a].update(that.x, that.y, width, height);
-		}
-	};
-
-	that.resetSensors = function() {
-		for (var a in that.sensors) {
-			that.sensors[a].colliding_with.clear();
-			that.sensors[a].colliding = false;
-		}
-		that.colliding_sensors.clear();
-	};
-
-	that.heightMaps = Array();
-	that.angleMaps = Array();
-	
 	that.heightMaps['floor'] = [ 
 		19, 19, 19, 19, 19, 19, 19, 19, 8, 8, 
 		8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 
@@ -124,34 +70,6 @@ var ObjectBlock = function() {
 		4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 
 		4, 4, 4, 4, 4, 4, 4, 4, 9, 9, 
 		9, 9, 9, 9, 9, 9, ];
-
-	that.angleMaps['floor'] = [ 
-		360, 360, 360, 360, 290, 290, 290, 290, 360, 360, 
-		360, 360, 315, 315, 315, 315, 360, 360, 360, 360, 
-		346, 346, 346, 346, 360, 360, 360, 360, 374, 374, 
-		374, 374, 360, 360, 360, 360, 346, 346, 346, 346, 
-		360, 360, 360, 360, 333, 333, 333, 333, 360, 360, 
-		360, 360, 374, 374, 374, 374, 360, 360, 360, 360, 
-		360, 360, 360, 360, 360, 360, 360, 360, 360, 360, 
-		360, 360, 360, 360, 360, 360, 360, 360, 360, 360, 
-		360, 360, 360, 360, 346, 346, 346, 346, 360, 360, 
-		360, 360, 397, 397, 397, 397, 360, 360, 360, 360, 
-		346, 346, 346, 346, 360, 360, 360, 360, 333, 333, 
-		333, 333, 360, 360, 360, 360, 374, 374, 374, 374, 
-		360, 360, 360, 360, 360, 360, 360, 360, 360, 360, 
-		360, 360, 360, 360, 360, 360, 360, 360, 360, 360, 
-		360, 360, 360, 360, 360, 360, 360, 360, 346, 346, 
-		346, 346, 360, 360, 360, 360, 397, 397, 397, 397, 
-		360, 360, 360, 360, 346, 346, 346, 346, 360, 360, 
-		360, 360, 333, 333, 333, 333, 360, 360, 360, 360, 
-		374, 374, 374, 374, 360, 360, 360, 360, 360, 360, 
-		360, 360, 360, 360, 360, 360, 360, 360, 360, 360, 
-		360, 360, 360, 360, 360, 360, 360, 360, 360, 360, 
-		360, 360, 346, 346, 346, 346, 360, 360, 360, 360, 
-		397, 397, 397, 397, 360, 360, 360, 360, 346, 346, 
-		346, 346, 360, 360, 360, 360, 374, 374, 374, 374, 
-		360, 360, 360, 360, 411, 411, 411, 411, 360, 360, 
-		360, 360, 360, 360, 360, 360, ];
 
 	return that;
 

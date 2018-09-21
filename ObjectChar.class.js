@@ -580,6 +580,8 @@ var ObjectChar = function() {
 	 	// that.sensors.push(new ObjectSensorChar_HeightMap());
 	 	// that.sensors.push(new ObjectSensor_D());
 	 	// that.sensors.push(new ObjectSensor_E());
+		//
+		that.updateSensors();
 
 		return true;
 	};

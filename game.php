@@ -4,13 +4,14 @@
 <html manifest="manifest.php">
 
 	<head>
-	
+		<meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://localhost">
+
 		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		
 		<link rel="stylesheet" href="style.css" type="text/css" media="screen, mobile" title="main" charset="utf-8" />
 		
 		<script type="text/javascript" src="jquery-2.1.1.min.js" /></script>
-		<script language="JavaScript">
+		<script type="text/javascript">
 		
 			window.cfg = new Object();
 				
@@ -26,6 +27,8 @@
 			<?php include('EngineObjectList.class.js'); ?>
 			<?php include('EngineCollision.class.js'); ?>
 			<?php include('EngineCamera.class.js'); ?>
+			<?php include('EngineSensor.class.js'); ?>
+			<?php include('SensorGround.class.js'); ?>
 			<?php include('Object.class.js'); ?>
 			<?php include('ObjectStatic.class.js'); ?>
 			<?php include('ObjectWithInput.class.js'); ?>
@@ -332,6 +335,17 @@
 				// beatnik.y = window.cfg.level_height - 256;
 				// beatnik.initSensors();
 				// objects.add(beatnik);
+
+					var ground = new ObjectGround();
+					ground.solid = true;
+					ground.sm.changeState( ground.Chill(), ground );
+					// TODO: use ground.x_offset insteaad of const 256
+					ground.x = window.cfg.level_width - 256;	
+					// ground.x = (256 + 24) * i;	
+					// TODO: use ground.y_offset instead of const 190
+					ground.y = window.cfg.level_height - height_modifier - 145;
+					ground.initSensors();
+					objects.add(ground);
 				 
 
 				var foo;
@@ -362,22 +376,38 @@
 					foo2 = block1.y;
 					block1.initSensors();
 					objects.add(block1);
+				}
 
+				var v=0;
+				for(v; v < 3; v++) {
+					var block1 = new ObjectHillDown();
+					block1.solid = true;
+					block1.sm.changeState( block1.Chill(), block1 );
+					block1.x = 256*i + z*512 + v*512;
+					foo = block1.x;
+					// TODO 251 in ObjectHillDown.y_offset = 251;
+					block1.y = window.cfg.level_height - 190 + z*251 - (v+1)*251 - height_modifier + 45; 
+					foo2 = block1.y;
+					block1.initSensors();
+					block1.flip();
+					objects.add(block1);
 				}
 
 
-				for(var z=0; z < 3; z++) {
-					var block2 = new ObjectSlope();
-					block2.solid = true;
-					block2.sm.changeState( block2.Chill(), block2 );
-					// block2.x = 256 * i + z*512 + 256 + z*896;
-					block2.x = foo + 512 + z*896;
-					block2.y = foo2 + 256 + z*512; 
-					// block2.x = foo + 256 + 5*512;
-					// block2.y = window.cfg.level_height - 190 + 5*244;
-					block2.initSensors();
-					objects.add(block2);
-				}
+				/*
+				 * for(var z=0; z < 3; z++) {
+				 *   var block2 = new ObjectSlope();
+				 *   block2.solid = true;
+				 *   block2.sm.changeState( block2.Chill(), block2 );
+				 *   // block2.x = 256 * i + z*512 + 256 + z*896;
+				 *   block2.x = foo + 512 + z*896;
+				 *   block2.y = foo2 + 256 + z*512; 
+				 *   // block2.x = foo + 256 + 5*512;
+				 *   // block2.y = window.cfg.level_height - 190 + 5*244;
+				 *   block2.initSensors();
+				 *   objects.add(block2);
+				 * }
+				 */
 
 
 				for(var x=0; x < 5; x++) {
@@ -415,7 +445,7 @@
 		<title>2D Game Engine – Demo</title>
 	</head>
 
-	<body oncontextmenu="return false;">
+	<body>
 		<div id="fps"></div>
 		<div id="debug"></div>
 		<canvas id="canvas_1"></canvas>

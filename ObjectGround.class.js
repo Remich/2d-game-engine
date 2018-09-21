@@ -2,6 +2,8 @@ ObjectGround = function() {
 
 	var that = new ObjectStatic();
 
+	that.default_sensor_height = 128;
+
 	that.name = 'ground';
 	that.in_air = false;
 	that.rolling = false;
@@ -42,57 +44,38 @@ ObjectGround = function() {
 	that.initSensors = function() {
 
 		that.sensors = [];
-		
+
 		for(var i=0; i<that.heightMaps['floor'].length; i++) {
 
-			var sensor            = {};
-			sensor.type           = "ground";
-			sensor.match_objects  = ["char", "beatnik", "ringbounce"];
-			sensor.match_sensors  = ["ground"];
-			sensor.x              = null;
-			sensor.y              = null;
-			sensor.width          = 1;
-			sensor.height         = 256;
-			sensor.colliding_with = new Set();
-			sensor.collide        = function() {};
+			var new_sensor    = SensorGround(i);
 
-			sensor.update = function(x, y, width, height) {
-				sensor.x      = x + i;
-				sensor.y      = y + that.heightMaps['floor'][i];
-				sensor.width  = 1;
-				sensor.height = 256;
-			};
+			// TODO wrong place , this first update should be taken care of by the engine
+			new_sensor.update(that);	// important!
+			
 
-			sensor.update(
-										that.x, 
-										that.y, 
-										that.sm.currentState.frames[floor(that.frames)].width, 
-										that.sm.currentState.frames[floor(that.frame)].height 
-			);
-
-			that.sensors.push(sensor);
+			new_sensor.setHeight(that.default_sensor_height);
+			that.sensors.push(new_sensor);
 		}
 	};
 
-	that.updateSensors = function() {
-		var width = that.sm.currentState.frames[floor(that.frame)].width;
-		var height = that.sm.currentState.frames[floor(that.frame)].height;
-		for (var a in that.sensors) {
-			that.sensors[a].update(that.x, that.y, width, height);
+	that.initFlippedSensors = function() {
+
+		that.sensors_flipped = [];
+
+		for(var i=that.heightMaps['floor'].length-1; i>=0; i--) {
+
+			var new_sensor    = SensorGround(i);
+
+			// TODO wrong place , this first update should be taken care of by the engine
+			new_sensor.update(that);	// important!
+			
+
+			new_sensor.setHeight(that.default_sensor_height);
+			that.sensors_flipped.push(new_sensor);
 		}
+
 	};
 
-	that.resetSensors = function() {
-		for (var a in that.sensors) {
-			that.sensors[a].colliding_with.clear();
-			that.sensors[a].colliding = false;
-		}
-		that.colliding_sensors.clear();
-	};
-
-	that.heightMaps = Array();
-	that.angleMaps = Array();
-	
 	that.heightMaps['floor'] = [ 
 		3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 
 		4, 4, 4, 4, 4, 4, 1, 1, 1, 1, 
@@ -120,34 +103,6 @@ ObjectGround = function() {
 		3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 
 		4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 
 		2, 2, 2, 2, 2, 2, ];
-
-	that.angleMaps['floor'] = [ 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, ];
 
 	return that;
 
