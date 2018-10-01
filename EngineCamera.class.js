@@ -2,6 +2,7 @@
 
 // Camera constructor
 var Camera = function(xView, yView, canvasWidth, canvasHeight, levelWidth, levelHeight) {
+
 	// The camera is set to the middle of the game window
 	this.x = canvasWidth * 0.5;
 	this.y = canvasHeight * 0.5;
@@ -29,7 +30,6 @@ Camera.prototype.Lerp = function(A, B){
 	return (A * this.lerpAmount) + ((1.0 - this.lerpAmount) * B);
 };
 
-// gameObject needs to have "x" and "y" properties (as level(or room) position)
 Camera.prototype.follow = function(gameObject) {		
 	this.following = gameObject;	
 };
@@ -67,7 +67,6 @@ Camera.prototype.update = function() {
 	this.xScroll = this.Lerp(this.dx, this.curPosition[0]); 
 	// Interpolate the current position on the y-axis
 	this.yScroll = this.Lerp(this.dy, this.curPosition[1]); 
-	
 
 
 	// don't let camera leave the level's boundary
@@ -80,16 +79,4 @@ Camera.prototype.update = function() {
 	if (this.xScroll + this.width > this.levelWidth)
 		this.xScroll = this.levelWidth - this.width;
 
-};
-Camera.prototype.collision_check_single_easy = function (a, b) {
-	if( a.x  > (b.x + b.width) )
-		return false;
-	if( ( a.x  + a.width) < b.x )
-		return false;
-	if( a.y  >  (b.y + b.height) )
-		return false;
-	if( ( a.y + a.height ) <  b.y )
-		return false;
-	
-	return true;
 };

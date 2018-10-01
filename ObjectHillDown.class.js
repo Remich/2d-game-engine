@@ -101,6 +101,12 @@ var ObjectHillDown = function() {
 			that.heightMaps['floor'][i] -= 8;
 		};
 
+	/*
+	 * Create new State Machine
+	 */
+	that.sm = new EngineStateMachine();
+	that.sm.changeState( that.Chill(), that );
+
 	return that;
 
 };

@@ -1,5 +1,8 @@
 /* (c)opyright 2018 René Michalke */
 
+/*
+ * TODO comment variables
+ */
 var Object = function() {
 
 	var that = {};
@@ -21,7 +24,8 @@ var Object = function() {
 	that.frame_counter = that.frame_duration;
 	that.gravitation = 1;
 	that.history = [];
-	that.sm = new EngineStateMachine();
+
+
 	that.destroy = false;
 	that.in_air = true;
 	that.isOnSlope = false;
@@ -64,8 +68,16 @@ var Object = function() {
 	
 	that.mode = 'floor';  // 'right-wall', 'left-wall', 'ceiling'
 
+	that.repeat = 'repeat'; // or 'repeat-x', 'repeat-y'
+	that.fixed = false;
+	that.scroll = 0; // amount of parallax scrolling
+
 	that.getWidth = function() {
 		return that.sm.currentState.frames[floor(that.frame)].width;
+	};
+
+	that.getCenter = function() {
+		return floor(that.x + (that.getWidth() / 2));
 	};
 
 	that.getHeight = function() {
@@ -204,7 +216,9 @@ var Object = function() {
 
 			}
 
-			that.speed_x += slope_factor * Math.sin((that.angle/180) * Math.PI);
+			// console.log(that.sm.currentState);
+			if(that.sm.currentState.name !== 'Crouch')
+				that.speed_x += slope_factor * Math.sin((that.angle / 180) * Math.PI);
 
 			// Let Sonic fall is abs(Gsp) < 2.5
 			// if(that.mode === 'right-wall'
@@ -247,6 +261,50 @@ var Object = function() {
 	};
 
 	that.collide = function() {};
+
+	that.resetSensors = function() {
+		for (var a in that.sensors) {
+			that.sensors[a].colliding = false;
+			that.sensors[a].colliding_with.clear();
+		}
+		that.colliding_sensors.clear();
+	};
+
+	/*
+	 * Default “Dummy”-Animation
+	 */
+	that.Chill = function() {
+		var foobar = {};
+
+		foobar.id = 0;
+		foobar.name = 'Chill';
+		foobar.image = new Image();
+		foobar.image.src = 'images/blank.png';
+		foobar.breakable = function(foo) { return true; };
+		foobar.loop = false;
+		foobar.length = 1;
+
+		foobar.frames = [];
+
+		foobar.frames[0] = [];
+		foobar.frames[0].width = 32;
+		foobar.frames[0].height = 32;
+		foobar.frames[0].margin = 0;
+
+		foobar.enter = function(sm, obj) {
+			obj.frame = 0;
+		};
+		foobar.update = function(sm, obj) {
+		};
+		foobar.exit = function(sm) {
+		};
+
+		return foobar;
+
+	};
+
+	that.sm = new EngineStateMachine();
+	that.sm.changeState( that.Chill(), that );
 
 	return that;
 };

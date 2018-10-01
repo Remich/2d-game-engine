@@ -5,15 +5,40 @@ var default_width = 960;
 var default_height = 720;
 
 var Engine = function() {
+
+	// current gameframe
 	this.gameframe = 0;
+
+	// boolean, to disable fps limit (benchmark mode)
+	// best combined with show_debug = true
 	this.bench = false;
+
+	// boolean, to show fps in the top right corner
 	this.show_fps = false;
+	
+	// boolean, to show debug info in the top right corner
 	this.show_debug = false;
-	this.show_rings = false;
+
+	// boolean, to show ring score
+	this.show_rings = true;
+
+	// boolean, to show sensors (hitboxes)
 	this.show_sensors = false;
-	this.fps60 = true; // false means 30fps
+
+	// boolean, to output 60fps
+	// false means 30fps
+	this.fps60 = true;
+
+	// boolean, to enable editor mode
 	this.editor = false;
 
+	/*
+	 * change speedup according to fps speed
+	 * this ”speedup_constant” defines how sluggish/slow the movements feel
+	 *
+	 * one could simulate an object underwater by changing this speedup_constant
+	 * on a ”per-object” basis
+	 */
 	if(this.fps60 === true) {
 		this.fps_max = 60;
 		window.cfg.speedup_constant = 2.0;
@@ -22,22 +47,54 @@ var Engine = function() {
 		window.cfg.speedup_constant = 4.0;
 	}
 
+	// webworker for parallel calculations (NOT IN USE)
 	this.worker = null;
+
+	// update Browser Cache
 	this.updateCache();
-	this.buffers = [document.getElementById("canvas_1"), document.getElementById("canvas_2")];
+
+	// geht handlers of both drawing buffers
+	this.buffers = [ 
+		document.getElementById("canvas_1"), 
+		document.getElementById("canvas_2")
+	];
+
+	// index to address which buffer is currently the drawing buffer
 	this.drawing_buffer = 0;
+
+	// actual canvas-api object
 	this.canvas = this.buffers[this.drawing_buffer].getContext("2d");
+
+	// disable image smoothing
 	this.canvas.imageSmoothingEnabled = false;
+
+	// same for webkit
+	// still necessary?
 	this.canvas.webkitImageSmoothingEnabled = false;
+
+	// and mozilla
+	// still necessary?
 	this.canvas.mozImageSmoothingEnabled = false;
+
+	// set zoom along the x-axis
 	this.canvas_zoom_width = 1.0;
+
+	// set zoom along the y-axis
 	this.canvas_zoom_height = 1.0;
+
+	// initalize actual screen in browser
 	this.initScreen();
+
+	// initalize Input Handler
 	this.initInputHandler();
 };
 
+
 Engine.prototype.Collision = new Collision();
 
+/*
+ * Returns the length of a gameframe in ms
+ */
 Engine.prototype.get_interval = function () {
 	if(this.bench) {
 		return 0;
@@ -46,7 +103,9 @@ Engine.prototype.get_interval = function () {
 	}
 };
 
-
+/*
+ * Updates the Browser Cache
+ */
 Engine.prototype.updateCache = function() {
 	window.addEventListener('load', function (e) {
 		window.applicationCache.addEventListener('updateready', function (e) {
@@ -55,6 +114,9 @@ Engine.prototype.updateCache = function() {
 	}, false);
 };
 
+/*
+ * Init Screen in the Browser
+ */
 Engine.prototype.initScreen = function(camx, camy) {
 
 	this.canvas_zoom_width = window.innerWidth / default_width;
@@ -90,22 +152,12 @@ Engine.prototype.initScreen = function(camx, camy) {
 		scaled = true;
 
 	// }
-
-
-	// console.log(window.myEngine);
-	// if(window.myEngine !== undefined)
-	// if(window.myEngine.objects.getByName('char') !== undefined) {
-	// 	var handle = window.myEngine.objects.getByName('char');
-
-	// 	Engine.prototype.Camera = new Camera(handle.x, handle.y, window.cfg.screen_width*(1/this.canvas_zoom_width), window.cfg.screen_height*(1/this.canvas_zoom_height), window.cfg.level_width, window.cfg.level_height);
-	// 	return;
-	// }
-
-	// this.Camera = new Camera(0, window.cfg.screen_height*(1/this.canvas_zoom_height)/2 + 98, window.cfg.screen_width*(1/this.canvas_zoom_width), window.cfg.screen_height*(1/this.canvas_zoom_height), window.cfg.level_width, window.cfg.level_height);
 };
 
 
-
+/*
+ * Input Handler
+ */
 Engine.prototype.initInputHandler = function() {
 
 	$(document).keydown(function(e) {
@@ -149,6 +201,9 @@ Engine.prototype.initInputHandler = function() {
 	});
 };
 
+/*
+ * reset sensors to their default state, for next round of collisions
+ */
 Engine.prototype.resetSensors = function() {
 	objects.each(function(handle) {
 		if(handle.sensors !== undefined) {
@@ -158,6 +213,9 @@ Engine.prototype.resetSensors = function() {
 	return true;	
 };
 
+/*
+ * Draw the current Scene
+ */
 Engine.prototype.draw = function(obj, camx, camy) {
 
 	this.frame_update = function (obj) {
@@ -185,6 +243,10 @@ Engine.prototype.draw = function(obj, camx, camy) {
 
 	};
 
+	/*
+	 * Check if the object's frame numbers are overflowing
+	 * and reset them accordingly
+	 */
 	this.frame_check = function (obj) {
 		if (obj.frame >= obj.sm.currentState.length) {
 			if (obj.sm.currentState.loop !== false) 
@@ -194,21 +256,13 @@ Engine.prototype.draw = function(obj, camx, camy) {
 		}
 	};
 
-	this.collision_check_single_easy = function (a, b) {
-		if( a.x  > (b.x + b.width) )
-			return false;
-		if( ( a.x  + a.width) < b.x )
-			return false;
-		if( a.y  >  (b.y + b.height) )
-			return false;
-		if( ( a.y + a.height ) <  b.y )
-			return false;
-		
-		return true;
-	};
-
+	/*
+	 * Check if the object is within the drawing Screen
+	 */
 	this.withinScreen = function(obj, camx, camy) {
+
 		var c_frame 		= floor(obj.frame);
+
 		var c_screen_width 	= window.cfg.screen_width * (1/window.myEngine.canvas_zoom_width);
 		var c_screen_height = window.cfg.screen_height * (1/window.myEngine.canvas_zoom_height);
 		obj_a = {
@@ -224,13 +278,21 @@ Engine.prototype.draw = function(obj, camx, camy) {
 			'height' : c_screen_height * 2
 		};
 
-		if (this.collision_check_single_easy(obj_a, obj_b)) {
+		/*
+		 * TODO 
+		 * this fails on trees, why?
+		 * Answer: ObjectBackgroundTree is of type Background
+		 */
+		if (Collision.collision_check_single_strict_with_sensor(obj_a, obj_b)) {
 			return true;
 		}
 
 		return false;
 	};
 
+	/*
+	 * Draw all Sensors of current Object
+	 */
 	this.drawSensors = function(obj) {
 		for (var a in obj.sensors) {
 			window.myEngine.canvas.fillStyle = obj.sensors[a].colliding ? 'rgba(255,0,0,1)' : 'rgba(0,0,255,.5)';
@@ -246,9 +308,6 @@ Engine.prototype.draw = function(obj, camx, camy) {
 
 
 	var TO_RADIANS = Math.PI/180; 
-	window.myEngine.drawRotatedImage = function(image, x, y, width, height, angle) {
-	   
-	};
 
 	this.adjust_position = function(obj) {
 
@@ -258,8 +317,16 @@ Engine.prototype.draw = function(obj, camx, camy) {
 			return false;
 
 
-		// TODO
-		// NOT WORKING DUE TO HEIGHTMAP
+		/*
+		 * TODO
+		 * NOT WORKING DUE TO HEIGHTMAP
+		 * RE-IMPLEMENT
+		 * this should change the x and y-positions of an object
+		 * according to the delta-width, and delta-height
+		 * bettween two animation frames
+		 * NOTE: then we can remove ”ObjectChar.class.js line 203,204)
+		 *				and won't have to check for many other animation-states
+		 */
 
 		// if(obj.name === 'char' && obj.angle < 0)
 		// 	obj.y += 55 * Math.sin(obj.angle / 180) * Math.PI;
@@ -288,9 +355,6 @@ Engine.prototype.draw = function(obj, camx, camy) {
 		var ctx = window.myEngine.canvas;
 	    ctx.save();
 
-
-		// window.myEngine.canvas.drawImage(obj.sm.currentState.image, sx, sy, dw, dh, -dx, dy, dw, dh);
-
 	    //Set the origin to the center of the image
 	    var delx = x - camx + width / 2;
 	    var dely = y - camy + height / 2;
@@ -303,9 +367,9 @@ Engine.prototype.draw = function(obj, camx, camy) {
 
 	    //Convert degrees to radian 
 	    var rad = deg * Math.PI / 180;
+
 	    //Rotate the canvas around the origin
 			ctx.rotate(rad);
-
 
 	    //draw the image    
 	    ctx.drawImage(
@@ -325,6 +389,7 @@ Engine.prototype.draw = function(obj, camx, camy) {
 	}
 
 	var obj_frame = floor(obj.frame);
+
 	// Frameeinstellungen des Objekts
 	// TODO: auf obj.sm.currentState.frame_update() umstellen
 	if(obj.frame_update !== undefined)
@@ -347,10 +412,16 @@ Engine.prototype.draw = function(obj, camx, camy) {
 	var dx = round(obj.x);
 	var dy = round(obj.y);
 
+	/*
+	 * Object has been destroyed, don't draw
+	 */
 	if (obj.destroy) {
 		return false;
 	}
 	
+	/*
+	 * Object is of type Background
+	 */
 	if (obj.name === 'background') {
 		window.myEngine.canvas.save();
 		var pat = window.myEngine.canvas.createPattern(obj.sm.currentState.image, obj.repeat); // or "repeat" for x and y
@@ -367,16 +438,25 @@ Engine.prototype.draw = function(obj, camx, camy) {
 			window.myEngine.canvas.translate((camx)*obj.scroll, 0);
 		}	
 
-		window.myEngine.canvas.fillRect(0, 0, window.cfg.level_width, window.cfg.level_height);
+		window.myEngine.canvas.fillRect(0, 0, obj.getWidth(), obj.getHeight());
+
 		window.myEngine.canvas.restore();
+
 		return true;
 	}
 
+
+	/*
+	 * Object is within drawing Screen, so keep on drawing
+	 */
 	if( !this.withinScreen(obj, camx, camy) ) {
 		return false;
 	}
 
 
+	/*
+	 * Object is blinking
+	 */
 	if(obj.blinking) {
 
 		if(obj.gameframe_blink == 0) {
@@ -391,19 +471,33 @@ Engine.prototype.draw = function(obj, camx, camy) {
  	
 	}
 
+	/*
+	 * Should we explicitly not render this Object?
+	 */
  	if(!obj.render) {
  		return false;
  	}
 
+	/*
+	 * Render the Object
+	 */
 	this.drawImageRot(obj.sm.currentState.image, sx, sy, dx, dy, dw, dh, obj.angle, obj);
-	
+
+	/*
+	 * Draw Sensors
+	 */
 	if (window.myEngine.show_sensors && obj.sensors !== undefined) {
 		this.drawSensors(obj);	
 	}
 
 };
 
+/*
+ * Main Game Loop
+ */
+
 Engine.prototype.loop = function() {
+
 	// Get the time when the frame started.
 	var frame_time = new Date().getTime();
 
@@ -413,6 +507,7 @@ Engine.prototype.loop = function() {
 	// reset buffer
 	window.myEngine.canvas.clearRect(0,0, window.cfg.screen_width, window.cfg.screen_height);
 
+	// get state for each statemachine
 	objects.each(function(handle) {
 		if (handle.get_state !== undefined)
 			handle.get_state();
@@ -432,11 +527,18 @@ Engine.prototype.loop = function() {
 		}
 	});
 
+	/*
+	 * Change direction
+	 */
 	objects.each(function(handle) {
 		if (handle.direction !== undefined)
 			handle.direction();
 	});
 
+	
+	/*
+	 * Reset Sensors of all collidable Objects
+	 */
 	objects.each(function(handle) {
 		if (handle.name === 'char' ||
 			handle.name === 'beatnik' ||
@@ -445,6 +547,10 @@ Engine.prototype.loop = function() {
 	});
 
 
+	/*
+	 * Physics a.k.a. changing an Objects x and y position 
+	 * according to its State
+	 */
 	objects.each(function(handle) {
 		if(handle.physics !== undefined)
 			handle.physics();
@@ -469,7 +575,7 @@ Engine.prototype.loop = function() {
 	// Act out Collisions
 	window.myEngine.Collision.act();
 
-	// Correct Angles of collided Objects
+	// re-calculate Angles of collided Objects
 	window.myEngine.Collision.correctAngles();
 
 
@@ -500,23 +606,32 @@ Engine.prototype.loop = function() {
 
 
 
-	// Sachen f?r n?chsten Durchlauf merken 
+	// Sachen für nächsten Durchlauf merken 
 	objects.each(function(handle) {
 		if( handle.saveHistory !== undefined )
 			handle.saveHistory();		
 	});
 
+	
+	/*
+	 * remove destroy objects
+	 */
 	objects.each(function(handle) {
 		if(handle.destroy !== undefined && handle.destroy)
 			objects.remove(handle.id);
 	});
 
+	/*
+	 * Some Objects have callbacks which get called before their destruction (e.g. Rings)
+	 * Here they are called
+	 */
 	objects.each(function(handle) {
 		if(handle.callback !== undefined) {
 			handle.callback(objects, handle.rings);
 		}
 
 		delete handle.callback;
+		// TODO delete handle??
 	})
 
 	// switch buffers
@@ -529,7 +644,9 @@ Engine.prototype.loop = function() {
 	window.myEngine.canvas.webkitImageSmoothingEnabled = false;
 	window.myEngine.canvas.mozImageSmoothingEnabled = false;
 
-	// debugging, stats
+	/*
+	 * draw debuging and stats
+	 */
 	if(this.show_debug === true)
 		this.debug(); 
 	else if(this.show_rings === true)

@@ -47,7 +47,7 @@ ObjectGround = function() {
 
 		for(var i=0; i<that.heightMaps['floor'].length; i++) {
 
-			var new_sensor    = SensorGround(i);
+			var new_sensor = SensorGround(i);
 
 			// TODO wrong place , this first update should be taken care of by the engine
 			new_sensor.update(that);	// important!
@@ -64,7 +64,7 @@ ObjectGround = function() {
 
 		for(var i=that.heightMaps['floor'].length-1; i>=0; i--) {
 
-			var new_sensor    = SensorGround(i);
+			var new_sensor = SensorGround(i);
 
 			// TODO wrong place , this first update should be taken care of by the engine
 			new_sensor.update(that);	// important!
@@ -103,6 +103,13 @@ ObjectGround = function() {
 		3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 
 		4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 
 		2, 2, 2, 2, 2, 2, ];
+
+
+	/*
+	 * Create new State Machine
+	 */
+	that.sm = new EngineStateMachine();
+	that.sm.changeState( that.Chill(), that );
 
 	return that;
 

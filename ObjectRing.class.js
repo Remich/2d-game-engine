@@ -101,7 +101,7 @@
 			obj.solid = false;
 		};
 		foobar.update = function(sm, obj) {
-			if(floor(obj.stepcount++) >= 5) {
+			if(floor(obj.stepcount++) >= 16) {
 				obj.destroy = true;
 			}
 		};
@@ -111,36 +111,27 @@
 		return foobar;
 	};
 
+	
+	var ObjectSensor_Ring = function() {
 
-	ObjectSensor_Ring = function() {
-		this.type           = "object"
-		this.match_objects  = ["char"];
-		this.match_sensors  = ["object"];
-		this.x              = null;
-		this.y              = null;
-		this.width          = null;
-		this.height         = null;
-		this.colliding_with = new Set();
-	};
-	ObjectSensor_Ring.prototype.update = function(x, y, width, height) {
-		this.x = x + 5;
-		this.y = y + 5;
-		this.width = width - 10;
-		this.height = height - 10;
-	};
-	ObjectSensor_Ring.prototype.collide = function(obj, b) {
+		var bar = new SensorObject();
+		bar.match_objects  = ["char"];
+
+		return bar;
 	};
 
 
 	that.initSensors = function() {
+
 		that.sensors = [];
+
 		var sensor   = new ObjectSensor_Ring();
 
 		sensor.update(
 			that.x,
 			that.y,
-			that.sm.currentState.frames[floor(that.frames)].width,
-			that.sm.currentState.frames[floor(that.frame)].height
+			that.getWidth(),
+			that.getHeight()
 		);
 
 	 	that.sensors.push(sensor);
@@ -155,13 +146,12 @@
 		}
 	};
 
-	that.resetSensors = function() {
-		for (var a in that.sensors) {
-			that.sensors[a].colliding = false;
-			that.sensors[a].colliding_with.clear();
-		}
-		that.colliding_sensors.clear();
-	};
+
+	/*
+	 * Create new State Machine
+	 */
+	that.sm = new EngineStateMachine();
+	that.sm.changeState( that.Chill(), that );
 
 	return that;
 

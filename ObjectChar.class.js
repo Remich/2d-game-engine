@@ -1,21 +1,6 @@
  
 /* (c)opyright 2018 René Michalke */
 
-//SPG:Solid Tiles
-//SPG:Running (DONE)
-//SPG:Jumping (DONE)
-//SPG:Rolling (DONE)
-//SPG:Ring Loss
-//SPG:Underwater
-//SPG:Springs and Things
-//SPG:Super Speeds
-//SPG:Special Abilities
-//SPG:Camera
-//SPG:Getting Hit
-//SPG:Rebound
-//SPG:Animations (new)
-//SPG:Game Objects (new - updated with bridges)
-
 var ObjectChar = function() {
 
 	var that = new ObjectWithInput();
@@ -49,19 +34,19 @@ var ObjectChar = function() {
 			/*
 			 * Ring Collision
 			 */
-			if(match.name === "ring") {
+			if(match.name === "ring" || match.name === "ringbounce") {
 				if(that.recover === false) {
 					match.sm.changeState( new match.Collect(that), match );
 					that.rings++;
 				}	
 			}	
 
-
 		}, that);
 	
 	};
 
 	that.GroundSensorCollide = function() {
+
 
 		// here we store the index of the heightMap, to decide the new y-position
 		var heightMapIndex;
@@ -168,6 +153,15 @@ var ObjectChar = function() {
 			
 		}
 
+
+		/*
+		 * Collision with Object which has no heightMap
+		 * ABORT
+		 */
+		if(match.heightMaps['floor'] === undefined) {
+			return;
+		}
+
 		heightMapValue = match.heightMaps['floor'][heightMapIndex];
 
 		/*
@@ -189,11 +183,23 @@ var ObjectChar = function() {
 	
 		console.log(that.name);
 
+		
+		// not when crouching
+		if(that.sm.currentState === 'Crouch')
+			return false;
+
 		// set y-position according to heightMap 
 		that.y = match.y + heightMapValue - that.sm.currentState.frames[floor(that.frame)].height;
 
 		// change y-offset according to current angle
-		that.y += (that.getHeight() / 2) * Math.sin(that.angle / 180) * Math.PI;
+	
+		let offset_y = (that.getHeight() / 4) * Math.sin(that.angle / 180) * Math.PI;
+
+		if(that.angle < 0) {
+			offset_y *= -1;
+		}
+
+		that.y += offset_y;
 
 		// update sensor positions
 		that.updateSensors();
@@ -205,435 +211,89 @@ var ObjectChar = function() {
 
 
 	/**
-	 * Ground Sensor A (the one on the right side)
-	 * Sensor Coordinates are relative to the top-left coordinates of the object
-	 *
-	 * @class      ObjectSensor_A
+	 * Floor Sensor A (the one on the right side)
 	 */
-	ObjectSensor_AB = function() {
-		this.name           = 'AB';
-		// declare of which type this sensor is
-		this.type           = 'ground'
-		// declare which objects can collide with this sensor
-		this.match_objects  = ["ground", "slope"];
-		// declare of which type the other sensor has to be
-		this.match_sensors  = ["ground"];
-		this.x              = null;
-		this.y              = null;
-		this.width          = null;
-		this.height         = null;
-		this.colliding_with = new Set();
-		/*
-		 * TODO move to new Object: ObjectSensorGround;
-		 */
-		this.getNewPositionAfterCollision = function() {
-
-			/*
-			 * This Sensor has no Collisions
-			 */
-			if(this.colliding_with.size === 0) {
-
-				// return current values
-				return new Point(this.x, this.y);
-			}
-
-
-			/*
-			 * Calculate the new Y-Position
-			 */
-			let ar = Array.from(this.colliding_with);
-			let heightMapIndex = this.x - ar[0].x;
-			let newYPosition = ar[0].y + ar[0].heightMaps['floor'][heightMapIndex];
-
-			return new Point( this.x, newYPosition );
-
-		};
-	};
-
-	ObjectSensor_AB.prototype.update = function(x, y, center, height) {
-
-		this.x = x + 32 + 8;
-		this.y = y + height;
-
-		this.width = 1;
-		if(that.in_air === true) {
-			this.height = 16;
-			that.isOnSlope = false;
-		}
-		if(that.isOnSlope === true) {
-			this.height = 128;
-		} 
-
-	};
-	ObjectSensor_AB.prototype.collide = function(obj, b) {
-	}; 
-
-	// ObjectSensor_A_Right = function() {
-	// 	this.x = null;
-	// 	this.y = null;
-	// 	this.width = null; 
-	// 	this.height = null;
-	// 	this.match_objects = "ground";
-	// };
-	// ObjectSensor_A_Right.prototype.update = function(x, y, center, height) {
-
-	// 	this.x = x + 64 + 8;
-	// 	this.y = y + 18;
-	// 	this.height = 3;
-
-	// 	this.width = 16;
-	// 	if(that.in_air === true) {
-	// 		this.width = 16;
-	// 		that.isOnSlope = false;
-	// 	}
-	// 	if(that.isOnSlope === true) {
-	// 		this.width = 16;
-	// 	}
-
-	// };
-	// ObjectSensor_A_Right.prototype.collide = function(obj, b) {
-	// 	if (b.solid !== true) {
-	// 		return false;
-	// 	}
-
-	// 	if(obj.mode !== 'right-wall') {
-	// 		return false;
-	// 	}
-
-	// 	// the following replaces call "b.collide(obj, b);" of b object type Slope
-	// 	var indexAngleMap = floor(obj.x-b.x);
-	// 	if(indexAngleMap < 0)
-	// 			indexAngleMap = 0;
-
-	// 	if(indexAngleMap >= b.getWidth()) {
-	// 		indexAngleMap = b.getWidth();	
-	// 	}
-
-	// 	var indexHeightMap = floor(obj.x-b.x) + floor(obj.getHeight());
-
-	// 	if(indexHeightMap < 0)
-	// 		indexHeightMap = 0;
-	// 	if(indexHeightMap >= b.getWidth()) {
-	// 		indexHeightMap = b.getWidth();	
-	// 	}
-
-	// 	var indexHeightMapAlt = round(obj.y - b.y);
-	// 		if(indexHeightMapAlt < 0)
-	// 			indexHeightMapAlt = 0;
-
-	// 	// Why 'floor'? Because angles are only correctly calculated in angleMap['floor']	
-	// 	var angle = b.angleMaps['right-wall'][indexHeightMap] % 360;
-	// 		console.log("angle:" + angle);
-	// 	// debugger;
-
-	// 	if( angle <= 360 
-	// 		&& ( angle > 225 && angle <= 315) 
-	// 		) {
-
-	// 		console.log("right-wall");
-	// 		console.log("angle:" + angle);
-	// 		console.log("");
-
-	// 		// obj.angle = b.angleMaps['floor'][indexHeightMap]; // TODO fix generation of angles in other than floor-mode
-	// 		obj.angle = angle;
-
-	// 		obj.mode = "right-wall";
-	// 		var angle_deg = -Math.sin((angle/180) * Math.PI );
-	// 		var offs = ( ( obj.getHeight() - obj.getWidth() ) * angle_deg )
-
-	// 		obj.x = b.x + b.heightMaps['right-wall'][indexHeightMapAlt] - obj.getWidth() - round(offs);
-	// 		obj.in_air = false;
-	// 		obj.isOnSlope = true;
-	// 	}
-	// 	obj.updateSensors();
-	// }; 
-
-	// ObjectSensor_A_Up = function() {
-	// 	this.x = null;
-	// 	this.y = null;
-	// 	this.width = null; 
-	// 	this.height = null;
-	// 	this.match_objects = "ground";
-	// };
-	// ObjectSensor_A_Up.prototype.update = function(x, y, center, height) {
-
-	// 	this.x = x + 32 + 8;
-	// 	this.y = y - 32 + 8;
-
-	// 	this.width = 1;
-	// 	if(that.in_air === true) {
-	// 		this.height = 16;
-	// 		that.isOnSlope = false;
-	// 	}
-	// 	if(that.isOnSlope === true) {
-	// 		this.height = 16;
-	// 	} 
-
-	// };
-	// ObjectSensor_A_Up.prototype.collide = function(obj, b) {
-	// 	if (b.solid !== true) {
-	// 		return false;
-	// 	}
-	// 	b.collide(obj, b);
-
-
-	// 	/**
-	// 	 * The following section is not working, and was written to implement Right-Wall Mode (a.k.a. Loopings)
-	// 	 */
-
-	// 	// if (b.solid !== true) {
-	// 	// 	return false;
-	// 	// }
-
-	// 	// var indexHeightMap = floor(obj.x-b.x);
-	// 	// if(indexHeightMap < 0)
-	// 	// 		indexHeightMap = 0;
-
-	// 	// if(indexHeightMap >= b.getWidth()) {
-	// 	// 	indexHeightMap = b.getWidth()-1;	
-	// 	// }
-
-	// 	// if(obj.speed_y < 0 && obj.y > (b.y + b.heightMaps['ceiling'][indexHeightMap]) ) {
-	// 	// 	console.log("falsing");
-	// 	// 	return false;
-	// 	// }
-
-	// 	// // if(obj.y < b.y + b.heightMaps['ceiling'][indexHeightMap] - obj.getHeight()) {
-	// 	// // 	console.log("falsing2");
-	// 	// // 	return false;
-	// 	// // }
-
-	// 	// if(obj.speed_y >= 0) { 
-	// 	// 	// var angle = obj.angle % 360;
-	// 	// 	var angle = b.angleMaps['ceiling'][indexHeightMap] % 360;
-
-
-	// 	// 	// TODO very wrong: angle has to be different
-	// 	// 	if(angle <= 225 && angle > 135) {
-	// 	// /*	console.log("ceiling");
-	// 	// 	console.log("angle:" + angle);
-	// 	// 	console.log("");*/
-
-	// 	// 		obj.angle = b.angleMaps['ceiling'][indexHeightMap];
-	// 	// 		obj.mode = "ceiling";
-
-	// 	// 		var angle_deg = -Math.sin((angle/180) * Math.PI );
-	// 	// 		var offs = ( ( obj.getHeight() - obj.getWidth() ) * angle_deg )
-
-	// 	// 			// obj.y = b.y + b.heightMaps['ceiling'][indexHeightMap] - obj.getHeight() ;
-
-	// 	// 		// if(obj.in_air === true
-	// 	// 		// 	&& obj.y > b.y + b.heightMaps['ceiling'][indexHeightMap] - obj.getHeight())
-	// 	// 		// 	obj.y = b.y + b.heightMaps['ceiling'][indexHeightMap] - obj.getHeight() ;
-	// 	// 		// else if(obj.isOnSlope === true)
-
-	// 	// 		console.log("indexHeightMap: " + indexHeightMap);
-	// 	// 		console.log("map: " + b.heightMaps['ceiling'][indexHeightMap]);
-	// 	// 		obj.y = b.y + b.heightMaps['ceiling'][indexHeightMap];// - obj.getHeight() ;
-
-	// 	// 		obj.in_air = false;
-	// 	// 		obj.isOnSlope = true;
-	// 	// 	}
-
-	// 	// }
-	// 	// obj.updateSensors();
+	var ObjectSensor_AB = function() {
 	
+		var bar = new SensorFloor();
+		bar.name = "AB";
+		bar.update = function(x, y, center, height) {
 
-	// };
+			bar.x = that.getCenter() + 16;
+			bar.y = y + height;
 
-	ObjectSensor_BB = function() {
-		this.name           = 'BB';
-		this.type           = 'ground'
-		this.match_objects  = ["ground", "slope"];
-		this.match_sensors  = ["ground"];
-		this.x              = null;
-		this.y              = null;
-		this.width          = null;
-		this.height         = null;
-		this.colliding_with = new Set();
-		this.getNewPositionAfterCollision = function() {
-
-			/*
-			 * This Sensor has no Collisions
-			 */
-			if(this.colliding_with.size === 0) {
-
-				// return current values
-				return new Point(this.x, this.y);
+			bar.width = 1;
+			if(that.in_air === true) {
+				bar.height = 16;
+				that.isOnSlope = false;
 			}
-
-
-			/*
-			 * Calculate the new Y-Position
-			 */
-			let ar = Array.from(this.colliding_with);
-			let heightMapIndex = this.x - ar[0].x;
-			let newYPosition = ar[0].y + ar[0].heightMaps['floor'][heightMapIndex];
-
-			return new Point( this.x, newYPosition );
+			if(that.isOnSlope === true) {
+				bar.height = 128;
+			} 
 
 		};
-	};
-	ObjectSensor_BB.prototype.update = function(x, y, center, height) {
-		this.x = x + 32 - 8 - 16;
-		this.y = y + height;
 
-		this.width = 1;
-		if(that.in_air === true) {
-			this.height = 16;
-			that.isOnSlope = false;
-		}
-		if(that.isOnSlope === true) {
-			this.height = 128;
-		} 
-	};
-	ObjectSensor_BB.prototype.collide = function(obj, b) {
+		return bar;	
 	};
 
+	/*
+	 * Floor Sensor B (the one on the left side)
+	 */
+	var ObjectSensor_BB = function() {
+	
+		var bar = new SensorFloor();
+		bar.name = "BB";
+		bar.update = function(x, y, center, height) {
 
-	ObjectSensor_CB = function() {
-		this.name           = 'CB';
-		this.type           = 'object'
-		this.match_objects  = ["beatnik", "ringbounce"];
-		this.match_sensors  = ["object"];
-		this.x              = null;
-		this.y              = null;
-		this.width          = null;
-		this.height         = null;
-		this.colliding_with = new Set();
+			bar.x = that.getCenter() - 16;
+			bar.y = y + height;
+
+			bar.width = 1;
+			if(that.in_air === true) {
+				bar.height = 16;
+				that.isOnSlope = false;
+			}
+			if(that.isOnSlope === true) {
+				bar.height = 128;
+			} 
+
+		};
+
+		return bar;	
 	};
-	ObjectSensor_CB.prototype.update = function(x, y, width, height) {
-		var shrink_x = 0.15 * width;
-		var shrink_y = 0.15 * height;
-		this.x = x + shrink_x;
-		this.y = y + shrink_y;
-		this.width = width - 2 * shrink_x;
-		this.height = height - 2 * shrink_y;
+
+	/*
+	 * Object Sensor
+	 */
+	var ObjectSensor_CB = function() {
+
+		var bar = new SensorObject();
+		bar.name = "CB";
+
+		return bar;	
 	};
-	ObjectSensor_CB.prototype.collide = function(obj, b) {
-	};
-
-	// ObjectSensor_D = function() {
-	// 	this.x = null;
-	// 	this.y = null;
-	// 	this.width = null; 
-	// 	this.height = null;
-	// };
-	// ObjectSensor_D.prototype.update = function(x, y, center, height) {
-	// 	this.x = x + 32 + 32;
-	// 	this.y = y + round(height/2) + 8; //y + height;
-
-	// 	this.width = 16;
-	// 	this.height = 1;
-	// };
-
-	// ObjectSensor_D.prototype.collide = function(obj, b) {
-	// 	if (b.solid !== true) {
-	// 		return false;
-	// 	}
-	// 	b.collide(obj, b);
-	// };
 
 
-	// ObjectSensor_E = function() {
-	// 	this.x = null;
-	// 	this.y = null;
-	// 	this.width = null; 
-	// 	this.height = null;
-	// };
-	// ObjectSensor_E.prototype.update = function(x, y, center, height) {
-	// 	this.x = x + 32 + 32;
-	// 	this.y = y + round(height/2) - 8; //y + height;
-
-	// 	this.width = 16;
-	// 	this.height = 1;
-	// };
-
-	// ObjectSensor_E.prototype.collide = function(obj, b) {
-	// 	if (b.solid !== true) {
-	// 		return false;
-	// 	}
-	// 	b.collide(obj, b);
-	// };
-
-	ObjectSensor_Dummy = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null; 
-		this.height = null;
-	};
-	ObjectSensor_Dummy.prototype.update = function(x, y, center, height) {
-	};
-	ObjectSensor_Dummy.prototype.collide = function(obj, b) {
-	};
 
 	that.initSensors = function() {
+
 		that.sensors = [];
+
 	 	that.sensors.push(new ObjectSensor_AB());
-	 	// that.sensors.push(new ObjectSensor_A_Right());
-
-	 	// that.sensors.push(new ObjectSensor_A_Up());
-	 	// that.sensors.push(new ObjectSensor_Dummy());	
-
 	 	that.sensors.push(new ObjectSensor_BB());
 	 	that.sensors.push(new ObjectSensor_CB());
-	 	// that.sensors.push(new ObjectSensorChar_HeightMap());
-	 	// that.sensors.push(new ObjectSensor_D());
-	 	// that.sensors.push(new ObjectSensor_E());
-		//
+
 		that.updateSensors();
 
-		return true;
 	};
 
 	that.updateSensors = function() {
-		var center = floor(that.sm.currentState.frames[floor(that.frame)].width / 2);
-		var height = that.sm.currentState.frames[floor(that.frame)].height;
+		var center = that.getCenter();
+		var height = that.getHeight();
 
-
-	/**
-	 * NOTE: if changing indices, side-effects will appear!! (e.g.: isOnEdge())
-	 * TODO: address sensors by name, instead of index
-	 */  
-
-
-	/**
-		  * somehow this will not work: 
-		  */   
-
-		// for(var i=0; i<that.sensors.length; i++) {
-		// 	that.sensors[i].update(that.x, that.y, center, height);
-		// }
-
-		/**
-		 * so we do it manually: 
-		 */  
-
-		// Sensor A Down
-		that.sensors[0].update(round(that.x), that.y, center, height);
-		// Sensor A Right
-		// that.sensors[1].update(that.x, that.y, center, height);
-		// Sensor A Up
-		// that.sensors[1].update(that.x, that.y, center, height);
-
-		// Sensor B
-		that.sensors[1].update(round(that.x), that.y, center, height);
-
-		// Sensor C
-		that.sensors[2].update(round(that.x), that.y, that.getWidth(), height);
-
-		// that.sensors[3].update(that.x, that.y, that.getWidth(), height);
-		// that.sensors[2].update(that.x, that.y, width, height);
-		// that.sensors[3].update(that.x, that.y, width, height);
-		// that.sensors[4].update(that.x, that.y, width, height);
-	};
-
-	that.resetSensors = function() {
-		for (var a in that.sensors) {
-			that.sensors[a].colliding = false;
-			that.sensors[a].colliding_with.clear();
-		}
-		that.colliding_sensors.clear();
+		that.sensors[0].update(that.x, that.y, center, height);
+		that.sensors[1].update(that.x, that.y, center, height);
+		that.sensors[2].update(that.x, that.y, that.getWidth(), height);
 	};
 
 	that.get_state = function() {
@@ -830,7 +490,6 @@ var ObjectChar = function() {
 			}
 		}
 
-		// var_tree = new Walk(obj);
 		return true;
 	}
 
@@ -1248,6 +907,7 @@ var ObjectChar = function() {
 
 		foobar.enter = function(sm, obj) {
 			obj.frame = 0;
+			obj.y += 25;
 		};
 		foobar.update = function(sm, obj) {
 			if(obj.keySpace())
@@ -1656,8 +1316,6 @@ var ObjectChar = function() {
 		while(t < obj.rings && t < 32) {
 
 			var ring = new ObjectRingBouncing();
-			ring.solid = true;
-			ring.sm.changeState( new ring.Bounce(), ring );
 			ring.x = obj.x; 
 			ring.y = obj.y;
 			ring.initSensors();
@@ -1691,6 +1349,18 @@ var ObjectChar = function() {
 		obj.rings = 0;
 
 	}
+
+	/*
+	 * Create new State Machine
+	 */
+	that.sm = new EngineStateMachine();
+	that.sm.changeState( that.Stand(), that );
+	/*
+	 * TODO fix missing rings when RingLoss
+	 */
+	// that.recover = true;
+	// that.rings = 32;
+	// that.callback = that.RingLossReal;
 
 	return that;
 

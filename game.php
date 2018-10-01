@@ -28,7 +28,11 @@
 			<?php include('EngineCollision.class.js'); ?>
 			<?php include('EngineCamera.class.js'); ?>
 			<?php include('EngineSensor.class.js'); ?>
+			<?php include('EngineCellularAutomaton.class.js'); ?>
 			<?php include('SensorGround.class.js'); ?>
+			<?php include('SensorFloor.class.js'); ?>
+			<?php include('SensorObject.class.js'); ?>
+			<?php include('SensorAutomaton.class.js'); ?>
 			<?php include('Object.class.js'); ?>
 			<?php include('ObjectStatic.class.js'); ?>
 			<?php include('ObjectWithInput.class.js'); ?>
@@ -131,91 +135,78 @@
 				var bg = new ObjectBackgroundHorizon();
 				bg.x = 0;
 				bg.y = window.cfg.level_height - (256-12) - 64 - 12 - 238 - 228 - 256 - height_modifier;
-				bg.width = window.cfg.screen_width;
 				bg.scroll = 0.95;
 				objects.add(bg);
 
 				var bg = new ObjectBackgroundAngelIsland();
 				bg.x = 520;
 				bg.y = window.cfg.level_height - (256-12) - 64 - 12 - 238 - 98 - 128 - height_modifier;
-				bg.width = window.cfg.screen_width;
 				bg.scroll = 0.9;
 				objects.add(bg);
 				
 				var bg = new ObjectBackgroundSea();
 				bg.x = 0;
 				bg.y = window.cfg.level_height - (256-12) - 64 - 12 - 238 - height_modifier;
-				bg.width = window.cfg.screen_width;
 				bg.scroll = 0.9;
 				objects.add(bg);
 
 				var mountains = new ObjectBackgroundMeadowMountains();
 				mountains.x = 0;
 				mountains.y = window.cfg.level_height - (256-12) - 64 - 12 - height_modifier;
-				mountains.width = window.cfg.screen_width;
 				mountains.scroll = 0.5;
 				objects.add(mountains);
 
 				var meado2 = new ObjectBackgroundMeadow2();
 				meado2.x = 0;
 				meado2.y = window.cfg.level_height - (256-12) - 30 - height_modifier;
-				meado2.width = window.cfg.screen_width;
 				meado2.scroll = 0.4;
 				objects.add(meado2);
 
 				var meadow = new ObjectBackgroundBlankGreen();
 				meadow.x = 0;
 				meadow.y = window.cfg.level_height - 96 + 510 - height_modifier;
-				meadow.width = window.cfg.screen_width;
 				meadow.scroll = 0.2;
 				objects.add(meadow);
 
 				var meadow = new ObjectBackgroundBlankGreen();
 				meadow.x = 0;
 				meadow.y = window.cfg.level_height - 96 + 1020 - height_modifier;
-				meadow.width = window.cfg.screen_width;
 				meadow.scroll = 0.2;
 				objects.add(meadow);
 
 				var meadow = new ObjectBackgroundBlankGreen();
 				meadow.x = 0;
 				meadow.y = window.cfg.level_height - 96 + 1520 - height_modifier;
-				meadow.width = window.cfg.screen_width;
 				meadow.scroll = 0.2;
 				objects.add(meadow);
 
 				var forrest = new ObjectBackgroundForrest();
 				forrest.x = 0;
 				forrest.y = window.cfg.level_height - 96 - height_modifier;	
-				forrest.width = window.cfg.screen_width;
 				forrest.scroll = 0.2;
 				objects.add(forrest);
 
 				var meadow = new ObjectBackgroundMeadow();
 				meadow.x = 0;
 				meadow.y = window.cfg.level_height - (256- 12) - height_modifier;
-				meadow.width = window.cfg.screen_width;
 				meadow.scroll = 0.3;
 				objects.add(meadow);
 
 				var meadow = new ObjectBackgroundGrass4();
 				meadow.x = 0;
 				meadow.y = window.cfg.level_height - 190 - 12 - 22 - height_modifier;
-				meadow.width = window.cfg.screen_width;
 				meadow.scroll = 0.2;
 				objects.add(meadow);
 
 				var tree1 = new ObjectBackgroundTree();
 				tree1.x = 10 + 3 * 624;
 				tree1.y = window.cfg.level_height - 190 - 320 - height_modifier + 45;
-				// tree1.y -= 256 - 12;
 				tree1.z_index = 0;
 				objects.add(tree1);
 
 				for(var x=0; x < 3; x++) {
 					var block1 = new ObjectBlock();
 					block1.solid = true;
-					block1.sm.changeState( block1.Chill(), block1 );
 					block1.x = 900 + x*900;
 					block1.y = window.cfg.level_height - 190 - 256 + 12 - height_modifier  + 45;
 					block1.initSensors();
@@ -235,110 +226,74 @@
 
 
 
+				/*
+				 * INIT Object Char
+				 */
 				var sonic = new ObjectChar();
 				sonic.player_1 = true;
 				sonic.assigned_keys = new Array(37, 39, 40, 32, 38); // links, rechts, unten, space, oben
 				sonic.solid = true;
-				// sonic.x = round(window.cfg.level_width / 2 - 800);
 				sonic.x = 347 + 60;
 				sonic.y = window.cfg.level_height - 256 - height_modifier + 45;
-
-				// set Camera to center Sonic
-				// window.myEngine.Camera.xScroll = 0;
-				// window.myEngine.Camera.yScroll = sonic.y;
-
-				sonic.sm.changeState( new sonic.Stand(), sonic);
 				sonic.initSensors();
 				objects.add(sonic);
 
 				window.myEngine.Camera = new Camera(0, sonic.y + 140 - (window.cfg.screen_width*(1/window.myEngine.canvas_zoom_width))/2, window.cfg.screen_width*(1/window.myEngine.canvas_zoom_width), window.cfg.screen_height*(1/window.myEngine.canvas_zoom_height), window.cfg.level_width, window.cfg.level_height);
 
 
-				// var t = 0;
-				// var angle = 101.25; //; assuming 0=right, 90=up, 180=left, 270=down
-				// var n = false;
-				// var speed = 4;
+				/*
+				 * INIT Cellular Automaton
+				 */
 
-				// var ring = new ObjectRingBouncing();
-				// ring.solid = true;
-				// ring.sm.changeState( new ring.Bounce(), ring );
-				// ring.x = sonic.x; 
-				// ring.y = sonic.y;
-				// ring.initSensors();
-
-			// 	while(t < 32 && t < 32) {
-			// 		console.log("hi");
-
-			// 	ring.speed_y = 1.5 * -1 * Math.sin(angle)* speed;
-			// 	ring.speed_x = 1.5 * Math.cos(angle) * speed;
-			// 	if(t % 3 === 0) {
-			// 		ring.speed_z = 1.5 * Math.sin(angle-180) * speed;
-			// 	}
-
-			// 	if(n === true) {
-			// 		ring.speed_x *= -1;
-			// 		angle += 22.5;
-			// 	}
-
-			// 	if(n === false) {
-			// 		n = true;
-			// 	} else {
-			// 		n = false;
-			// 	}
-			// 	t++;
-			// 	if( t === 16 ) {
-			// 		speed = 2; // we're on the second circle now, so decrease the speed
-			// 		angle = 101.25; // reset angle
-			// 	}
-
-			// 	objects.add(ring);
-			// }
-
-
-
+				// var auto = new EngineCellularAutomaton();
+				// auto.solid = true;
+				// // TODO: use auto.x_offset insteaad of const 256
+				// auto.x = 450;	
+				// // auto.x = (256 + 24) * i;	
+				// // TODO: use auto.y_offset instead of const 190
+				// auto.y = window.cfg.level_height - height_modifier - 250;
+				// auto.initAutomaton();
+				// auto.initSensors();
+				// objects.add(auto);
+				
+				
 				var beatnik = new ObjectBeatnik();
 				beatnik.solid = true;
-				beatnik.sm.changeState( beatnik.Beat(), beatnik);
 				beatnik.x = 600;
 				beatnik.y = window.cfg.level_height - 256 - height_modifier + 55;
 				beatnik.initSensors();
-				// objects.add(beatnik);
+				objects.add(beatnik);
 
-				// var beatnik = new ObjectBeatnik();
-				// beatnik.solid = true;
-				// beatnik.sm.changeState( beatnik.Beat(), beatnik);
-				// beatnik.x = 1200;
-				// beatnik.y = window.cfg.level_height - 256;
-				// beatnik.initSensors();
-				// objects.add(beatnik);
+				var beatnik = new ObjectBeatnik();
+				beatnik.solid = true;
+				beatnik.x = 1200;
+				beatnik.y = window.cfg.level_height - 256;
+				beatnik.initSensors();
+				objects.add(beatnik);
 
-				// var beatnik = new ObjectBeatnik();
-				// beatnik.solid = true;
-				// beatnik.sm.changeState( beatnik.Beat(), beatnik);
-				// beatnik.x = 1800;
-				// beatnik.y = window.cfg.level_height - 256;
-				// beatnik.initSensors();
-				// objects.add(beatnik);
+				var beatnik = new ObjectBeatnik();
+				beatnik.solid = true;
+				beatnik.x = 1900;
+				beatnik.y = window.cfg.level_height - 256;
+				beatnik.initSensors();
+				objects.add(beatnik);
 
-				// var beatnik = new ObjectBeatnik();
-				// beatnik.solid = true;
-				// beatnik.sm.changeState( beatnik.Beat(), beatnik);
-				// beatnik.x = 2400;
-				// beatnik.y = window.cfg.level_height - 256;
-				// beatnik.initSensors();
-				// objects.add(beatnik);
+				var beatnik = new ObjectBeatnik();
+				beatnik.solid = true;
+				beatnik.x = 2400;
+				beatnik.y = window.cfg.level_height - 256;
+				beatnik.initSensors();
+				objects.add(beatnik);
 
-				// var beatnik = new ObjectBeatnik();
-				// beatnik.solid = true;
-				// beatnik.sm.changeState( beatnik.Beat(), beatnik);
-				// beatnik.x = 3000;
-				// beatnik.y = window.cfg.level_height - 256;
-				// beatnik.initSensors();
-				// objects.add(beatnik);
+				var beatnik = new ObjectBeatnik();
+				beatnik.solid = true;
+				beatnik.x = 3000;
+				beatnik.y = window.cfg.level_height - 256;
+				beatnik.initSensors();
+				objects.add(beatnik);
 
 					var ground = new ObjectGround();
 					ground.solid = true;
-					ground.sm.changeState( ground.Chill(), ground );
 					// TODO: use ground.x_offset insteaad of const 256
 					ground.x = window.cfg.level_width - 256;	
 					// ground.x = (256 + 24) * i;	
@@ -354,7 +309,6 @@
 
 					var ground = new ObjectGround();
 					ground.solid = true;
-					ground.sm.changeState( ground.Chill(), ground );
 					// TODO: use ground.x_offset insteaad of const 256
 					ground.x = 256 * i;	
 					// ground.x = (256 + 24) * i;	
@@ -368,7 +322,6 @@
 				for(z; z < 3; z++) {
 					var block1 = new ObjectHillDown();
 					block1.solid = true;
-					block1.sm.changeState( block1.Chill(), block1 );
 					block1.x = 256*i + z*512;
 					foo = block1.x;
 					// TODO 251 in ObjectHillDown.y_offset = 251;
@@ -382,7 +335,6 @@
 				for(v; v < 3; v++) {
 					var block1 = new ObjectHillDown();
 					block1.solid = true;
-					block1.sm.changeState( block1.Chill(), block1 );
 					block1.x = 256*i + z*512 + v*512;
 					foo = block1.x;
 					// TODO 251 in ObjectHillDown.y_offset = 251;
@@ -398,7 +350,6 @@
 				 * for(var z=0; z < 3; z++) {
 				 *   var block2 = new ObjectSlope();
 				 *   block2.solid = true;
-				 *   block2.sm.changeState( block2.Chill(), block2 );
 				 *   // block2.x = 256 * i + z*512 + 256 + z*896;
 				 *   block2.x = foo + 512 + z*896;
 				 *   block2.y = foo2 + 256 + z*512; 
@@ -415,7 +366,6 @@
 					for(var y=0; y < 3; y++) {
 						var ring = new ObjectRing();
 						ring.solid = true;
-						ring.sm.changeState( ring.Chill(), ring );
 						ring.x = 450 + x*900 + 64 + y*48;
 						ring.y = window.cfg.level_height - 256 - height_modifier + 45; 
 						ring.initSensors();
@@ -425,7 +375,6 @@
 					for(var y=0; y < 3; y++) {
 						var ring = new ObjectRing();
 						ring.solid = true;
-						ring.sm.changeState( ring.Chill(), ring );
 						ring.x = 900 + x*900 + 64 + y*48;
 						ring.y = window.cfg.level_height - 190 - 256 - 128 - height_modifier + 45; 
 						ring.initSensors();

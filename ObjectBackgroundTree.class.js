@@ -37,6 +37,12 @@ var ObjectBackgroundTree = function() {
 		return foobar;
 	};
 
+	/*
+	 * Create new State Machine
+	 */
+	that.sm = new EngineStateMachine();
+	that.sm.changeState( that.Chill(), that );
+
 	return that;
 
 };

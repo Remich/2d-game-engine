@@ -5,10 +5,11 @@ var ObjectExplosion = function() {
 	var that = new ObjectStatic();
 
 	that.name = 'explosion';
-	that.collide = function( b, sensor ) { };
+	that.collide = function() {};
+
 	that.get_state = function() { 
-		//that.sm.changeState( new that.Explode(), that );
 	};
+
 	that.Explode = function(obj) {
 
 		var foobar = {};
@@ -53,6 +54,12 @@ var ObjectExplosion = function() {
 
 		return foobar;
 	};
+
+	/*
+	 * Create new State Machine
+	 */
+	that.sm = new EngineStateMachine();
+	that.sm.changeState( that.Explode(), that );
 
 	return that;
 

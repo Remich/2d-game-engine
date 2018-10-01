@@ -16,10 +16,10 @@ var ObjectBackgroundGrass4 = function() {
 		foobar.loop = false;
 		foobar.length = 1;
 
-		foobar.frames = []; //new Array();
+		foobar.frames = [];
 
-		foobar.frames[0] = []; //new Array();
-		foobar.frames[0].width = 514;
+		foobar.frames[0] = [];
+		foobar.frames[0].width = window.cfg.level_width;
 		foobar.frames[0].height = 190;
 		foobar.frames[0].margin = 0;
 
@@ -34,6 +34,12 @@ var ObjectBackgroundGrass4 = function() {
 
 		return foobar;
 	};
+
+	/*
+	 * Create new State Machine
+	 */
+	that.sm = new EngineStateMachine();
+	that.sm.changeState( that.Chill(), that );
 
 	return that;
 

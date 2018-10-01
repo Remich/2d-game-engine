@@ -6,29 +6,82 @@
 
 	that.name = 'ringbounce';
 	that.solid = true;
-	that.collide = function( obj ) {
-
-		if(obj.name === 'char') {
-			if(obj.recover === false) {
-				that.sm.changeState( new that.Collect(that), that );
-				obj.rings++;
-			}
-		}
-
-		if(obj.name === 'ground') {
-			if(obj.speed_y < 0)
-				return false;
-			if(obj.y > that.y )
-		 		return false;
-		 	if(obj.speed_y > 0) {
-				obj.speed_y *= -0.75;
-		 	}
-		}
-	};
-
 	that.in_air = true;
 	that.rolling = false;
 	that.grv = 1 * 0.09375;
+
+	that.collide = function() {
+
+		/*
+		 * check if Sensors 'ground' are colliding
+		 */
+		if(that.colliding_sensors.has('AB')) {
+			that.GroundSensorCollide();	
+		}
+
+	};
+
+	that.GroundSensorCollide = function() {
+
+			
+		/*
+		 * Bouncing
+		 */
+		if(Math.abs(that.speed_y) > 2) {
+			that.speed_y *= -0.75;
+			return;
+		} 
+
+		/*
+		 * calculate the heightMapValue
+		 */
+		var ar_r = Array.from(that.sensors[1].colliding_with);
+		var match = ar_r[0];
+		var heightMapIndex = floor(that.sensors[1].x - match.x);
+
+		/*
+		 * Collision with Object which has no heightMap
+		 * ABORT
+		 */
+		if(match.heightMaps['floor'] === undefined) {
+			return;
+		}
+
+		var heightMapValue = match.heightMaps['floor'][heightMapIndex];
+
+		/*
+		 * update Object Properties
+		 */
+		// TODO this should be implemented via a property in the Objects of type "ground"
+		// something like a collision-direction
+		if(that.speed_y < 0 && that.y > (match.y + heightMapValue) ) {
+			console.log("falsing in " + match.name);
+			return false;
+		}
+		if(that.y < match.y + heightMapValue - that.getHeight()) {
+			console.log("falsing-2 in " + match.name);
+			return false;
+		}
+		
+		that.in_air = false;
+		that.isOnSlope = true;
+	
+		// set y-position according to heightMap 
+		that.y = match.y + heightMapValue - that.sm.currentState.frames[floor(that.frame)].height;
+
+		// change y-offset according to current angle
+		let offset_y = (that.getHeight() / 4) * Math.sin(that.angle / 180) * Math.PI;
+
+		if(that.angle < 0) {
+			offset_y *= -1;
+		}
+
+		that.y += offset_y;
+
+		// update sensor positions
+		that.updateSensors();
+
+	};
 
 	that.get_state = function() {
 	};
@@ -128,7 +181,7 @@
 			obj.solid = false;
 		};
 		foobar.update = function(sm, obj) {
-			if(floor(obj.gameframe++) >= 5) {
+			if(floor(obj.gameframe++) >= 16) {
 				obj.destroy = true;
 			}
 			obj.speed_x = 0;
@@ -141,46 +194,79 @@
 	};
 
 
-	ObjectSensor_Ring = function() {
-		this.x = null;
-		this.y = null;
-		this.width = null;
-		this.height = null;
-		this.match_objects = ["char"];
+	var ObjectSensor_Ring = function() {
+
+		var bar = new SensorObject();
+		bar.match_objects  = ["char"];
+
+		return bar;
 	};
-	ObjectSensor_Ring.prototype.update = function(x, y, width, height) {
-		this.x = x + 5;
-		this.y = y + 5;
-		this.width = width - 10;
-		this.height = height - 10;
-	};
-	ObjectSensor_Ring.prototype.collide = function(obj, b) {
+
+
+	var ObjectSensor_AB = function() {
+	
+		var bar = new SensorFloor();
+		bar.name = "AB";
+		bar.update = function(x, y, center, height) {
+
+			bar.x = that.getCenter();
+			bar.y = y + height;
+
+			bar.width = 1;
+			if(that.in_air === true) {
+				bar.height = 16;
+				that.isOnSlope = false;
+			}
+			if(that.isOnSlope === true) {
+				bar.height = 128;
+			} 
+
+		};
+
+		return bar;	
 	};
 
 
 	that.initSensors = function() {
+
 		that.sensors = [];
+
 		var sensor = new ObjectSensor_Ring();
 
-		sensor.update( that.x, that.y, that.sm.currentState.frames[floor(that.frames)].width, that.sm.currentState.frames[floor(that.frame)].height );
+		sensor.update(
+			that.x,
+			that.y,
+			that.getWidth(),
+			that.getHeight()	
+		);
+
 	 	that.sensors.push(sensor);
 
-		return true;
+		var sensor_ground = new ObjectSensor_AB();
+
+		sensor.update(
+			that.x,
+			that.y,
+			that.getWidth(),
+			that.getHeight()	
+		);
+
+	 	that.sensors.push(sensor_ground);
 	};
 
 	that.updateSensors = function() {
-		// Sensor_Ring
-		var width = that.sm.currentState.frames[floor(that.frame)].width;
-		var height = that.sm.currentState.frames[floor(that.frame)].height;
+		var width = that.getWidth();
+		var height = that.getHeight();
 		that.sensors[0].update(that.x, that.y, width, height);
+		that.sensors[1].update(that.x, that.y, width, height);
 	};
 
-	that.resetSensors = function() {
-		for (var a in that.sensors) {
-			that.sensors[a].colliding = false;
-		}
-		return true; 
-	};
+	
+	/*
+	 * Create new State Machine
+	 */
+	that.sm = new EngineStateMachine();
+	that.sm.changeState( new that.Bounce(), that );
 
 	return that;
 

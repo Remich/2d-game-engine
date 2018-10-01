@@ -4,7 +4,7 @@ var ObjectBackgroundAngelIsland = function() {
 
 	var that = new ObjectBackground();
 
-	that.repeat = 'no-repeat';
+	that.repeat = 'repeat-x';
 
 	that.Chill = function(obj) {
 
@@ -39,6 +39,12 @@ var ObjectBackgroundAngelIsland = function() {
 
 		return foobar;
 	};
+
+	/*
+	 * Create new State Machine
+	 */
+	that.sm = new EngineStateMachine();
+	that.sm.changeState( that.Chill(), that );
 
 	return that;
 

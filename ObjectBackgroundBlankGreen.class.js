@@ -21,7 +21,7 @@ var ObjectBackgroundBlankGreen = function() {
 		foobar.frames = [];
 
 		foobar.frames[0] = [];
-		foobar.frames[0].width = 512;
+		foobar.frames[0].width = window.cfg.level_width;
 		foobar.frames[0].height = 512;
 		foobar.frames[0].margin = 0;
 
@@ -36,6 +36,12 @@ var ObjectBackgroundBlankGreen = function() {
 
 		return foobar;
 	};
+
+	/*
+	 * Create new State Machine
+	 */
+	that.sm = new EngineStateMachine();
+	that.sm.changeState( that.Chill(), that );
 
 	return that;
 

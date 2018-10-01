@@ -78,7 +78,7 @@ Collision.prototype.check = function() {
 			// }
 
 			// don't check if handle has no sensors
-			// this might happen in the first cycles of the game looop
+			// this might, but should NOT happen in the first cycles of the game looop
 			if(match.sensors === undefined) {
 				continue;	
 			}
@@ -106,7 +106,7 @@ Collision.prototype.check = function() {
 					}
 				
 					// check for intersection of sensors
-					if(this.collision_check_single_strict_with_sensor(handle_s, match_s) === true) {
+					if(Collision.collision_check_single_strict_with_sensor(handle_s, match_s) === true) {
 
 						// each sensor has to know with which object it is colliding
 						handle_s.colliding_with.add( match );
@@ -156,7 +156,7 @@ Collision.prototype.correctAngles = function() {
 /*
  * Method to check if any two sensors are overlapping/colliding
  */
-Collision.prototype.collision_check_single_strict_with_sensor = function(a, b) {
+Collision.collision_check_single_strict_with_sensor = function(a, b) {
 
 	if (a.x >= (b.x + b.width))
 		return false;
