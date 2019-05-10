@@ -17,7 +17,7 @@ var Engine = function() {
 	this.show_fps = true;
 	
 	// boolean, to show debug info in the top right corner
-	this.show_debug = false;
+	this.show_debug = true;
 
 	// boolean, to show ring score
 	this.show_rings = true;
@@ -30,7 +30,7 @@ var Engine = function() {
 	this.fps60 = true;
 
 	// boolean, to enable editor mode
-	this.editor = true;
+	this.editor = false;
 
 	// Quadtree for fast collisions
 	this.quadtree = false;
@@ -510,12 +510,19 @@ Engine.prototype.draw = function(obj, camx, camy) {
 		this.drawSensors(obj);	
 	}
 
+	/*
+	 * Draw Callback (for debug)
+	 */
+	if(window.myEngine.drawCallback !== undefined)
+		window.myEngine.drawCallback();
+
 };
 
 /*
  * Main Game Loop
  */
 
+var rings = 0;
 Engine.prototype.loop = function() {
 	
 	// pause?
@@ -530,8 +537,21 @@ Engine.prototype.loop = function() {
 	
 	// reset buffer
 	window.myEngine.canvas.clearRect(0,0, window.cfg.screen_width, window.cfg.screen_height);
-	
 
+	// check spawn status
+	for (var a in objects.myList) {
+		if (objects.myList[a] !== undefined)
+			objects.myList[a].spawned = window.myEngine.isWithinScreen(objects.myList[a]);
+	}
+	
+	// debug test, to see if spawn / despawn is working
+	rings = 0;
+	objects.each(function(handle) {
+		if(handle.name === "ring") {
+			rings++;
+		}
+	});
+	
 	// get state for each statemachine
 	objects.each(function(handle) {
 		if (handle.get_state !== undefined)
@@ -674,6 +694,8 @@ Engine.prototype.loop = function() {
 		// TODO delete handle??
 	})
 
+	console.log("rings found: " + rings);
+
 	// switch buffers
 	window.myEngine.buffers[1-window.myEngine.drawing_buffer].style.visibility='hidden';
 	window.myEngine.buffers[window.myEngine.drawing_buffer].style.visibility='visible';
@@ -731,4 +753,45 @@ Engine.prototype.rings = function() {
 
 Engine.prototype.initQuadTree = function(boundaries) {
 	this.quadtree = new QuadTree(boundaries, false, 7);
+};
+
+var drawSquare = function(x, y, width, height) {
+	var ctx = window.myEngine.canvas;
+	ctx.save();
+	ctx.fillStyle = 'rgba(255,0,0,1)';
+	ctx.fillRect(
+		x - window.myEngine.Camera.xScroll, 
+		y - window.myEngine.Camera.yScroll,
+		width,
+		height
+	);
+	ctx.restore();
+}
+
+Engine.prototype.isWithinScreen = function(handle) {
+
+	obj_a = {
+		'x' 	 : handle.x,
+		'y' 	 : handle.y,
+		'width'	 : handle.getWidth(),
+		'height' : handle.getHeight()
+	};
+
+	var c_screen_width 	= window.cfg.screen_width / window.myEngine.canvas_zoom_width;
+	var c_screen_height = window.cfg.screen_height / window.myEngine.canvas_zoom_height;
+	var camx = window.myEngine.Camera.xScroll;
+	var camy = window.myEngine.Camera.yScroll;
+	obj_b = {
+		'x'		 : camx,
+		'y'		 : camy,	
+		'width'  : c_screen_width ,
+		'height' : c_screen_height 
+	};
+
+	// window.myEngine.drawCallback = function()	{
+	// 	// drawSquare(700, 800, 50, 1000);
+	// 	drawSquare(camx, camy, window.cfg.screen_width/window.myEngine.canvas_zoom_width, window.cfg.screen_height/window.myEngine.canvas_zoom_height);
+	// };
+
+	return (Collision.collision_check_single_strict_with_sensor(obj_a, obj_b));
 };

@@ -44,10 +44,15 @@ EngineObjectList.prototype.getByName = function( needle ) {
 	}
 	return false;
 };
+EngineObjectList.prototype.getList = function( func ) {
+	return this.myList;	
+};
 EngineObjectList.prototype.each = function( func ) {
 	for (var a in this.myList) {
-		if (this.myList[a] !== undefined)
-			func( this.myList[a] );
+		if (this.myList[a] !== undefined) {
+			if(this.myList[a].spawned === true)
+				func( this.myList[a] );
+		}
 	}
 	return true;
 };

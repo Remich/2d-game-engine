@@ -261,35 +261,35 @@
 				var beatnik = new ObjectBeatnik();
 				beatnik.solid = true;
 				beatnik.x = 600;
-				beatnik.y = window.cfg.level_height - 256 - height_modifier + 55;
+				beatnik.y = 790;
 				beatnik.initSensors();
 				objects.add(beatnik);
 
 				var beatnik = new ObjectBeatnik();
 				beatnik.solid = true;
 				beatnik.x = 1200;
-				beatnik.y = window.cfg.level_height - 256;
+				beatnik.y = 790;
 				beatnik.initSensors();
 				objects.add(beatnik);
 
 				var beatnik = new ObjectBeatnik();
 				beatnik.solid = true;
 				beatnik.x = 1900;
-				beatnik.y = window.cfg.level_height - 256;
+				beatnik.y = 790;
 				beatnik.initSensors();
 				objects.add(beatnik);
 
 				var beatnik = new ObjectBeatnik();
 				beatnik.solid = true;
 				beatnik.x = 2400;
-				beatnik.y = window.cfg.level_height - 256;
+				beatnik.y = 790;
 				beatnik.initSensors();
 				objects.add(beatnik);
 
 				var beatnik = new ObjectBeatnik();
 				beatnik.solid = true;
 				beatnik.x = 3000;
-				beatnik.y = window.cfg.level_height - 256;
+				beatnik.y = 850;
 				beatnik.initSensors();
 				objects.add(beatnik);
 

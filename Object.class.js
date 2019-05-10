@@ -26,6 +26,7 @@ var Object = function() {
 	that.frame_counter = that.frame_duration;
 	that.gravitation = 1;
 	that.history = [];
+	that.spawned = true;
 
 
 	that.destroy = false;
