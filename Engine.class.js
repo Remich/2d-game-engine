@@ -30,10 +30,13 @@ var Engine = function() {
 	this.fps60 = true;
 
 	// boolean, to enable editor mode
-	this.editor = false;
+	this.editor = true;
 
 	// Quadtree for fast collisions
 	this.quadtree = false;
+
+	// Pause
+	this.pause = false;
 
 	/*
 	 * change speedup according to fps speed
@@ -93,6 +96,14 @@ var Engine = function() {
 	
 	// initialize QuadTree for Collision Detection
 	this.initQuadTree({x: 0, y: 0, width: window.cfg.level_width, height: window.cfg.level_height});
+
+	// Toggle Pause
+	document.addEventListener("keydown", function(e) {
+		var key = e.keyCode ? e.keyCode : e.which;
+		if (key === 13) {
+			window.myEngine.pause = ! window.myEngine.pause;
+		}	
+	});
 };
 
 
@@ -118,6 +129,10 @@ Engine.prototype.updateCache = function() {
 			window.location.reload();
 		}, false);
 	}, false);
+};
+
+Engine.prototype.isPaused = function() {
+		return this.pause;
 };
 
 /*
@@ -502,15 +517,20 @@ Engine.prototype.draw = function(obj, camx, camy) {
  */
 
 Engine.prototype.loop = function() {
+	
+	// pause?
+	if(window.myEngine.pause === true) 
+		return;
 
 	// Get the time when the frame started.
 	var frame_time = new Date().getTime();
 
 	// The elapsed milliseconds per frame
 	window.cfg.elapsed_time = (frame_time - window.cfg.last_time);
-
+	
 	// reset buffer
 	window.myEngine.canvas.clearRect(0,0, window.cfg.screen_width, window.cfg.screen_height);
+	
 
 	// get state for each statemachine
 	objects.each(function(handle) {
