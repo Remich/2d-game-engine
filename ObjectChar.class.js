@@ -193,7 +193,7 @@ var ObjectChar = function() {
 
 		// change y-offset according to current angle
 	
-		let offset_y = (that.getHeight() / 4) * Math.sin(that.angle / 180) * Math.PI;
+		let offset_y = (that.getHeight() / 2) * Math.sin(that.angle / 180) * Math.PI;
 
 		if(that.angle < 0) {
 			offset_y *= -1;
