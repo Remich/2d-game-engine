@@ -9,6 +9,8 @@ var Object = function() {
 	
 	that.x = 0;
 	that.y = 0;
+	that.width = 0;
+	that.height = 0;
 	that.camera_offset_x = 0;
 	that.camera_offset_y = 0;
 	that.gsp = 0; // ground speed
@@ -71,6 +73,12 @@ var Object = function() {
 	that.repeat = 'repeat'; // or 'repeat-x', 'repeat-y'
 	that.fixed = false;
 	that.scroll = 0; // amount of parallax scrolling
+
+	that.updateDimensions = function() {
+		that.width = that.getWidth();
+		that.height = that.getHeight();
+	};
+
 
 	that.getWidth = function() {
 		return that.sm.currentState.frames[floor(that.frame)].width;

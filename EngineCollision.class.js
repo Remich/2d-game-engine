@@ -24,10 +24,20 @@ Collision.prototype.rm = function(obj) {
 };
 
 /*
+ * Clear and rebuild QuadTree
+ */
+Collision.prototype.rebuildQuadTree = function() {
+	window.myEngine.quadtree.clear();
+	for(a in this.Objects) {
+		window.myEngine.quadtree.insert(this.Objects[a]);
+	}
+};
+
+/*
  * Method to check for Collisions
  */
 Collision.prototype.check = function() {
-
+	
 	var a, b, c, d;
 	var handle, match;
 	var handle_s, match_s;
@@ -56,10 +66,13 @@ Collision.prototype.check = function() {
 		if(handle.sensors === undefined) {
 			continue;
 		}
+			
+		// get the possible collisions, QuadTree decides
+		var possible_collisions = window.myEngine.quadtree.retrieve(handle);
+		
+		for(var i=0; i<possible_collisions.length; i++) {
 
-		for(b in this.Objects) {
-
-			match = this.Objects[b];
+			match = possible_collisions[i];
 
 			// don't check undefined match
 			if(match === undefined) {

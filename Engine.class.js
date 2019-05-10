@@ -14,7 +14,7 @@ var Engine = function() {
 	this.bench = false;
 
 	// boolean, to show fps in the top right corner
-	this.show_fps = false;
+	this.show_fps = true;
 	
 	// boolean, to show debug info in the top right corner
 	this.show_debug = false;
@@ -31,6 +31,9 @@ var Engine = function() {
 
 	// boolean, to enable editor mode
 	this.editor = false;
+
+	// Quadtree for fast collisions
+	this.quadtree = false;
 
 	/*
 	 * change speedup according to fps speed
@@ -87,6 +90,9 @@ var Engine = function() {
 
 	// initalize Input Handler
 	this.initInputHandler();
+	
+	// initialize QuadTree for Collision Detection
+	this.initQuadTree({x: 0, y: 0, width: window.cfg.level_width, height: window.cfg.level_height});
 };
 
 
@@ -153,7 +159,6 @@ Engine.prototype.initScreen = function(camx, camy) {
 
 	// }
 };
-
 
 /*
  * Input Handler
@@ -556,6 +561,12 @@ Engine.prototype.loop = function() {
 			handle.physics();
 	});
 
+	/*
+	 * Update width and height
+	 */
+	objects.each(function(handle) {
+		handle.updateDimensions();
+	});
 
 	/*
 	 * Collisions
@@ -569,6 +580,9 @@ Engine.prototype.loop = function() {
 			window.myEngine.Collision.rm(handle);
 	});
 
+	// Clear and Rebuild QuadTree
+	window.myEngine.Collision.rebuildQuadTree();
+	
 	// Check for Collisions 
 	window.myEngine.Collision.check();
 
@@ -603,7 +617,13 @@ Engine.prototype.loop = function() {
 	objects.each(function(handle) {
 		window.myEngine.draw(handle, window.myEngine.Camera.xScroll, window.myEngine.Camera.yScroll);
 	});
-
+	
+	/*
+	 * Update width and height; YES, AGAIN
+	 */
+	objects.each(function(handle) {
+		handle.updateDimensions();
+	});
 
 
 	// Sachen für nächsten Durchlauf merken 
@@ -687,4 +707,8 @@ Engine.prototype.debug = function() {
 Engine.prototype.rings = function() {
 	var obj = objects.getByName("char");
 	$('#debug').html('rings: ' + obj.rings);
+};
+
+Engine.prototype.initQuadTree = function(boundaries) {
+	this.quadtree = new QuadTree(boundaries, false, 7);
 };

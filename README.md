@@ -23,3 +23,7 @@ You can view a [Demo](http://renemichalke.de/work/2d-game-engine/) here.
 
 * Sound
 * State Machine for different Scenes
+
+## QuadTree Implementation from:
+
+* https://github.com/mikechambers/ExamplesByMesh/tree/master/JavaScript/QuadTree
