@@ -11,13 +11,13 @@ var Engine = function() {
 
 	// boolean, to disable fps limit (benchmark mode)
 	// best combined with show_debug = true
-	this.bench = true;
+	this.bench = false;
 
 	// boolean, to show fps in the top right corner
 	this.show_fps = true;
 	
 	// boolean, to show debug info in the top right corner
-	this.show_debug = true;
+	this.show_debug = false;
 
 	// boolean, to show ring score
 	this.show_rings = true;

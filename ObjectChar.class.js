@@ -1296,7 +1296,7 @@ var ObjectChar = function() {
 				obj.recover = false;
 				obj.blinking = false;
 				obj.render = true;
-			}, (1/window.myEngine.fps_max) * 120 * 500); // TODO change to gameframes
+			}, (1/window.myEngine.fps_max) * 120 * 250); // TODO change to gameframes
 	
 		};
 
@@ -1322,9 +1322,6 @@ var ObjectChar = function() {
 
 			ring.speed_y = 1.5 * -1 * Math.sin(angle)* speed;
 			ring.speed_x = 1.5 * Math.cos(angle) * speed;
-			if(t % 3 === 0) {
-				ring.speed_z = 1.5 * Math.sin(angle-180) * speed;
-			}
 
 			if(n === true) {
 				ring.speed_x *= -1;
@@ -1343,7 +1340,6 @@ var ObjectChar = function() {
 			}
 
 			objects.add(ring);
-
 		}
 
 		obj.rings = 0;
