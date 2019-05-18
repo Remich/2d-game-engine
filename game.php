@@ -27,6 +27,7 @@
 			<?php include('EngineStateMachine.class.js'); ?>
 			<?php include('EngineObjectList.class.js'); ?>
 			<?php include('EngineCollision.class.js'); ?>
+			<?php include('EngineInput.class.js'); ?>
 			<?php include('EngineCamera.class.js'); ?>
 			<?php include('EngineSensor.class.js'); ?>
 			<?php include('EngineCellularAutomaton.class.js'); ?>
@@ -240,6 +241,10 @@
 				sonic.initSensors();
 				objects.add(sonic);
 
+				// add char to InputHandler
+				window.myEngine.InputHandler.add(sonic);
+
+				
 				window.myEngine.Camera = new Camera(0, sonic.y + 140 - (window.cfg.screen_width*(1/window.myEngine.canvas_zoom_width))/2, window.cfg.screen_width*(1/window.myEngine.canvas_zoom_width), window.cfg.screen_height*(1/window.myEngine.canvas_zoom_height), window.cfg.level_width, window.cfg.level_height);
 
 

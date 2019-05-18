@@ -439,6 +439,8 @@ var ObjectChar = function() {
 
 				if(obj.isRollSpeed())
 					obj.sm.changeState( new that.Roll(obj), obj );
+				else
+					obj.sm.changeState ( new that.SlowDownWalk(obj), obj );
 
 				return true;
 			}
@@ -547,13 +549,12 @@ var ObjectChar = function() {
 
 		foobar.enter = function(sm, obj) {
 			obj.frame = 0;
-			obj.camera_offset_y = -128;
+			obj.camera_offset_y = -256;
 		};
 		foobar.update = function(sm, obj) {
 			obj.speed_x = 0;
 		};
 		foobar.exit = function(sm, obj) {
-			obj.y += 128;
 			obj.camera_offset_y = 0;
 		};
 

@@ -92,7 +92,10 @@ var Engine = function() {
 	this.initScreen();
 
 	// initalize Input Handler
-	this.initInputHandler();
+	this.InputHandler = new InputHandler();
+
+	// initalize Collision Handler
+	this.Collision = new Collision();
 	
 	// initialize QuadTree for Collision Detection
 	this.initQuadTree({x: 0, y: 0, width: window.cfg.level_width, height: window.cfg.level_height});
@@ -105,9 +108,6 @@ var Engine = function() {
 		}	
 	});
 };
-
-
-Engine.prototype.Collision = new Collision();
 
 /*
  * Returns the length of a gameframe in ms
@@ -175,51 +175,6 @@ Engine.prototype.initScreen = function(camx, camy) {
 	// }
 };
 
-/*
- * Input Handler
- */
-Engine.prototype.initInputHandler = function() {
-
-	$(document).keydown(function(e) {
-		var add_key = function(keyCode, obj) { if(obj.pressed_keys[obj.pressed_keys.length-1] != keyCode && in_array(keyCode, obj.assigned_keys) && !in_array(keyCode, obj.pressed_keys)) { obj.pressed_keys[obj.pressed_keys.length] = keyCode; } }; 
-		objects.each(function(handle) {
-			if(handle.assigned_keys === undefined || handle.assigned_keys.length < 0)
-				return false;
-			if(in_array(e.keyCode, handle.assigned_keys))
-				add_key(e.keyCode, handle); 
-		});
-
-	});				
-
-	$(document).keyup(function(e) {
-
-		var remove_key = function(keyCode, obj) {
-			if(in_array(keyCode, obj.pressed_keys))
-				obj.pressed_keys.splice(get_array_key(keyCode, obj.pressed_keys), 1);
-				
-			if(obj.released_keys.length > 0)
-				obj.released_keys.splice(1, 1);
-				
-			if(obj.released_keys[obj.released_keys.length-1] != keyCode && in_array(keyCode, obj.assigned_keys) && !in_array(keyCode, obj.released_keys))
-				obj.released_keys[obj.released_keys.length] = keyCode;
-		};
-
-		objects.each(function(handle) {
-			if (handle.assigned_keys === undefined || handle.assigned_keys.length < 0)
-				return false;
-			if (!in_array(e.keyCode, handle.assigned_keys))
-				return false;
-			if (handle.pressed_keys === undefined || handle.pressed_keys.length < 0)
-				return false;
-
-			if (in_array(e.keyCode, handle.pressed_keys)) {
-				remove_key(e.keyCode, handle);
-				if (handle.sm.currentState.onKeyUp !== undefined)
-					handle.sm.currentState.onKeyUp(handle);
-			} 
-		});
-	});
-};
 
 /*
  * reset sensors to their default state, for next round of collisions
