@@ -1,14 +1,10 @@
 # TODO
 
 * move draw function (Engine.class.js) to seperate file
+* fix bad performance after ring loss, even when rings already have disappeared
+	- probably because they never disappear fully, because of spawned == false
  
 ## Currently – Branch: change-angle-calculation
-
-### Currently – Cellular Automaton
-
-	* [ ] - 
-	* [ ] - 
-	* [ ] - 
 
 * [x] - make ObjectHillDown.class.js flippable and add to current scene
 
@@ -49,7 +45,7 @@
 
 ## Bugs
 
-* [ ] - when on slope: looking up and immediately looking down leads to falling through the floor of the slope
+* [x] - when on slope: looking up and immediately looking down leads to falling through the floor of the slope
 
 * [ ] - when moving from one slope to another slope of different height: the other slope's heightMap is being used, even though were mostly standing on the old slope
 		[x] - fix for walking to the right
