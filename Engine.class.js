@@ -17,7 +17,7 @@ var Engine = function() {
 	this.show_fps = true;
 	
 	// boolean, to show debug info in the top right corner
-	this.show_debug = false;
+	this.show_debug = true;
 
 	// boolean, to show ring score
 	this.show_rings = true;
@@ -59,7 +59,7 @@ var Engine = function() {
 	// update Browser Cache
 	this.updateCache();
 
-	// geht handlers of both drawing buffers
+	// get handlers of both drawing buffers
 	this.buffers = [ 
 		document.getElementById("canvas_1"), 
 		document.getElementById("canvas_2")
@@ -75,11 +75,11 @@ var Engine = function() {
 	this.canvas.imageSmoothingEnabled = false;
 
 	// same for webkit
-	// still necessary?
+	// TODO still necessary?
 	this.canvas.webkitImageSmoothingEnabled = false;
 
 	// and mozilla
-	// still necessary?
+	// TODO still necessary?
 	this.canvas.mozImageSmoothingEnabled = false;
 
 	// set zoom along the x-axis
@@ -97,7 +97,7 @@ var Engine = function() {
 	// initialize QuadTree for Collision Detection
 	this.initQuadTree({x: 0, y: 0, width: window.cfg.level_width, height: window.cfg.level_height});
 
-	// Toggle Pause
+	// toggle Pause
 	document.addEventListener("keydown", function(e) {
 		var key = e.keyCode ? e.keyCode : e.which;
 		if (key === 13) {
@@ -538,9 +538,21 @@ Engine.prototype.loop = function() {
 	// reset buffer
 	window.myEngine.canvas.clearRect(0,0, window.cfg.screen_width, window.cfg.screen_height);
 
-	// check spawn status
+	/*
+	 * Check spawn status
+	 * Note: We can't use objects.each() here.
+	 * Because we really want to iterate over all objects
+	 */
 	for (var a in objects.myList) {
-		if (objects.myList[a] !== undefined)
+		if (objects.myList[a] === undefined)
+			continue;
+		/*
+		 * dirty workaround for backgrounds, because of parallax scrolling
+		 * TODO: use repeat-x, repeat-y and  parallax scrolling position, to determine if it is within screen
+		 */
+		if (objects.myList[a].name === "background")
+			objects.myList[a].spawned = true;
+		else
 			objects.myList[a].spawned = window.myEngine.isWithinScreen(objects.myList[a]);
 	}
 	
@@ -755,6 +767,7 @@ Engine.prototype.initQuadTree = function(boundaries) {
 	this.quadtree = new QuadTree(boundaries, false, 7);
 };
 
+// TODO move somewhere
 var drawSquare = function(x, y, width, height) {
 	var ctx = window.myEngine.canvas;
 	ctx.save();
@@ -771,27 +784,23 @@ var drawSquare = function(x, y, width, height) {
 Engine.prototype.isWithinScreen = function(handle) {
 
 	obj_a = {
-		'x' 	 : handle.x,
-		'y' 	 : handle.y,
-		'width'	 : handle.getWidth(),
+		'x' : handle.x,
+		'y' : handle.y,
+		'width'  : handle.getWidth(),
 		'height' : handle.getHeight()
 	};
 
-	var c_screen_width 	= window.cfg.screen_width / window.myEngine.canvas_zoom_width;
-	var c_screen_height = window.cfg.screen_height / window.myEngine.canvas_zoom_height;
-	var camx = window.myEngine.Camera.xScroll;
-	var camy = window.myEngine.Camera.yScroll;
 	obj_b = {
-		'x'		 : camx,
-		'y'		 : camy,	
-		'width'  : c_screen_width ,
-		'height' : c_screen_height 
+		'x' : window.myEngine.Camera.xScroll,
+		'y' : window.myEngine.Camera.yScroll,
+		'width'  : window.cfg.screen_width / window.myEngine.canvas_zoom_width,
+		'height' : window.cfg.screen_height / window.myEngine.canvas_zoom_height
 	};
 
+	// for debugging
 	// window.myEngine.drawCallback = function()	{
-	// 	// drawSquare(700, 800, 50, 1000);
-	// 	drawSquare(camx, camy, window.cfg.screen_width/window.myEngine.canvas_zoom_width, window.cfg.screen_height/window.myEngine.canvas_zoom_height);
+	// 	drawSquare(obj_b.x, obj_b.y, obj_b.width, obj_b.height);
 	// };
 
-	return (Collision.collision_check_single_strict_with_sensor(obj_a, obj_b));
+	return Collision.collision_check_single_strict_with_sensor(obj_a, obj_b);
 };

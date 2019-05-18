@@ -1,5 +1,7 @@
 # TODO
 
+* move draw function (Engine.class.js) to seperate file
+ 
 ## Currently – Branch: change-angle-calculation
 
 ### Currently – Cellular Automaton

@@ -43,6 +43,7 @@
 			<?php include('ObjectRing.class.js'); ?>
 			<?php include('ObjectRingBouncing.class.js'); ?>
 			<?php include('ObjectGround.class.js'); ?>
+			<?php include('ObjectGroundLooping3.class.js'); ?>
 			<?php include('ObjectBackground.class.js'); ?>
 			<?php include('ObjectBackgroundSea.class.js'); ?>
 			<?php include('ObjectBackgroundHorizon.class.js'); ?>
@@ -75,7 +76,7 @@
 					if(window.myEngine.objects !== undefined)
 					if(window.myEngine.objects.getByName('char') !== undefined) {
 						var handle = window.myEngine.objects.getByName('char');
-						debugger;
+						/* debugger; */
 						window.myEngine.Camera = new Camera(handle.x-window.cfg.screen_width/2(1/window.myEngine.canvas_zoom_width), handle.y, window.cfg.screen_width*(1/window.myEngine.canvas_zoom_width), window.cfg.screen_height*(1/window.myEngine.canvas_zoom_height), window.cfg.level_width, window.cfg.level_height);
 					}
 							
@@ -333,19 +334,30 @@
 				}
 
 				var v=0;
-				for(v; v < 3; v++) {
-					var block1 = new ObjectHillDown();
-					block1.solid = true;
-					block1.x = 256*i + z*512 + v*512;
-					foo = block1.x;
-					// TODO 251 in ObjectHillDown.y_offset = 251;
-					block1.y = window.cfg.level_height - 190 + z*251 - (v+1)*251 - height_modifier + 45; 
-					foo2 = block1.y;
-					block1.initSensors();
-					block1.flip();
-					objects.add(block1);
+				for(v; v < 6; v++) {
+
+					var ground = new ObjectGround();
+					ground.solid = true;
+					// TODO: use ground.x_offset insteaad of const 256
+					ground.x = 256*i + z*512 + v*256;
+					// ground.x = (256 + 24) * i;	
+					// TODO: use ground.y_offset instead of const 190
+					ground.y = window.cfg.level_height - 190 + z*251 - height_modifier + 45 ; 
+					ground.initSensors();
+					objects.add(ground);
+					
 				}
 
+				var ground = new ObjectGroundLooping3();
+				ground.solid = true;
+				// TODO: use ground.x_offset insteaad of const 256
+				ground.x = 256*i + z*512 + v*256;
+				// ground.x = (256 + 24) * i;	
+				// TODO: use ground.y_offset instead of const 190
+				/* ground.y = window.cfg.level_height - 190 + z*251 - height_modifier + 45 ; */ 
+				ground.y = 1541 - 235;
+				ground.initSensors();
+				objects.add(ground);
 
 				/*
 				 * for(var z=0; z < 3; z++) {
