@@ -141,18 +141,18 @@
 				bg.scroll = 0.95;
 				objects.add(bg);
 
-				var bg = new ObjectBackgroundAngelIsland();
-				bg.x = 520;
-				bg.y = window.cfg.level_height - (256-12) - 64 - 12 - 238 - 98 - 128 - height_modifier;
-				bg.scroll = 0.9;
-				objects.add(bg);
-				
 				var bg = new ObjectBackgroundSea();
 				bg.x = 0;
 				bg.y = window.cfg.level_height - (256-12) - 64 - 12 - 238 - height_modifier;
 				bg.scroll = 0.9;
 				objects.add(bg);
 
+				var bg = new ObjectBackgroundAngelIsland();
+				bg.x = 520;
+				bg.y = window.cfg.level_height - (256-12) - 64 - 12 - 238 - 98 - 128 - height_modifier + 128;
+				bg.scroll = 0.9;
+				objects.add(bg);
+				
 				var mountains = new ObjectBackgroundMeadowMountains();
 				mountains.x = 0;
 				mountains.y = window.cfg.level_height - (256-12) - 64 - 12 - height_modifier;

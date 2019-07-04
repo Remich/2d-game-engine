@@ -53,7 +53,7 @@ var Object = function() {
 	that.top = window.cfg.speedup_constant * 6; 
 	that.dash = window.cfg.speedup_constant * 12;
 
-	that.jmp = window.cfg.speedup_constant * -7.5;	
+	that.jmp = window.cfg.speedup_constant * -9.5;	
 
 	that.slp = window.cfg.speedup_constant * 0.025;
 	that.slp_rolling_uphill = window.cfg.speedup_constant * 0.078125;

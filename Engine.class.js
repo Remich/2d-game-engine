@@ -47,10 +47,10 @@ var Engine = function() {
 	 */
 	if(this.fps60 === true) {
 		this.fps_max = 60;
-		window.cfg.speedup_constant = 2.0;
+		window.cfg.speedup_constant = 1.0;
 	} else {
 		this.fps_max = 30;
-		window.cfg.speedup_constant = 4.0;
+		window.cfg.speedup_constant = 2.0; // TODO fix this: set to 1.0 or something else
 	}
 
 	// webworker for parallel calculations (NOT IN USE)
