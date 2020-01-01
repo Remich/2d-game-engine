@@ -3,7 +3,8 @@
 var ObjectBackgroundTree = function() {
 
 	var that = new ObjectBackground();
-
+	
+	that.bootstrap = "new ObjectBackgroundTree()";
 	that.repeat = 'no-repeat';
 
 	that.Chill = function(obj) {

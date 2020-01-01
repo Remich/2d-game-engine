@@ -2,6 +2,7 @@ ObjectGround = function() {
 
 	var that = new ObjectStatic();
 
+	that.bootstrap = "new ObjectGround()";
 	that.default_sensor_height = 128;
 
 	that.name = 'ground';

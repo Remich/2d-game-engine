@@ -3,6 +3,8 @@
 var ObjectBackgroundMeadow2 = function() {
 
 	var that = new ObjectBackground();
+	
+	that.bootstrap = "new ObjectBackgroundMeadow2()";
 
 	that.Chill = function(obj) {
 

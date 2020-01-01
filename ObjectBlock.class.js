@@ -4,6 +4,7 @@ var ObjectBlock = function() {
 
 	var that = new ObjectGround();
 
+	that.bootstrap = "new ObjectBlock()";
 	that.default_sensor_height = 42;
 
 	that.name = 'ground';

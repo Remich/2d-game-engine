@@ -4,6 +4,7 @@ var ObjectBeatnik = function() {
 
 	var that = new Object();
 
+	that.bootstrap = 'new ObjectBeatnik()';
 	that.name = 'beatnik';
 
 	that.collide = function( obj ) {

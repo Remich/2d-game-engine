@@ -4,6 +4,7 @@
 
 	var that = new ObjectStatic();
 
+	that.bootstrap = 'new ObjectRing()';
 	that.name = 'ring';
 	that.in_air = false;
 	that.rolling = false;

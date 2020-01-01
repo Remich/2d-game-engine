@@ -3,6 +3,8 @@
 var ObjectBackgroundMeadowMountains = function() {
 
 	var that = new ObjectBackground();
+	
+	that.bootstrap = "new ObjectBackgroundMeadowMountains()";
 
 	that.Chill = function(obj) {
 

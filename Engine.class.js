@@ -33,10 +33,14 @@ var Engine = function() {
 	this.editor = false;
 
 	// Quadtree for fast collisions
-	this.quadtree = false;
+	this.quadtree = true;
 
 	// Pause
 	this.pause = false;
+	
+	// Game Objects
+	this.objects = null;
+
 
 	/*
 	 * change speedup according to fps speed
@@ -73,14 +77,6 @@ var Engine = function() {
 
 	// disable image smoothing
 	this.canvas.imageSmoothingEnabled = false;
-
-	// same for webkit
-	// TODO still necessary?
-	this.canvas.webkitImageSmoothingEnabled = false;
-
-	// and mozilla
-	// TODO still necessary?
-	this.canvas.mozImageSmoothingEnabled = false;
 
 	// set zoom along the x-axis
 	this.canvas_zoom_width = 1.0;
@@ -179,8 +175,8 @@ Engine.prototype.initScreen = function(camx, camy) {
 /*
  * reset sensors to their default state, for next round of collisions
  */
-Engine.prototype.resetSensors = function() {
-	objects.each(function(handle) {
+Engine.prototype.resetSensors = function(objs) {
+	objs.each(function(handle) {
 		if(handle.sensors !== undefined) {
 			handle.resetSensors();
 		}
@@ -478,7 +474,10 @@ Engine.prototype.draw = function(obj, camx, camy) {
  */
 
 var rings = 0;
+
 Engine.prototype.loop = function() {
+	
+	var objects = window.myEngine.objects
 	
 	// pause?
 	if(window.myEngine.pause === true) 
@@ -555,7 +554,7 @@ Engine.prototype.loop = function() {
 		if (handle.name === 'char' ||
 			handle.name === 'beatnik' ||
 			handle.name === 'ringbounce')
- 			window.myEngine.resetSensors();
+ 			window.myEngine.resetSensors(objects);
 	});
 
 
@@ -661,8 +660,6 @@ Engine.prototype.loop = function() {
 		// TODO delete handle??
 	})
 
-	console.log("rings found: " + rings);
-
 	// switch buffers
 	window.myEngine.buffers[1-window.myEngine.drawing_buffer].style.visibility='hidden';
 	window.myEngine.buffers[window.myEngine.drawing_buffer].style.visibility='visible';
@@ -703,7 +700,7 @@ Engine.prototype.fps = function() {
 };
 
 Engine.prototype.debug = function() {
-	var obj = objects.getByName('char');
+	var obj = window.myEngine.objects.getByName('char')
 	$('#debug').html(
 		'x: '         + obj.x          + '<br>' +
 		'y: '         + obj.y          + '<br>' +

@@ -3,6 +3,8 @@
 var ObjectBackgroundBlankGreen = function() {
 
 	var that = new ObjectBackground();
+	
+	that.bootstrap = "new ObjectBackgroundBlankGreen()";
 
 	that.repeat = 'repeat-x';
 

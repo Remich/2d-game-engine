@@ -4,6 +4,8 @@ var ObjectBackgroundHorizon = function() {
 
 	var that = new ObjectBackground();
 
+	that.bootstrap = "new ObjectBackgroundHorizon()";
+
 	that.Chill = function(obj) {
 
 		var foobar = {};

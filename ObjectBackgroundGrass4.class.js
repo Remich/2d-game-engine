@@ -3,6 +3,8 @@
 var ObjectBackgroundGrass4 = function() {
 
 	var that = new ObjectBackground();
+	
+	that.bootstrap = "new ObjectBackgroundGrass4()";
 
 	that.Chill = function(obj) {
 

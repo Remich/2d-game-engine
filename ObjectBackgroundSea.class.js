@@ -3,6 +3,8 @@
 var ObjectBackgroundSea = function() {
 
 	var that = new ObjectBackground();
+	
+	that.bootstrap = "new ObjectBackgroundSea()";
 
 	that.Chill = function(obj) {
 

@@ -2,6 +2,7 @@ var ObjectBackgroundForrest = function() {
 
 	var that = new ObjectBackground();
 
+	that.bootstrap = "new ObjectBackgroundForrest()";
 	that.repeat = 'repeat-x';
 
 	that.Chill = function(obj) {
