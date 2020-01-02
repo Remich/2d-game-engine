@@ -1,6 +1,6 @@
 /* (c)opyright 2018 René Michalke */
 
-is_touch_device = function() {  
+export function is_touch_device() {  
  
 	  try {  
 			document.createEvent("TouchEvent");  
@@ -12,7 +12,7 @@ is_touch_device = function() {
 };
 
 
-function width(array, prev_frames) {
+export function width(array, prev_frames) {
 		var erg = 0;
 		
 		for(var i = 0; i <= prev_frames; i++) {
@@ -28,7 +28,7 @@ function width(array, prev_frames) {
 };
 
 
-in_array = function(needle, haystack)  {
+export let in_array = function(needle, haystack)  {
 
 	for(var a = 0; a < haystack.length; a++) 
 		if(haystack[a] === needle) 
@@ -38,7 +38,7 @@ in_array = function(needle, haystack)  {
 };
 
 
-get_array_key = function (needle, haystack) {
+export let get_array_key = function (needle, haystack) {
 
 	for(var a = 0; a < haystack.length; a++) 
 		if(haystack[a] == needle) 
@@ -47,7 +47,7 @@ get_array_key = function (needle, haystack) {
 };
 
 
-function change_size(selector, width, height) {
+export let change_size = function (selector, width, height) {
 
 	$(selector).css('width' , width+'px');
 	$(selector).css('height' , height+'px');
@@ -55,13 +55,13 @@ function change_size(selector, width, height) {
 };
 
 
-round = function (somenum) {
+export let round = function (somenum) {
 
 	return (0.5 + somenum) << 0;
 
 };
 
-floor = function (somenum) {
+export let floor = function (somenum) {
 
 	return ~~somenum;
 
@@ -69,7 +69,7 @@ floor = function (somenum) {
 
 // TODO Not used, eventually remove
 
-filter_fps_lag = function() {
+export let filter_fps_lag = function() {
 
 	return (window.cfg.elapsed_time / window.cfg.fps_sim) * 1.2; 
 	
@@ -94,7 +94,7 @@ filter_fps_lag = function() {
 // 	return transformedArray;
 // }
 
-flipArrayHorizontal = function(ar) {
+export let flipArrayHorizontal = function(ar) {
 	var transformedArray = [];
 	// for(var i = 0; i < ar.length; i++) {
 		var index = 0;

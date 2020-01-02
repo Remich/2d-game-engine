@@ -62,3 +62,4 @@ var EngineObjectList = function() {
 	};
 };
 
+export { EngineObjectList }

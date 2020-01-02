@@ -46,3 +46,4 @@ var EngineSensor = function(i) {
 
 };
 
+export { EngineSensor }

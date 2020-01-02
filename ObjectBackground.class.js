@@ -1,5 +1,7 @@
 /* (c)opyright 2018 René Michalke */
 
+import { ObjectStatic } from './ObjectStatic.class.js'
+
 var ObjectBackground = function() {
 
 	var that = new ObjectStatic();
@@ -36,3 +38,5 @@ var ObjectBackground = function() {
 	return that;
 
 };
+
+export { ObjectBackground }

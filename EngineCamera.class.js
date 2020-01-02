@@ -80,3 +80,5 @@ Camera.prototype.update = function() {
 		this.xScroll = this.levelWidth - this.width;
 
 };
+
+export { Camera };

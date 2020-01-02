@@ -1,5 +1,8 @@
 /* (c)opyright 2018 René Michalke */
 
+import { ObjectBackground } from './ObjectBackground.class.js'
+import { EngineStateMachine } from './EngineStateMachine.class.js';
+
 var ObjectBackgroundMeadowMountains = function() {
 
 	var that = new ObjectBackground();
@@ -47,3 +50,5 @@ var ObjectBackgroundMeadowMountains = function() {
 	return that;
 
 };
+
+export { ObjectBackgroundMeadowMountains }

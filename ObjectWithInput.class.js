@@ -1,8 +1,11 @@
 /* (c)opyright 2018 René Michalke */
 
+import { GameObject } from './Object.class.js'
+import { EngineStateMachine } from './EngineStateMachine.class.js';
+
 var ObjectWithInput = function() {
 
-	var that = new Object();
+	var that = new GameObject();
 
 	that.camx = 0;
 	that.camy = 0;
@@ -65,3 +68,5 @@ var ObjectWithInput = function() {
 	return that;
 
 };
+
+export { ObjectWithInput }

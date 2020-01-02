@@ -11,15 +11,7 @@
 		<link rel="stylesheet" href="style.css" type="text/css" media="screen, mobile" title="main" charset="utf-8" />
 		
 		<script type="text/javascript" src="jquery-2.1.1.min.js" /></script>
-		<script type="text/javascript">
-		
-			window.cfg = new Object();
-				
-			window.cfg.screen_width;
-			window.cfg.screen_height;
-
-			window.cfg.last_time = new Date().getTime();
-			window.cfg.elapsed_time;
+		<script type="text/javascript" src="game.js"></script>
 
 			<?php include('library.inc.js'); ?>
 			<?php include('lib/QuadTree.js'); ?>
@@ -154,6 +146,7 @@
 
 
 
+				// Wait until the level file as been loaded. ( Clunky )
 				setTimeout(function() {
 
 					window.myEngine.Camera = new Camera(0,140 - (window.cfg.screen_width*(1/window.myEngine.canvas_zoom_width))/2, window.cfg.screen_width*(1/window.myEngine.canvas_zoom_width), window.cfg.screen_height*(1/window.myEngine.canvas_zoom_height), window.cfg.level_width, window.cfg.level_height);	

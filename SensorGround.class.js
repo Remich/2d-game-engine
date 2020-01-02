@@ -1,5 +1,7 @@
 /* (c)opyright 2018 René Michalke */
 
+import { EngineSensor } from './EngineSensor.class.js';
+
 var SensorGround = function(i) {
 
 	var that = EngineSensor(i);
@@ -12,3 +14,5 @@ var SensorGround = function(i) {
 	return that;
 
 };
+
+export { SensorGround }

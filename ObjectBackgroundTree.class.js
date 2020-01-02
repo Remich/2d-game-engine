@@ -1,5 +1,8 @@
 /* (c)opyright 2018 René Michalke */
 
+import { ObjectBackground } from './ObjectBackground.class.js'
+import { EngineStateMachine } from './EngineStateMachine.class.js';
+
 var ObjectBackgroundTree = function() {
 
 	var that = new ObjectBackground();
@@ -47,3 +50,5 @@ var ObjectBackgroundTree = function() {
 	return that;
 
 };
+
+export { ObjectBackgroundTree }

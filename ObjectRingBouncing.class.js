@@ -1,8 +1,15 @@
 /* (c)opyright 2018 René Michalke */
 
-	var ObjectRingBouncing = function() {
+import { GameObject } from './Object.class.js'
+import { EngineStateMachine } from './EngineStateMachine.class.js';
+import { SensorFloor } from './SensorFloor.class.js';
+import { SensorObject } from './SensorObject.class.js';
+import { floor, round, width  } from './library.inc.js'
 
-	var that = new Object();
+
+var ObjectRingBouncing = function() {
+
+	var that = new GameObject();
 
 	that.name = 'ringbounce';
 	that.solid = true;
@@ -271,3 +278,5 @@
 	return that;
 
 };
+
+export { ObjectRingBouncing }

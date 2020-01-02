@@ -1,5 +1,8 @@
 /* (c)opyright 2018 René Michalke */
 
+import { EngineSensor } from './EngineSensor.class.js';
+import { Point } from './Point.class.js';
+
 var SensorFloor = function(i) {
 
 	var that = EngineSensor(i);
@@ -34,3 +37,5 @@ var SensorFloor = function(i) {
 	return that;
 
 };
+
+export { SensorFloor }

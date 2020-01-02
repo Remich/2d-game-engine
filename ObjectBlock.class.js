@@ -1,5 +1,8 @@
 /* (c)opyright 2018 René Michalke */
 
+import { ObjectGround } from './ObjectGround.class.js'
+import { EngineStateMachine } from './EngineStateMachine.class.js';
+
 var ObjectBlock = function() {
 
 	var that = new ObjectGround();
@@ -81,3 +84,5 @@ var ObjectBlock = function() {
 	return that;
 
 };
+
+export { ObjectBlock }

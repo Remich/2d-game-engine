@@ -42,3 +42,5 @@ EngineStateMachine.prototype.update = function(obj) {
 	if(this.currentState !== undefined)
 		this.currentState.update(this, obj);
 };
+
+export { EngineStateMachine }

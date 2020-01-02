@@ -1,8 +1,10 @@
 /* (c)opyright 2018 René Michalke */
 
+import { GameObject } from './Object.class.js'
+
 var ObjectStatic = function() {
 
-	var that = new Object();
+	var that = new GameObject();
 
 	that.sensors_flipped = null;
 	that.heightMaps = [];
@@ -66,3 +68,5 @@ var ObjectStatic = function() {
 	return that;
 	
 };
+
+export { ObjectStatic }

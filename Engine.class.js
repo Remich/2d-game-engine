@@ -1,8 +1,12 @@
 /* (c)opyright 2018 René Michalke */
+import { floor, round, width, change_size  } from './library.inc.js'
+import { InputHandler } from './EngineInput.class.js'
+import { Collision } from './EngineCollision.class.js'
+import { ObjectBackground } from './ObjectBackground.class.js'
 
 // TODO: move somewhere better
-var default_width = 960;
-var default_height = 720;
+const default_width = 960;
+const default_height = 720;
 
 var Engine = function() {
 
@@ -134,7 +138,7 @@ Engine.prototype.isPaused = function() {
 /*
  * Init Screen in the Browser
  */
-Engine.prototype.initScreen = function(camx, camy) {
+Engine.prototype.initScreen = function() {
 
 	this.canvas_zoom_width = window.innerWidth / default_width;
 	this.canvas_zoom_height = window.innerHeight / default_height;
@@ -166,7 +170,7 @@ Engine.prototype.initScreen = function(camx, camy) {
 	// if(scaled == false) {
 		this.buffers[0].getContext("2d").scale(this.canvas_zoom_width, this.canvas_zoom_height);
 		this.buffers[1].getContext("2d").scale(this.canvas_zoom_width, this.canvas_zoom_height);
-		scaled = true;
+		var scaled = true;
 
 	// }
 };
@@ -236,13 +240,13 @@ Engine.prototype.draw = function(obj, camx, camy) {
 
 		var c_screen_width 	= window.cfg.screen_width * (1/window.myEngine.canvas_zoom_width);
 		var c_screen_height = window.cfg.screen_height * (1/window.myEngine.canvas_zoom_height);
-		obj_a = {
+		var obj_a = {
 			'x' 	 : obj.x,
 			'y' 	 : obj.y,
 			'width'	 : obj.sm.currentState.frames[c_frame].width,
 			'height' : obj.sm.currentState.frames[c_frame].height
 		};
-		obj_b = {
+		var obj_b = {
 			'x'		 : camx - c_screen_width / 2,
 			'y'		 : camy - c_screen_height / 2,	
 			'width'  : c_screen_width * 2,
@@ -534,7 +538,6 @@ Engine.prototype.loop = function() {
 	objects.each(function(handle) {
 		if (handle.sm) {
 			handle.sm.update(handle);
-			// console.log(handle.sm.currentState.name);
 		}
 	});
 
@@ -667,8 +670,6 @@ Engine.prototype.loop = function() {
 	window.myEngine.drawing_buffer = 1 - window.myEngine.drawing_buffer;
 	window.myEngine.canvas = window.myEngine.buffers[window.myEngine.drawing_buffer].getContext("2d");
 	window.myEngine.canvas.imageSmoothingEnabled = false;
-	window.myEngine.canvas.webkitImageSmoothingEnabled = false;
-	window.myEngine.canvas.mozImageSmoothingEnabled = false;
 
 	/*
 	 * draw debuging and stats
@@ -735,14 +736,14 @@ var drawSquare = function(x, y, width, height) {
 
 Engine.prototype.isWithinScreen = function(handle) {
 
-	obj_a = {
+	let obj_a = {
 		'x' : handle.x,
 		'y' : handle.y,
 		'width'  : handle.getWidth(),
 		'height' : handle.getHeight()
 	};
 
-	obj_b = {
+	let obj_b = {
 		'x' : window.myEngine.Camera.xScroll,
 		'y' : window.myEngine.Camera.yScroll,
 		'width'  : window.cfg.screen_width / window.myEngine.canvas_zoom_width,
@@ -756,3 +757,5 @@ Engine.prototype.isWithinScreen = function(handle) {
 
 	return Collision.collision_check_single_strict_with_sensor(obj_a, obj_b);
 };
+
+export { Engine }

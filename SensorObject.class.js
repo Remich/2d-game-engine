@@ -1,5 +1,7 @@
 /* (c)opyright 2018 René Michalke */
 
+import { EngineSensor } from './EngineSensor.class.js';
+
 var SensorObject = function(i) {
 
 	var that = EngineSensor(i);
@@ -26,3 +28,5 @@ var SensorObject = function(i) {
 	return that;
 
 };
+
+export { SensorObject }

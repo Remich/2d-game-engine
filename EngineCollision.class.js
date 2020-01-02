@@ -1,5 +1,7 @@
 /* (c)opyright 2018 René Michalke */
 
+import * as Helpers from './library.inc.js'
+var in_array = Helpers.in_array
 var Collision = function() {};
 
 /*
@@ -28,7 +30,7 @@ Collision.prototype.rm = function(obj) {
  */
 Collision.prototype.rebuildQuadTree = function() {
 	window.myEngine.quadtree.clear();
-	for(a in this.Objects) {
+	for(var a in this.Objects) {
 		window.myEngine.quadtree.insert(this.Objects[a]);
 	}
 };
@@ -183,3 +185,5 @@ Collision.collision_check_single_strict_with_sensor = function(a, b) {
 	return true;
 
 }; 
+
+export { Collision }

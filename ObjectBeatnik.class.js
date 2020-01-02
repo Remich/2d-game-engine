@@ -1,8 +1,14 @@
 /* (c)opyright 2018 René Michalke */
 
+import { GameObject } from './Object.class.js'
+import { EngineStateMachine } from './EngineStateMachine.class.js';
+import { SensorFloor } from './SensorFloor.class.js';
+import { SensorObject } from './SensorObject.class.js';
+import { floor, round, width, change_size  } from './library.inc.js'
+
 var ObjectBeatnik = function() {
 
-	var that = new Object();
+	var that = new GameObject();
 
 	that.bootstrap = 'new ObjectBeatnik()';
 	that.name = 'beatnik';
@@ -393,3 +399,5 @@ var ObjectBeatnik = function() {
 	return that;
 
 };
+
+export { ObjectBeatnik }

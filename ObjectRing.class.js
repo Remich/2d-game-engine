@@ -1,5 +1,10 @@
 /* (c)opyright 2018 René Michalke */
 
+import { ObjectStatic } from './ObjectStatic.class.js'
+import { EngineStateMachine } from './EngineStateMachine.class.js';
+import { SensorObject } from './SensorObject.class.js';
+import { floor } from './library.inc.js'
+
 	var ObjectRing = function() {
 
 	var that = new ObjectStatic();
@@ -157,3 +162,5 @@
 	return that;
 
 };
+
+export { ObjectRing }

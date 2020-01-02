@@ -1,5 +1,8 @@
 /* (c)opyright 2018 René Michalke */
 
+import { EngineStateMachine } from './EngineStateMachine.class.js';
+import { round, floor  } from './library.inc.js'
+
 /*
  * TODO comment variables
  */
@@ -245,6 +248,8 @@ var Object = function() {
 			// }
 
 
+			var Xsp;
+			
 			if(that.mode === 'floor'
 				|| that.mode === 'ceiling') {
 				Xsp = that.speed_x * Math.cos((that.angle/180) * Math.PI );
@@ -317,3 +322,5 @@ var Object = function() {
 
 	return that;
 };
+
+export { Object as GameObject }

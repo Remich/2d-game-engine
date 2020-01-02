@@ -1,5 +1,11 @@
- 
 /* (c)opyright 2018 René Michalke */
+
+import { ObjectWithInput } from './ObjectWithInput.class.js'
+import { EngineStateMachine } from './EngineStateMachine.class.js';
+import { floor, round, width, change_size  } from './library.inc.js'
+import { SensorFloor } from './SensorFloor.class.js';
+import { SensorObject } from './SensorObject.class.js';
+import { ObjectRingBouncing } from './ObjectRingBouncing.class.js'
 
 var ObjectChar = function() {
 
@@ -1363,3 +1369,4 @@ var ObjectChar = function() {
 
 };
 
+export { ObjectChar }

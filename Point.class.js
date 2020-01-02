@@ -4,3 +4,5 @@ var Point = function(x, y) {
 
 	return this;
 }
+
+export { Point };

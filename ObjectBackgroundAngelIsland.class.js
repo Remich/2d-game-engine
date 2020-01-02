@@ -1,5 +1,8 @@
 /* (c)opyright 2018 René Michalke */
 
+import { ObjectBackground } from './ObjectBackground.class.js'
+import { EngineStateMachine } from './EngineStateMachine.class.js';
+
 var ObjectBackgroundAngelIsland = function() {
 
 	var that = new ObjectBackground();
@@ -50,3 +53,5 @@ var ObjectBackgroundAngelIsland = function() {
 	return that;
 
 };
+
+export { ObjectBackgroundAngelIsland }
