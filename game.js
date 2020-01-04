@@ -1,6 +1,6 @@
 
-import * as QuadTree from './lib/QuadTree.js'
 import * as Helpers from './library.inc.js'
+import * as QuadTree from './lib/QuadTree.js'
 import { Point } from './Point.class.js';
 import { EngineStateMachine } from './EngineStateMachine.class.js';
 import { EngineObjectList } from './EngineObjectList.class.js'
@@ -27,6 +27,7 @@ import { ObjectBlock } from './ObjectBlock.class.js'
 import { ObjectGround } from './ObjectGround.class.js'
 import { ObjectBeatnik } from './ObjectBeatnik.class.js'
 import { ObjectRing } from './ObjectRing.class.js'
+import { ObjectExplosion } from './ObjectExplosion.class.js'
 
 
 import { Engine } from './Engine.class.js'

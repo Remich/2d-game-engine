@@ -1,5 +1,4 @@
 [
-
 {"name":"background","bootstrap":"new ObjectBackgroundHorizon()","x":0,"y":-34},
 {"name":"background","bootstrap":"new ObjectBackgroundSea()","x":0,"y":450},
 {"name":"background","bootstrap":"new ObjectBackgroundAngelIsland()","x":520,"y":352},
@@ -85,7 +84,7 @@
   "name": "char",
   "bootstrap": "new ObjectChar()",
 	"x" : 430,
-	"y" : 300,
+	"y" : 340,
 	"solid" : true,
 	"player_1" : true,
 	"assigned_keys" : [37,39,40,32,38]

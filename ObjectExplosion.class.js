@@ -1,5 +1,8 @@
 /* (c)opyright 2018 René Michalke */
 
+import { ObjectStatic } from './ObjectStatic.class.js'
+import { EngineStateMachine } from './EngineStateMachine.class.js';
+
 var ObjectExplosion = function() { 
 
 	var that = new ObjectStatic();
@@ -64,3 +67,5 @@ var ObjectExplosion = function() {
 	return that;
 
 };
+
+export { ObjectExplosion }

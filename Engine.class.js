@@ -37,7 +37,7 @@ var Engine = function() {
 	this.editor = false;
 
 	// Quadtree for fast collisions
-	this.quadtree = true;
+	this.quadtree = null;
 
 	// Pause
 	this.pause = false;

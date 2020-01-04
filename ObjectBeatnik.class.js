@@ -5,6 +5,7 @@ import { EngineStateMachine } from './EngineStateMachine.class.js';
 import { SensorFloor } from './SensorFloor.class.js';
 import { SensorObject } from './SensorObject.class.js';
 import { floor, round, width, change_size  } from './library.inc.js'
+import { ObjectExplosion } from './ObjectExplosion.class.js'
 
 var ObjectBeatnik = function() {
 
