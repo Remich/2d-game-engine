@@ -6,6 +6,7 @@
  
 ## REFACTORING
 
+- [ ] Rename Level to Map
 - [ ] move draw function (Engine.class.js) to saparate file
 - [ ] remove 'bootstrap' property of each object
 - [ ] remove paramater "b" from all collide() functions
@@ -32,6 +33,7 @@
 
 ## ISSUES
 
+- [ ] Sometimes the Engine never realizes that a pressed button has already been released. (Happens when leaving the boundary of the map).
 - [ ] Objects which are out of screen, and therefore have `spawned=false` never get destroyed. (See "EngineObjectList" and "RingBouncing").
 - [x] when on slope: looking up and immediately looking down leads to falling through the floor of the slope
 - [ ] when moving from one slope to another slope of different height: the other slope's heightMap is being used, even though were mostly standing on the old slope

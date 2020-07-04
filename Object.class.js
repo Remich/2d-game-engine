@@ -262,12 +262,11 @@ var Object = function() {
 
 		}
 
-		// Wand simulieren
-		if(that.x < 0 - 60)
-			that.x = window.cfg.level_width;
-			
-		if(that.x > window.cfg.level_width)
-			that.x = 0 - 60;
+		// Leaving Boundary of Map 
+		if(that.x < -32)
+			that.x = window.cfg.level_width - 32;
+		else if(that.x > window.cfg.level_width - 32)
+			that.x = 0 - 32 ;
 
 		if (that.sensors !== undefined) {
 			that.updateSensors();
