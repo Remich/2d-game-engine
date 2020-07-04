@@ -58,7 +58,6 @@ var ObjectBeatnik = function() {
 
 			if (match.name === "char") {
 				match.recover = true;
-				match.callback = match.RingLossReal;
 				match.sm.changeState( new match.RingLoss(), match);
 
 				// compute enemy direction

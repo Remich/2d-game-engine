@@ -622,7 +622,7 @@ Engine.prototype.loop = function() {
 	 * Drawing
 	 */
 
-	//  Objekt zeichnen - CSS Stuff
+	//  Objekt zeichnen
 	objects.each(function(handle) {
 		window.myEngine.draw(handle, window.myEngine.Camera.xScroll, window.myEngine.Camera.yScroll);
 	});
@@ -643,7 +643,7 @@ Engine.prototype.loop = function() {
 
 	
 	/*
-	 * remove destroy objects
+	 * remove destroyed objects from list
 	 */
 	objects.each(function(handle) {
 		if(handle.destroy !== undefined && handle.destroy)
@@ -652,7 +652,7 @@ Engine.prototype.loop = function() {
 
 	/*
 	 * Some Objects have callbacks which get called before their destruction (e.g. Rings)
-	 * Here they are called
+	 * Here they are called.
 	 */
 	objects.each(function(handle) {
 		if(handle.callback !== undefined) {

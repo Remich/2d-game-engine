@@ -4,11 +4,15 @@ var EngineObjectList = function() {
 
 	this.myList = [];
 	this.actualSize = 0;
-	
+
+	/*
+	 * Only applies `func` to objects which have spawned set to `true`.
+	 * This means, objects not within the screen are excluded.
+	 */
 	this.each = function( func ) {
 		for (var a in this.myList) {
 			if (this.myList[a] !== undefined) {
-				if(this.myList[a].spawned === true)
+				if(this.myList[a].spawned === true || this.myList[a].name === "ringbounce")
 					func( this.myList[a] );
 			}
 		}

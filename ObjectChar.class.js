@@ -1290,6 +1290,8 @@ var ObjectChar = function() {
 			obj.speed_x = 6 * 1 * ( sgn );
 			obj.speed_y = 6 * -2;
 
+			obj.RingLossReal(window.myEngine.objects, obj.rings)
+
 		};
 		foobar.update = function(sm, obj) {
 		};
