@@ -14,6 +14,7 @@
 {"name":"ground","bootstrap":"new ObjectBlock()","x":900,"y":619,"solid":true},
 {"name":"ground","bootstrap":"new ObjectBlock()","x":1800,"y":619,"solid":true},
 {"name":"ground","bootstrap":"new ObjectBlock()","x":2700,"y":619,"solid":true},
+{"name":"background","bootstrap":"new ObjectBackgroundWall()","x":0,"y":1055,"repeat-x":true},
 {"name":"ground","bootstrap":"new ObjectGround()","x":0,"y":866,"solid":true},
 {"name":"ground","bootstrap":"new ObjectGround()","x":256,"y":866,"solid":true},
 {"name":"ground","bootstrap":"new ObjectGround()","x":512,"y":866,"solid":true},
