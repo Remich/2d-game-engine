@@ -1,5 +1,3 @@
-/* (c)opyright 2018 René Michalke */
-
 import { GameObject } from './Object.class.js'
 
 var ObjectStatic = function() {

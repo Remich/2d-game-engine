@@ -1,5 +1,3 @@
-/* (c)opyright 2018 René Michalke */
-
 import { ObjectStatic } from './ObjectStatic.class.js'
 
 var ObjectBackground = function() {

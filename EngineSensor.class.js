@@ -1,5 +1,3 @@
-/* (c)opyright 2018 René Michalke */
-
 var EngineSensor = function(i) {
 
 	var that            = {};

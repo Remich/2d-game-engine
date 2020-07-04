@@ -1,5 +1,3 @@
-/* (c)opyright 2018 René Michalke */
-
 import { ObjectGround } from './ObjectGround.class.js'
 import { EngineStateMachine } from './EngineStateMachine.class.js';
 

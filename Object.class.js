@@ -1,5 +1,3 @@
-/* (c)opyright 2018 René Michalke */
-
 import { EngineStateMachine } from './EngineStateMachine.class.js';
 import { round, floor  } from './library.inc.js'
 

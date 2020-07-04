@@ -1,5 +1,3 @@
-/* (c)opyright 2018 René Michalke */
-
 function EngineStateMachine() {
 	// TODO replace by null
 	this.currentState = false;

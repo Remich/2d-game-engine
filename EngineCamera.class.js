@@ -1,5 +1,3 @@
-/* (c)opyright 2018 René Michalke */
-
 // Camera constructor
 var Camera = function(xView, yView, canvasWidth, canvasHeight, levelWidth, levelHeight) {
 

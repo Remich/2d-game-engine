@@ -1,5 +1,3 @@
-/* (c)opyright 2018 René Michalke */
-
 export function is_touch_device() {  
  
 	  try {  

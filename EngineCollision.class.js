@@ -1,5 +1,3 @@
-/* (c)opyright 2018 René Michalke */
-
 import * as Helpers from './library.inc.js'
 var in_array = Helpers.in_array
 var Collision = function() {};

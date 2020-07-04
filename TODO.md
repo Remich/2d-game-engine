@@ -6,6 +6,7 @@
  
 ## REFACTORING
 
+- [ ] replace `var` with `let` or `const`
 - [ ] Rename Level to Map
 - [ ] move draw function (Engine.class.js) to saparate file
 - [ ] remove 'bootstrap' property of each object

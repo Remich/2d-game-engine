@@ -1,4 +1,3 @@
-/* (c)opyright 2018 René Michalke */
 import { floor, round, width, change_size  } from './library.inc.js'
 import { InputHandler } from './EngineInput.class.js'
 import { Collision } from './EngineCollision.class.js'
@@ -18,13 +17,13 @@ var Engine = function() {
 	this.bench = false;
 
 	// boolean, to show fps in the top right corner
-	this.show_fps = true;
+	this.show_fps = false;
 	
 	// boolean, to show debug info in the top right corner
-	this.show_debug = true;
+	this.show_debug = false;
 
 	// boolean, to show ring score
-	this.show_rings = true;
+	this.show_rings = false;
 
 	// boolean, to show sensors (hitboxes)
 	this.show_sensors = false;

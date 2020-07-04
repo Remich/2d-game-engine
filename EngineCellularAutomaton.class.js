@@ -1,5 +1,3 @@
-/* (c)opyright 2018 René Michalke */
-
 var EngineCellularAutomaton = function() {
 
 	var that = new ObjectStatic();

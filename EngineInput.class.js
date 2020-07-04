@@ -1,4 +1,3 @@
-/* (c)opyright 2019 René Michalke */
 import { EngineObjectList } from './EngineObjectList.class.js'
 import { in_array, get_array_key } from './library.inc.js'
 

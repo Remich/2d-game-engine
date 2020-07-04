@@ -1,5 +1,3 @@
-/* (c)opyright 2018 René Michalke */
-
 import { EngineSensor } from './EngineSensor.class.js';
 import { Point } from './Point.class.js';
 

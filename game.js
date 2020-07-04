@@ -1,4 +1,3 @@
-
 import * as Helpers from './library.inc.js'
 import * as QuadTree from './lib/QuadTree.js'
 import { Point } from './Point.class.js';
