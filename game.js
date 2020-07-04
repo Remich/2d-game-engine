@@ -40,8 +40,6 @@ window.cfg.screen_height;
 window.cfg.last_time = new Date().getTime();
 window.cfg.elapsed_time;
 
-console.log("hi")
-
 window.myEngine = new Engine();
 window.myEngine.objects = new EngineObjectList();
 
@@ -62,7 +60,6 @@ $.getJSON('./sonic-angelisland.json', function(obj) {
 
 		// assign additional attributes to the dynamic game object
 		for(var p in handle) {
-			console.log(p)
 			tmp[p] = handle[p]
 		}
 
@@ -79,8 +76,6 @@ $.getJSON('./sonic-angelisland.json', function(obj) {
 		// add object to global list
 		list.add(tmp)
 	}
-
-
 
 	// Wait until the level file as been loaded. ( Clunky )
 	setTimeout(function() {

@@ -53,10 +53,10 @@ var Object = function() {
 	that.grv_hazard = window.cfg.speedup_constant * 0.1875;
 	that.air = window.cfg.speedup_constant * 0.09375;
 	that.air_drag = 0.96875;
-	that.top = window.cfg.speedup_constant * 6; 
+	that.top = window.cfg.speedup_constant * 3; 
 	that.dash = window.cfg.speedup_constant * 12;
 
-	that.jmp = window.cfg.speedup_constant * -9.5;	
+	that.jmp = window.cfg.speedup_constant * -7.75;	
 
 	that.slp = window.cfg.speedup_constant * 0.025;
 	that.slp_rolling_uphill = window.cfg.speedup_constant * 0.078125;

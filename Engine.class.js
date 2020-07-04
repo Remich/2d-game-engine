@@ -55,7 +55,7 @@ var Engine = function() {
 	 */
 	if(this.fps60 === true) {
 		this.fps_max = 60;
-		window.cfg.speedup_constant = 1.0;
+		window.cfg.speedup_constant = 2.0;
 	} else {
 		this.fps_max = 30;
 		window.cfg.speedup_constant = 2.0; // TODO fix this: set to 1.0 or something else
@@ -202,7 +202,7 @@ Engine.prototype.draw = function(obj, camx, camy) {
 		}
 
 		if(window.myEngine.fps60 === true)
-			obj.frame_counter -= 0.5;
+			obj.frame_counter -= 0.75;
 		else
 			obj.frame_counter -= 1;
 
