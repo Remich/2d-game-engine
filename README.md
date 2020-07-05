@@ -38,4 +38,4 @@ Best performance with Chromium / Chrome.
 - [ ] State Machine for different Scenes
 - [ ] Loading Screen with Progress
 - [ ] Reloading of Local Cache
-- [ ] Z-Index of Objects (Currently the order in wich the objects are created determines their z-index.)	
+- [ ] z-index of Objects (Currently the order in which the objects are created determines their z-index.)	
